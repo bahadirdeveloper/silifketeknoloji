@@ -327,7 +327,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
               Öne Çıkan Etkinlikler
             </motion.h2>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
               {featuredEvents.slice(0, 2).map((event) => (
                 <motion.div
                   key={event.id}
@@ -454,7 +454,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
           >
             <AnimatePresence>
               {filteredEvents.map((event) => (

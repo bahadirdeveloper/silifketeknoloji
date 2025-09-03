@@ -281,7 +281,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
               <label className="block text-sm font-semibold text-gray-200 mb-4">
                 Hangi alanda katkı sağlamak istersin? *
               </label>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {interestOptions.map((option) => (
                   <label
                     key={option.id}
@@ -457,7 +457,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
               <label className="block text-sm font-semibold text-gray-200 mb-4">
                 Kulübe katkı sağlayacak ek donanımın var mı? *
               </label>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {hardwareOptions.map((option) => (
                   <label
                     key={option.id}

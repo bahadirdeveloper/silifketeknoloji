@@ -247,7 +247,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-20"
           >
             {contactMethods.map((method) => (
               <motion.div
@@ -273,7 +273,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             ))}
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Contact Form */}
             <motion.div
               variants={fadeInUp}
@@ -487,7 +487,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                   Sosyal Medya
                 </h2>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                   {socialMedia.map((social) => (
                     <a
                       key={social.name}

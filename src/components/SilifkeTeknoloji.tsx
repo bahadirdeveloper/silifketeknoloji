@@ -271,14 +271,14 @@ const SilifkeTeknoloji: React.FC = () => {
           >
             <button 
               onClick={() => handlePageChange('about')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
             >
               Hakkımızda
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('contact')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
             >
               İletişim
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
@@ -310,14 +310,14 @@ const SilifkeTeknoloji: React.FC = () => {
           >
             <button 
               onClick={() => handlePageChange('projects')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
             >
               Projeler
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('events')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
             >
               Etkinlikler
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>

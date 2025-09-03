@@ -246,7 +246,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
             className="mb-16"
           >
             {/* VIP Black Stripe */}
-            <div className="relative bg-black border-t border-b border-yellow-400/30 py-6 overflow-hidden">
+            <div className="relative bg-black border-t border-b border-yellow-400/30 py-4 sm:py-6 overflow-hidden">
               {/* Subtle background pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/5 to-transparent" />
@@ -258,58 +258,58 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
                   {/* Multiple copies for continuous seamless loop */}
                   <div className="flex items-center animate-scroll-left">
                     {/* First copy */}
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       simay.tech
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.silifketeknoloji.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.mahallepanosu.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.simayhareketi.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                     
                     {/* Second copy */}
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       simay.tech
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.silifketeknoloji.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.mahallepanosu.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.simayhareketi.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                     
                     {/* Third copy */}
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       simay.tech
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.silifketeknoloji.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.mahallepanosu.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
-                    <span className="text-2xl md:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-16">
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.simayhareketi.org
                     </span>
-                    <span className="text-yellow-400 text-2xl font-bold mr-16">●</span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                   </div>
                 </div>
               </div>
