@@ -189,9 +189,9 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                                   group-hover:border-yellow-400/40 group-hover:from-yellow-400/30 group-hover:to-yellow-500/20
                                   transition-all duration-500 shadow-lg shadow-yellow-400/10">
                       <div className="text-yellow-400 group-hover:text-yellow-300 transition-colors duration-500">
-                        {React.cloneElement(value.icon as React.ReactElement, {
-                          className: "w-10 h-10"
-                        })}
+                        <div className="w-10 h-10">
+                          {value.icon}
+                        </div>
                       </div>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent
