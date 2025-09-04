@@ -57,118 +57,107 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Silifke Turizm Rehberi",
-      description: "Silifke'nin turistik yerlerini tanıtan interaktif web uygulaması",
-      longDescription: "Silifke'nin zengin tarihî ve doğal güzelliklerini dijital ortamda tanıtan kapsamlı bir turizm rehberi. Kullanıcılar harita üzerinden lokasyonları keşfedebilir, 360° sanal turlar yapabilir ve yerel işletmelerle iletişime geçebilir.",
+      title: "Silifke Teknoloji Klübü Web Sitesi",
+      description: "Klübümüzün resmi web sitesi ve üye yönetim sistemi",
+      longDescription: "Silifke Teknoloji Klübü olarak üyelerimizin bir araya geldiği, etkinliklerimizi duyurduğumuz ve projelerimizi sergilediğimiz modern web platformu. Çok yakında daha da gelişmiş özellikleriyle sizlerle buluşacak!",
       category: 'web',
-      status: 'completed',
-      technologies: ['React', 'TypeScript', 'Mapbox', 'Node.js', 'MongoDB'],
-      image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=600&h=400&fit=crop&auto=format&q=80",
-      demoUrl: "https://silifketurizm.com",
-      githubUrl: "https://github.com/silifketeknoloji/turizm-rehberi",
-      teamSize: 4,
-      duration: "6 ay",
-      impact: "Aylık 10.000+ ziyaretçi, %30 turizm artışı"
+      status: 'in-progress',
+      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 3,
+      duration: "2 ay",
+      impact: "Çok yakında..."
     },
     {
       id: 2,
-      title: "Çiftçi Pazarı Mobil Uygulaması",
-      description: "Yerel üreticileri tüketicilerle buluşturan mobil platform",
-      longDescription: "Silifke ve çevresindeki çiftçilerin ürünlerini doğrudan tüketicilere satabilecekleri, organik ve taze ürünlere erişimi kolaylaştıran mobil uygulama. GPS tabanlı teslimat sistemi ve ödeme entegrasyonu içeriyor.",
-      category: 'mobile',
-      status: 'in-progress',
-      technologies: ['React Native', 'Firebase', 'Stripe', 'Google Maps API'],
-      image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&h=400&fit=crop&auto=format&q=80",
-      githubUrl: "https://github.com/silifketeknoloji/ciftci-pazari",
-      teamSize: 3,
-      duration: "4 ay",
-      impact: "50+ çiftçi, 500+ aktif kullanıcı"
+      title: "Öğrenci Mentorluk Platformu",
+      description: "Deneyimli üyelerimizin yeni başlayanları desteklediği platform",
+      longDescription: "Klübümüzdeki deneyimli yazılımcıların, yeni başlayan öğrencilere mentorluk yapabileceği interaktif platform. Kişisel gelişim planları, proje önerileri ve birebir görüşme sistemi içerecek. Çok yakında kullanıma açılacak!",
+      category: 'education',
+      status: 'planning',
+      technologies: ['Next.js', 'Socket.io', 'MongoDB', 'WebRTC'],
+      image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 4,
+      duration: "3 ay",
+      impact: "Çok yakında..."
     },
     {
       id: 3,
-      title: "Akıllı Tarım Danışmanı",
-      description: "AI destekli tarım danışmanlık sistemi",
-      longDescription: "Makine öğrenmesi algoritmalarını kullanarak çiftçilere hava durumu, toprak analizi ve hastalık tespiti konularında akıllı öneriler sunan sistem. Drone görüntüleri ve IoT sensör verilerini analiz ederek verimlilik artışı sağlıyor.",
-      category: 'ai',
-      status: 'completed',
-      technologies: ['Python', 'TensorFlow', 'OpenCV', 'IoT Sensors', 'Django'],
-      image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=600&h=400&fit=crop&auto=format&q=80",
-      demoUrl: "https://akillitarim.silifke.tech",
-      githubUrl: "https://github.com/silifketeknoloji/akilli-tarim",
+      title: "Hackathon Organizasyon Sistemi",
+      description: "Silifke'nin ilk teknoloji yarışmasını düzenleyeceğimiz platform",
+      longDescription: "Yerel ve ulusal katılımcıların bir araya geleceği hackathon etkinliğimiz için geliştirdiğimiz organizasyon sistemi. Takım oluşturma, proje sunumu ve jüri değerlendirme modülleri içerecek. Çok yakında duyurulacak!",
+      category: 'web',
+      status: 'planning',
+      technologies: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
+      image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 5,
-      duration: "8 ay",
-      impact: "%25 verim artışı, 100+ çiftçi kullanıyor"
+      duration: "4 ay",
+      impact: "Çok yakında..."
     },
     {
       id: 4,
-      title: "Yerel İşletme E-ticaret Platformu",
-      description: "Silifke işletmeleri için özelleştirilmiş e-ticaret çözümü",
-      longDescription: "Yerel işletmelerin online satış yapabilmesi için geliştirilmiş, çoklu satıcı desteği olan e-ticaret platformu. Envanter yönetimi, müşteri ilişkileri ve analitik raporlama özellikleri içeriyor.",
-      category: 'ecommerce',
-      status: 'completed',
-      technologies: ['Next.js', 'PostgreSQL', 'Stripe', 'Redis', 'AWS'],
-      image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=400&fit=crop&auto=format&q=80",
-      demoUrl: "https://silifkepazar.com",
-      githubUrl: "https://github.com/silifketeknoloji/eticaret-platform",
-      teamSize: 6,
-      duration: "10 ay",
-      impact: "80+ işletme, ₺2M+ işlem hacmi"
+      title: "Teknoloji Eğitim Mobil Uygulaması",
+      description: "Programlama öğrenmek isteyenler için mobil eğitim platformu",
+      longDescription: "Silifke'deki gençlerin programlama öğrenmesini destekleyecek mobil uygulama. İnteraktif dersler, kod editörü ve gerçek zamanlı mentör desteği sunacak. Çok yakında beta sürümü yayınlanacak!",
+      category: 'mobile',
+      status: 'planning',
+      technologies: ['React Native', 'Firebase', 'Node.js', 'Express'],
+      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 3,
+      duration: "5 ay",
+      impact: "Çok yakında..."
     },
     {
       id: 5,
-      title: "Dijital Okuryazarlık Eğitim Platformu",
-      description: "Yaşlılar için teknoloji eğitim sistemi",
-      longDescription: "60+ yaş grubundaki vatandaşların dijital teknolojileri öğrenmesi için tasarlanmış interaktif eğitim platformu. Video dersler, pratik uygulamalar ve birebir mentorluk sistemi içeriyor.",
-      category: 'education',
-      status: 'in-progress',
-      technologies: ['Vue.js', 'Laravel', 'WebRTC', 'MySQL'],
-      image: "https://images.unsplash.com/photo-1609234656388-0ff363383899?w=600&h=400&fit=crop&auto=format&q=80",
-      githubUrl: "https://github.com/silifketeknoloji/dijital-egitim",
-      teamSize: 4,
+      title: "Yerel İşletme Dijitalleşme Projesi",
+      description: "Silifke işletmelerinin dijital dönüşümünü destekleme programı",
+      longDescription: "Yerel esnaf ve KOBİ'lerin dijital dünyaya geçişini destekleyeceğimiz kapsamlı proje. Web sitesi kurulumu, sosyal medya yönetimi ve e-ticaret çözümleri sunacağız. Çok yakında başvurular açılacak!",
+      category: 'ecommerce',
+      status: 'planning',
+      technologies: ['WordPress', 'WooCommerce', 'PHP', 'MySQL'],
+      image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 6,
       duration: "6 ay",
-      impact: "200+ kursiyere eğitim verildi"
+      impact: "Çok yakında..."
     },
     {
       id: 6,
-      title: "Çevre Gönüllüleri Koordinasyon Uygulaması",
-      description: "Çevre koruma etkinliklerini organize eden platform",
-      longDescription: "Silifke'deki çevre koruma gönüllülerini bir araya getiren, etkinlik organizasyonu ve koordinasyon sağlayan mobil uygulama. Temizlik kampanyaları, ağaçlandırma ve farkındalık etkinlikleri düzenleniyor.",
-      category: 'social',
+      title: "Silifke Tech Podcast Platformu",
+      description: "Teknoloji dünyasından haberler ve röportajlar",
+      longDescription: "Klüp üyelerimizin teknoloji dünyasındaki gelişmeleri tartıştığı, sektör profesyonelleriyle röportajlar yaptığı podcast platformu. Özel web sitesi ve mobil uygulama ile yayınlanacak. Çok yakında ilk bölüm!",
+      category: 'web',
       status: 'planning',
-      technologies: ['Flutter', 'Firebase', 'Google Maps', 'Push Notifications'],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format&q=80",
-      teamSize: 3,
-      duration: "4 ay",
-      impact: "300+ gönüllü, 50+ etkinlik planlandı"
+      technologies: ['React', 'Node.js', 'PostgreSQL', 'AWS S3'],
+      image: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 4,
+      duration: "3 ay",
+      impact: "Çok yakında..."
     },
     {
       id: 7,
-      title: "Silifke Kültür Arşivi",
-      description: "Yerel kültür ve tarihi dijitalleştirme projesi",
-      longDescription: "Silifke'nin zengin kültürel mirasını dijital ortamda koruma ve gelecek nesillere aktarma amacıyla geliştirilen arşiv sistemi. Eski fotoğraflar, belgeler ve sözlü tarih kayıtları içeriyor.",
-      category: 'web',
-      status: 'completed',
-      technologies: ['React', 'Elasticsearch', 'AWS S3', 'Node.js'],
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop&auto=format&q=80",
-      demoUrl: "https://kulturarsivi.silifke.gov.tr",
-      githubUrl: "https://github.com/silifketeknoloji/kultur-arsivi",
-      teamSize: 5,
-      duration: "12 ay",
-      impact: "5000+ dijital eser, 20.000+ ziyaretçi"
+      title: "Açık Kaynak Katkı Programı",
+      description: "Üyelerimizin açık kaynak projelere katkı yapmasını teşvik programı",
+      longDescription: "Klüp üyelerinin dünya çapındaki açık kaynak projelere katkı yapmasını destekleyecek program. Proje seçimi, mentorluk ve katkı takibi sistemi içerecek. Çok yakında kayıtlar başlayacak!",
+      category: 'social',
+      status: 'planning',
+      technologies: ['GitHub API', 'Python', 'Django', 'React'],
+      image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 3,
+      duration: "Sürekli",
+      impact: "Çok yakında..."
     },
     {
       id: 8,
-      title: "Akıllı Şehir IoT Sensör Ağı",
-      description: "Şehir geneli çevre monitoring sistemi",
-      longDescription: "Silifke genelinde hava kalitesi, gürültü seviyesi, trafik yoğunluğu ve meteorolojik verileri toplayan IoT sensör ağı. Gerçek zamanlı veri analizi ve vatandaş bilgilendirme sistemi.",
-      category: 'ai',
-      status: 'in-progress',
-      technologies: ['Arduino', 'LoRaWAN', 'InfluxDB', 'Grafana', 'Python'],
-      image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop&auto=format&q=80",
-      githubUrl: "https://github.com/silifketeknoloji/akilli-sehir",
-      teamSize: 7,
-      duration: "18 ay",
-      impact: "50+ sensör noktası, 7/24 monitoring"
+      title: "Silifke Tech Meetup Organizasyon Sistemi",
+      description: "Aylık teknoloji buluşmalarımızı organize ettiğimiz sistem",
+      longDescription: "Her ay düzenleyeceğimiz teknoloji meetup'larının organizasyonunu kolaylaştıracak sistem. Etkinlik duyuruları, katılımcı yönetimi ve sunum planlaması özellikleri içerecek. Çok yakında ilk meetup!",
+      category: 'web',
+      status: 'planning',
+      technologies: ['Next.js', 'Supabase', 'Stripe', 'Tailwind CSS'],
+      image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
+      teamSize: 5,
+      duration: "2 ay",
+      impact: "Çok yakında..."
     }
   ];
 
@@ -232,8 +221,8 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
               Projelerimiz
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Silifke ve çevresine değer katan, teknoloji ile hayatı kolaylaştıran 
-              projelerimizi keşfedin. Her biri yerel ihtiyaçlara odaklı çözümler sunuyor.
+              Yeni kurulan klübümüzün heyecan verici proje planlarını keşfedin. 
+              Her biri Silifke ve çevresine değer katacak, teknoloji ile hayatı kolaylaştıracak çözümler sunacak.
             </p>
           </motion.div>
 
@@ -274,6 +263,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
                       www.simayhareketi.org
                     </span>
                     <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
+                      www.bahadirgemalmaz.com
+                    </span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                     
                     {/* Second copy */}
                     <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
@@ -292,6 +285,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
                       www.simayhareketi.org
                     </span>
                     <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
+                      www.bahadirgemalmaz.com
+                    </span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                     
                     {/* Third copy */}
                     <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
@@ -308,6 +305,10 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
                     <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                     <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
                       www.simayhareketi.org
+                    </span>
+                    <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
+                    <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-wide drop-shadow-lg mr-8 sm:mr-12 md:mr-16">
+                      www.bahadirgemalmaz.com
                     </span>
                     <span className="text-yellow-400 text-xl sm:text-2xl font-bold mr-8 sm:mr-12 md:mr-16">●</span>
                   </div>

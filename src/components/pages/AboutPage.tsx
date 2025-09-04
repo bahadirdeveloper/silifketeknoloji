@@ -29,25 +29,25 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
 
   const teamMembers = [
     {
-      name: "Ahmet Yılmaz",
+      name: "Bahadır Gemalmaz",
       role: "Kurucu & Teknik Lider",
       expertise: "Full-Stack Development, AI/ML",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
       description: "10+ yıllık yazılım geliştirme deneyimi ile teknoloji dünyasında öncü projeler geliştiriyor."
     },
     {
-      name: "Zeynep Kaya",
-      role: "UI/UX Tasarım Uzmanı",
+      name: "Vadi Karal",
+      role: "Grafik Tasarım UI/UX Uzmanı",
       expertise: "User Experience, Visual Design",
       image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
       description: "Kullanıcı odaklı tasarım anlayışıyla dijital deneyimleri şekillendiriyor."
     },
     {
-      name: "Mehmet Demir",
-      role: "Proje Yöneticisi",
-      expertise: "Agile, Scrum, Team Leadership",
+      name: "Nida Gemalmaz",
+      role: "Metin Yazarı & Plan ve Proje",
+      expertise: "Content Strategy, Project Planning",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
-      description: "Ekip koordinasyonu ve proje yönetiminde uzman, başarılı projelerin mimarı."
+      description: "İçerik stratejisi ve proje planlamasında uzman, başarılı projelerin mimarı."
     }
   ];
 
