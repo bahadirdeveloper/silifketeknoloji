@@ -325,18 +325,18 @@ const SilifkeTeknoloji: React.FC = () => {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               <img 
-                src="/logo.png" 
+                src="/logo-512.png" 
                 alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön" 
                 className="h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
                          scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
                          transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_35px_rgba(255,215,0,0.7)]"
                 loading="eager"
                 decoding="async"
-                width="80"
-                height="80"
+                width="512"
+                height="400"
                 onError={(e) => {
                   console.error('Logo yüklenemedi:', e);
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  (e.target as HTMLImageElement).src = '/logo-256.png';
                 }}
               />
             </motion.button>
@@ -445,17 +445,17 @@ const SilifkeTeknoloji: React.FC = () => {
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     <img
-                      src="/logo.png"
+                      src="/logo-128.png"
                       alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön"
                       className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]
                                group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,0.7)] transition-all duration-300"
                       loading="eager"
                       decoding="async"
-                      width="64"
-                      height="64"
+                      width="128"
+                      height="100"
                       onError={(e) => {
                         console.error('Mobile logo yüklenemedi:', e);
-                        (e.target as HTMLImageElement).style.display = 'none';
+                        (e.target as HTMLImageElement).src = '/logo-64.png';
                       }}
                     />
                   </motion.button>
