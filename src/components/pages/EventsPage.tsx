@@ -83,17 +83,17 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       id: 1,
       title: "React ve Modern Web Geliştirme Atölyesi",
       description: "React'in temellerinden ileri seviye konularına kadar kapsamlı eğitim",
-      longDescription: "Bu atölye çalışmasında React'in temel kavramlarından başlayarak, hooks, context API, state management ve modern web geliştirme araçlarını öğreneceksiniz. Uygulamalı örneklerle gerçek projeler üzerinde çalışacağız.",
+      longDescription: "Bu atölye çalışmasında React'in temel kavramlarından başlayarak, hooks, context API, state management ve modern web geliştirme araçlarını öğreneceksiniz. Uygulamalı örneklerle gerçek projeler üzerinde çalışacağız. Yeni başlayanlar için ideal bir başlangıç noktası.",
       category: 'workshop',
-      date: '2024-02-15',
-      time: '14:00',
-      location: 'Silifke Teknoloji Merkezi',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 30,
-      registered: 22,
+      registered: 0,
       price: 0,
       image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Ahmet Yılmaz",
-      speakerTitle: "Senior Frontend Developer",
+      speaker: "Planlanıyor",
+      speakerTitle: "Planlanıyor",
       speakerImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       tags: ['React', 'JavaScript', 'Web Development'],
       status: 'upcoming',
@@ -103,17 +103,17 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       id: 2,
       title: "Yapay Zeka ve Makine Öğrenmesi Semineri",
       description: "AI/ML'nin geleceği ve pratik uygulamaları",
-      longDescription: "Yapay zeka ve makine öğrenmesinin günümüzdeki durumu, gelecekteki potansiyeli ve çeşitli sektörlerdeki uygulamaları hakkında detaylı bir seminer. Örneklerle desteklenmiş pratik bilgiler paylaşılacak.",
+      longDescription: "Yapay zeka ve makine öğrenmesinin günümüzdeki durumu, gelecekteki potansiyeli ve çeşitli sektörlerdeki uygulamaları hakkında detaylı bir seminer. Örneklerle desteklenmiş pratik bilgiler paylaşılacak. Bu seminer ile AI dünyasına ilk adımınızı atabilirsiniz.",
       category: 'seminar',
-      date: '2024-02-20',
-      time: '19:00',
-      location: 'Silifke Üniversitesi Konferans Salonu',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 100,
-      registered: 75,
+      registered: 0,
       price: 0,
       image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Dr. Zeynep Kaya",
-      speakerTitle: "AI Research Scientist",
+      speaker: "Planlanıyor",
+      speakerTitle: "Planlanıyor",
       speakerImage: "https://images.unsplash.com/photo-1494790108755-2616c5e2b8e9?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       tags: ['AI', 'Machine Learning', 'Future Tech'],
       status: 'upcoming',
@@ -121,15 +121,15 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
     },
     {
       id: 3,
-      title: "Silifke Tech Meetup #12",
-      description: "Aylık teknoloji buluşması ve networking",
-      longDescription: "Silifke'deki teknoloji topluluğunun aylık buluşması. Bu ay gündemde blockchain teknolojileri, startup deneyimleri ve açık kaynak projeler var. Networking ve deneyim paylaşımı için ideal ortam.",
+      title: "Silifke Teknoloji Klübü İlk Buluşması",
+      description: "Klübümüzün kuruluş buluşması ve tanışma etkinliği",
+      longDescription: "Silifke Teknoloji Klübü'nün ilk resmi buluşması! Bu etkinlikte klüp üyeleriyle tanışacak, gelecek planlarımızı paylaşacak ve teknoloji dünyasından konuları tartışacağız. Networking ve deneyim paylaşımı için mükemmel bir başlangıç.",
       category: 'meetup',
-      date: '2024-02-25',
-      time: '18:30',
-      location: 'Kafe Teknoloji',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 50,
-      registered: 35,
+      registered: 0,
       price: 0,
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Networking', 'Community', 'Tech Talk'],
@@ -138,49 +138,49 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
     },
     {
       id: 4,
-      title: "48 Saatlik Hackathon: Sürdürülebilir Silifke",
-      description: "Çevre dostu teknoloji çözümleri geliştirme yarışması",
-      longDescription: "Silifke'nin çevre sorunlarına teknolojik çözümler üreten 48 saatlik hackathon. Katılımcılar ekipler halinde çalışarak sürdürülebilir kalkınma hedeflerine katkıda bulunacak projeler geliştirecek.",
+      title: "İlk Hackathon: Silifke'nin Geleceği",
+      description: "Silifke için teknolojik çözümler geliştirme yarışması",
+      longDescription: "Silifke'nin yerel sorunlarına teknolojik çözümler üreten ilk hackathonumuz. Katılımcılar ekipler halinde çalışarak şehrimizin geleceğine katkıda bulunacak projeler geliştirecek. Yaratıcılık ve teknoloji bir araya geliyor!",
       category: 'hackathon',
-      date: '2024-03-08',
-      time: '09:00',
-      location: 'Silifke Teknoloji Kampüsü',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 80,
-      registered: 45,
-      price: 50,
+      registered: 0,
+      price: 0,
       image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Hackathon', 'Environment', 'Innovation'],
+      tags: ['Hackathon', 'Innovation', 'Local Solutions'],
       status: 'upcoming',
       featured: true
     },
     {
       id: 5,
       title: "Girişimcilik ve Teknoloji Networking Gecesi",
-      description: "Girişimciler ve yatırımcılar buluşması",
-      longDescription: "Silifke ve çevresindeki girişimcilerin, yatırımcıların ve mentorların bir araya geldiği networking etkinliği. Startup pitch sunumları, deneyim paylaşımı ve iş birliği fırsatları.",
+      description: "Girişimciler ve teknoloji meraklıları buluşması",
+      longDescription: "Silifke ve çevresindeki girişimcilerin, teknoloji meraklılarının ve mentorların bir araya geldiği networking etkinliği. Startup fikirleri, deneyim paylaşımı ve iş birliği fırsatları için ideal ortam.",
       category: 'networking',
-      date: '2024-03-15',
-      time: '19:00',
-      location: 'Silifke İş Merkezi',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 60,
-      registered: 28,
-      price: 25,
+      registered: 0,
+      price: 0,
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Startup', 'Investment', 'Business'],
+      tags: ['Startup', 'Networking', 'Business'],
       status: 'upcoming',
       featured: false
     },
     {
       id: 6,
       title: "Mobil Uygulama Geliştirme Yarışması",
-      description: "En inovatif mobil uygulama geliştirme konkurması",
-      longDescription: "Silifke'nin yerel sorunlarına çözüm üreten mobil uygulamalar geliştirme yarışması. Katılımcılar 3 hafta içinde projelerini tamamlayarak jüri önünde sunum yapacak.",
+      description: "En yaratıcı mobil uygulama geliştirme yarışması",
+      longDescription: "Silifke'nin yerel sorunlarına çözüm üreten mobil uygulamalar geliştirme yarışması. Katılımcılar belirlenen süre içinde projelerini tamamlayarak jüri önünde sunum yapacak. Ödüller ve tanınma fırsatları!",
       category: 'competition',
-      date: '2024-03-22',
-      time: '10:00',
-      location: 'Silifke Teknoloji Merkezi',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 40,
-      registered: 31,
+      registered: 0,
       price: 0,
       image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Mobile', 'Competition', 'Innovation'],
@@ -191,17 +191,17 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       id: 7,
       title: "Python ve Veri Bilimi Atölyesi",
       description: "Veri analizi ve görselleştirme teknikleri",
-      longDescription: "Python programlama dili kullanarak veri bilimi projelerinde nasıl çalışılacağını öğreneceksiniz. Pandas, NumPy, Matplotlib gibi kütüphanelerle uygulamalı eğitim.",
+      longDescription: "Python programlama dili kullanarak veri bilimi projelerinde nasıl çalışılacağını öğreneceksiniz. Pandas, NumPy, Matplotlib gibi kütüphanelerle uygulamalı eğitim. Başlangıç seviyesinden ileri seviyeye kadar herkes için uygun.",
       category: 'workshop',
-      date: '2024-04-05',
-      time: '13:00',
-      location: 'Online (Zoom)',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 50,
-      registered: 15,
+      registered: 0,
       price: 0,
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Mehmet Demir",
-      speakerTitle: "Data Scientist",
+      speaker: "Planlanıyor",
+      speakerTitle: "Planlanıyor",
       speakerImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
       tags: ['Python', 'Data Science', 'Analytics'],
       status: 'upcoming',
@@ -211,14 +211,14 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       id: 8,
       title: "Dijital Pazarlama ve E-ticaret Semineri",
       description: "Online satış stratejileri ve dijital pazarlama",
-      longDescription: "E-ticaret dünyasında başarılı olmak için gerekli dijital pazarlama stratejileri, SEO, sosyal medya pazarlama ve müşteri analizi konularında kapsamlı seminer.",
+      longDescription: "E-ticaret dünyasında başarılı olmak için gerekli dijital pazarlama stratejileri, SEO, sosyal medya pazarlama ve müşteri analizi konularında kapsamlı seminer. İşletmenizi dijital dünyaya taşıyın!",
       category: 'seminar',
-      date: '2024-04-12',
-      time: '14:30',
-      location: 'Silifke Ticaret Odası',
+      date: 'Planlanıyor',
+      time: 'Planlanıyor',
+      location: 'Planlanıyor',
       capacity: 70,
-      registered: 42,
-      price: 30,
+      registered: 0,
+      price: 0,
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Marketing', 'E-commerce', 'Business'],
       status: 'upcoming',
@@ -255,6 +255,9 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
   };
 
   const formatDate = (dateString: string) => {
+    if (dateString === 'Planlanıyor') {
+      return 'Planlanıyor';
+    }
     const date = new Date(dateString);
     return date.toLocaleDateString('tr-TR', {
       day: 'numeric',
@@ -376,7 +379,12 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       <div className="flex items-center text-gray-300">
                         <Users className="w-4 h-4 mr-3 text-yellow-400" />
                         <span>{event.registered}/{event.capacity} katılımcı</span>
-                        {getAvailableSpots(event) <= 5 && getAvailableSpots(event) > 0 && (
+                        {event.registered === 0 && (
+                          <span className="ml-2 text-green-400 text-sm font-semibold">
+                            (İlk katılımcı siz olun!)
+                          </span>
+                        )}
+                        {getAvailableSpots(event) <= 5 && getAvailableSpots(event) > 0 && event.registered > 0 && (
                           <span className="ml-2 text-orange-400 text-sm font-semibold">
                             (Sadece {getAvailableSpots(event)} yer kaldı!)
                           </span>
@@ -525,9 +533,14 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       <div className="w-full bg-gray-700 rounded-full h-2">
                         <div 
                           className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${(event.registered / event.capacity) * 100}%` }}
+                          style={{ width: `${event.registered > 0 ? (event.registered / event.capacity) * 100 : 0}%` }}
                         ></div>
                       </div>
+                      {event.registered === 0 && (
+                        <div className="text-xs text-gray-500 mt-1">
+                          Henüz katılımcı yok - İlk siz olun!
+                        </div>
+                      )}
                     </div>
 
                     {/* Tags */}
@@ -641,11 +654,16 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     <div className="flex items-center text-gray-300">
                       <Users className="w-5 h-5 mr-3 text-yellow-400" />
                       <span>{selectedEvent.registered}/{selectedEvent.capacity} katılımcı</span>
+                      {selectedEvent.registered === 0 && (
+                        <span className="ml-2 text-green-400 text-sm font-semibold">
+                          (İlk katılımcı siz olun!)
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   {/* Speaker Info */}
-                  {selectedEvent.speaker && (
+                  {selectedEvent.speaker && selectedEvent.speaker !== 'Planlanıyor' && (
                     <div>
                       <h3 className="text-xl font-bold text-white mb-4">Konuşmacı</h3>
                       <div className="flex items-center space-x-4">
@@ -658,6 +676,14 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                           <div className="text-lg font-semibold text-white">{selectedEvent.speaker}</div>
                           <div className="text-yellow-400">{selectedEvent.speakerTitle}</div>
                         </div>
+                      </div>
+                    </div>
+                  )}
+                  {selectedEvent.speaker === 'Planlanıyor' && (
+                    <div>
+                      <h3 className="text-xl font-bold text-white mb-4">Konuşmacı</h3>
+                      <div className="text-gray-400 italic">
+                        Konuşmacı bilgileri yakında açıklanacak
                       </div>
                     </div>
                   )}

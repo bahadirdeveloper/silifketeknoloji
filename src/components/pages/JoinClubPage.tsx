@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowLeft, Send, User, Code, Palette, Brain, Users, FileText, Clock, Monitor, Printer, Camera, Mic, Cpu, MonitorSpeaker, AlertCircle } from 'lucide-react';
+import { submitApplication, type ApplicationFormData } from '../../lib/supabaseClient';
 
 interface JoinClubPageProps {
   onBack: () => void;
@@ -47,13 +48,19 @@ const joinClubSchema = z.object({
     .min(1, "Bilgisayar durumunu belirtmelisiniz"),
   additionalHardware: z.array(z.string()),
   hardwareSharing: z.string()
-    .min(1, "Donanım paylaşım tercihini belirtmelisiniz")
+    .min(1, "Donanım paylaşım tercihini belirtmelisiniz"),
+
+  // KVKK Consent
+  consentKvkk: z.boolean()
+    .refine(val => val === true, "KVKK onayı zorunludur")
 });
 
 type JoinClubFormData = z.infer<typeof joinClubSchema>;
 
 const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
   const [currentSection, setCurrentSection] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -181,10 +188,41 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
   // Handle form submission
   const onSubmit = async (data: JoinClubFormData) => {
-    console.log('Join club form submitted:', data);
-    // In real implementation, this would be an API call
-    alert('Başvurunuz başarıyla gönderildi! En kısa sürede sizinle iletişime geçeceğiz.');
-    onBack();
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Transform data to match ApplicationFormData interface
+      const applicationData: ApplicationFormData = {
+        fullName: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        schoolWork: data.schoolWork,
+        interests: data.interests,
+        portfolioExample: data.portfolioExample,
+        motivation: data.motivation,
+        weeklyHours: data.weeklyHours,
+        meetingPreference: data.meetingPreference,
+        computerType: data.computerType,
+        additionalHardware: data.additionalHardware,
+        hardwareSharing: data.hardwareSharing,
+        consentKvkk: data.consentKvkk
+      };
+
+      const result = await submitApplication(applicationData);
+
+      if (result.success) {
+        // Redirect to thank you page with application ID
+        window.location.href = `/tesekkurler?applicationId=${result.applicationId}`;
+      } else {
+        setSubmitError(result.error || 'Başvuru gönderilirken bir hata oluştu');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitError('Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const renderCurrentSection = () => {
@@ -512,6 +550,30 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 </p>
               )}
             </div>
+
+            <div>
+              <label className="flex items-start p-4 bg-black/30 border border-gray-600 rounded-xl hover:bg-black/50 hover:border-yellow-400/50 cursor-pointer transition-all duration-300">
+                <input
+                  type="checkbox"
+                  {...register('consentKvkk')}
+                  className="w-5 h-5 text-yellow-400 bg-transparent border-gray-400 rounded focus:ring-yellow-400 focus:ring-2 mt-0.5"
+                />
+                <div className="ml-3">
+                  <span className="text-white font-medium">
+                    KVKK Aydınlatma Metni'ni okudum ve kişisel verilerimin işlenmesine onay veriyorum *
+                  </span>
+                  <p className="text-sm text-gray-400 mt-1">
+                    Ad, soyad, e-posta, telefon numarası ve diğer form verileriniz üyelik süreci için işlenecektir.
+                  </p>
+                </div>
+              </label>
+              {errors.consentKvkk && (
+                <p className="text-red-400 text-sm mt-2 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.consentKvkk.message}
+                </p>
+              )}
+            </div>
           </div>
         );
 
@@ -612,6 +674,22 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
             {renderCurrentSection()}
           </motion.div>
 
+          {/* Error Message */}
+          {submitError && (
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mb-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl"
+            >
+              <div className="flex items-center space-x-2">
+                <AlertCircle className="w-5 h-5 text-red-400" />
+                <p className="text-red-400 font-medium">{submitError}</p>
+              </div>
+            </motion.div>
+          )}
+
           {/* Navigation Buttons */}
           <motion.div
             variants={fadeInUp}
@@ -635,10 +713,20 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
             {currentSection === sections.length - 1 ? (
               <button
                 onClick={handleSubmit(onSubmit)}
-                className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 shadow-lg shadow-yellow-500/30"
+                disabled={isSubmitting}
+                className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 disabled:from-gray-600 disabled:to-gray-700 text-black font-bold rounded-xl transition-all duration-300 flex items-center space-x-2 shadow-lg shadow-yellow-500/30 disabled:shadow-none disabled:cursor-not-allowed"
               >
-                <Send className="w-5 h-5" />
-                <span>Başvuruyu Gönder</span>
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span>Gönderiliyor...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Başvuruyu Gönder</span>
+                  </>
+                )}
               </button>
             ) : (
               <button

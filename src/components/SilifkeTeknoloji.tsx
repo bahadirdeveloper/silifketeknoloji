@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 import { ChevronRight } from "lucide-react";
@@ -11,13 +11,15 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import EventsPage from "./pages/EventsPage";
+import ThankYouPage from "./pages/ThankYouPage";
+import AdminPage from "./pages/AdminPage";
 
 // Lazy load heavy components
 const MatrixRain = lazy(() => import("./MatrixRain"));
 const AnimatedTextCycle = lazy(() => import("./AnimatedTextCycle"));
 const InteractiveDots = lazy(() => import("./InteractiveDots"));
 
-type CurrentPage = 'home' | 'about' | 'contact' | 'projects' | 'events' | 'join-club';
+type CurrentPage = 'home' | 'about' | 'contact' | 'projects' | 'events' | 'join-club' | 'thank-you' | 'admin';
 
 const SilifkeTeknoloji: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -223,6 +225,25 @@ const SilifkeTeknoloji: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Handle URL-based routing
+  useEffect(() => {
+    const path = window.location.pathname;
+    switch (path) {
+      case '/tesekkurler':
+        setCurrentPage('thank-you');
+        break;
+      case '/yonetim':
+        setCurrentPage('admin');
+        break;
+      case '/katil':
+        setCurrentPage('join-club');
+        break;
+      default:
+        setCurrentPage('home');
+        break;
+    }
+  }, []);
+
   // Render current page
   switch (currentPage) {
     case 'about':
@@ -235,6 +256,10 @@ const SilifkeTeknoloji: React.FC = () => {
       return <EventsPage onBack={handleBackToHome} />;
     case 'join-club':
       return <JoinClubPage onBack={handleBackToHome} />;
+    case 'thank-you':
+      return <ThankYouPage onBack={handleBackToHome} />;
+    case 'admin':
+      return <AdminPage onBack={handleBackToHome} />;
     case 'home':
     default:
       break;
@@ -261,24 +286,24 @@ const SilifkeTeknoloji: React.FC = () => {
         className="fixed top-0 w-full z-50 backdrop-blur-md border-b"
         style={{ borderBottomColor: 'rgba(255, 215, 0, 0.2)' }}
       >
-        <nav className="container mx-auto px-4 py-2 flex justify-between items-center relative">
+        <nav className="container mx-auto px-6 py-4 sm:py-6 lg:py-8 flex justify-between items-center relative">
           {/* Sol Navigation */}
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="hidden md:flex items-center space-x-10 flex-1 justify-start"
+            className="hidden md:flex items-center space-x-8 lg:space-x-12 flex-1 justify-start"
           >
             <button 
               onClick={() => handlePageChange('about')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               Hakkımızda
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('contact')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               İletişim
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
@@ -292,13 +317,29 @@ const SilifkeTeknoloji: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center justify-center flex-1 mt-4"
           >
-            <button onClick={handleBackToHome} className="focus:outline-none">
+            <motion.button 
+              onClick={handleBackToHome} 
+              className="focus:outline-none group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
               <img 
-                src="/logo1.png" 
-                alt="Silifke Teknoloji Logo" 
-                className="h-20 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] scale-[2.0] hover:scale-[2.1] transition-transform duration-300 cursor-pointer"
+                src="/logo.png" 
+                alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön" 
+                className="h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
+                         scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
+                         transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_35px_rgba(255,215,0,0.7)]"
+                loading="eager"
+                decoding="async"
+                width="80"
+                height="80"
+                onError={(e) => {
+                  console.error('Logo yüklenemedi:', e);
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
               />
-            </button>
+            </motion.button>
           </motion.div>
 
           {/* Sağ Navigation */}
@@ -306,18 +347,18 @@ const SilifkeTeknoloji: React.FC = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="hidden md:flex items-center space-x-10 flex-1 justify-end"
+            className="hidden md:flex items-center space-x-8 lg:space-x-12 flex-1 justify-end"
           >
             <button 
               onClick={() => handlePageChange('projects')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               Projeler
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('events')}
-              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-sm sm:text-base lg:text-lg tracking-wide hover:scale-110 relative group"
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               Etkinlikler
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
@@ -390,71 +431,91 @@ const SilifkeTeknoloji: React.FC = () => {
               {/* Mobile Menu Content */}
               <div className="p-6">
                 {/* Logo */}
-                <div className="flex justify-center mb-8">
-                  <button onClick={handleBackToHome} className="focus:outline-none">
+                <motion.div 
+                  className="flex justify-center mb-8"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.2 }}
+                >
+                  <motion.button 
+                    onClick={handleBackToHome} 
+                    className="focus:outline-none group"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
                     <img
-                      src="/logo1.png"
-                      alt="Silifke Teknoloji Logo"
-                      className="h-16 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]"
+                      src="/logo.png"
+                      alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön"
+                      className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]
+                               group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,0.7)] transition-all duration-300"
+                      loading="eager"
+                      decoding="async"
+                      width="64"
+                      height="64"
+                      onError={(e) => {
+                        console.error('Mobile logo yüklenemedi:', e);
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
                     />
-                  </button>
-                </div>
+                  </motion.button>
+                </motion.div>
 
                 {/* Navigation Links */}
-                <nav className="space-y-4">
+                <nav className="space-y-5">
                   <button
                     onClick={() => handlePageChange('home')}
-                    className="w-full text-left px-4 py-3 rounded-xl bg-yellow-400/10 text-yellow-400
+                    className="w-full text-left px-6 py-4 rounded-xl bg-yellow-400/10 text-yellow-400
                              font-semibold hover:bg-yellow-400/20 transition-all duration-300
-                             flex items-center space-x-3"
+                             flex items-center space-x-4 text-lg"
                   >
-                    <span className="text-lg">🏠</span>
+                    <span className="text-xl">🏠</span>
                     <span>Ana Sayfa</span>
                   </button>
 
                   <button
                     onClick={() => handlePageChange('about')}
-                    className="w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:text-white
-                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-3"
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
-                    <span className="text-lg">ℹ️</span>
+                    <span className="text-xl">ℹ️</span>
                     <span>Hakkımızda</span>
                   </button>
 
                   <button
                     onClick={() => handlePageChange('contact')}
-                    className="w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:text-white
-                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-3"
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
-                    <span className="text-lg">📞</span>
+                    <span className="text-xl">📞</span>
                     <span>İletişim</span>
                   </button>
 
                   <button
                     onClick={() => handlePageChange('projects')}
-                    className="w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:text-white
-                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-3"
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
-                    <span className="text-lg">🚀</span>
+                    <span className="text-xl">🚀</span>
                     <span>Projeler</span>
                   </button>
 
                   <button
                     onClick={() => handlePageChange('events')}
-                    className="w-full text-left px-4 py-3 rounded-xl text-gray-300 hover:text-white
-                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-3"
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
-                    <span className="text-lg">📅</span>
+                    <span className="text-xl">📅</span>
                     <span>Etkinlikler</span>
                   </button>
 
                   <button
                     onClick={() => handlePageChange('join-club')}
-                    className="w-full text-left px-4 py-3 rounded-xl bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700
+                    className="w-full text-left px-6 py-4 rounded-xl bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700
                              text-black font-bold hover:scale-105 transition-all duration-300
-                             flex items-center space-x-3 shadow-lg shadow-yellow-500/30"
+                             flex items-center space-x-4 shadow-lg shadow-yellow-500/30 text-lg"
                   >
-                    <span className="text-lg">🤝</span>
+                    <span className="text-xl">🤝</span>
                     <span>Kulübe Katıl</span>
                   </button>
                 </nav>
@@ -517,15 +578,15 @@ const SilifkeTeknoloji: React.FC = () => {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.8, delay: contentDelay }}
-              className="space-y-6"
+              className="space-y-8 mt-16 sm:mt-20 lg:mt-24"
             >
-              <h1 className="text-display text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black leading-none tracking-tighter">
+              <h1 className="text-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tighter">
                 <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-extrabold">
                   Silifke Teknoloji Klübü
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-gray-200 via-white to-gray-200 bg-clip-text text-transparent 
-                               font-light text-2xl md:text-3xl lg:text-4xl opacity-90">ile</span>{" "}
+                               font-light text-3xl md:text-4xl lg:text-5xl opacity-90">ile</span>{" "}
                 <Suspense fallback={<span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent font-display font-black">Yenilik</span>}>
                   <AnimatedTextCycle
                     words={["Yenilik", "İşbirliği", "Gelecek", "Değişim"]}
@@ -541,7 +602,7 @@ const SilifkeTeknoloji: React.FC = () => {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.6, delay: contentDelay + itemDelayIncrement }}
-              className="text-body-lg md:text-xl max-w-4xl mx-auto leading-relaxed font-medium tracking-wide
+              className="text-xl md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-medium tracking-wide
                          bg-gradient-to-r from-gray-100 via-white to-gray-100 bg-clip-text text-transparent"
             >
               Yerelden başlayarak insanların sorunlarına{" "}

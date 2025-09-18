@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { getClubStatistics, subscribeToStatisticsUpdates, type ClubStatistics } from '../lib/supabaseClient';
+
+// Import test utilities in development
+if (import.meta.env.DEV) {
+  import('../utils/testStatistics').then(({ testStatistics, testStatisticsWithMockData }) => {
+    (window as any).testStatistics = testStatistics;
+    (window as any).testStatisticsWithMockData = testStatisticsWithMockData;
+  });
+}
 
 interface CounterData {
   value: number;
@@ -34,10 +43,50 @@ const NostalgicCounter: React.FC = () => {
     }
   ]);
 
-  const finalValues = [3, 3, 0]; // Güncel değerler - sonra gerçek verilere bağlanacak
+  const [statistics, setStatistics] = useState<ClubStatistics>({
+    totalMembers: 0,
+    totalApplications: 0,
+    pendingApplications: 0
+  });
 
-  // Animasyonlu sayaç efekti
+  const [isLoading, setIsLoading] = useState(true);
+
+  // İstatistikleri yükle ve real-time güncellemelere abone ol
   useEffect(() => {
+    const loadStatistics = async () => {
+      try {
+        setIsLoading(true);
+        const stats = await getClubStatistics();
+        setStatistics(stats);
+      } catch (error) {
+        console.error('Error loading statistics:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadStatistics();
+
+    // Real-time güncellemelere abone ol
+    const unsubscribe = subscribeToStatisticsUpdates((newStats) => {
+      setStatistics(newStats);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  // İstatistikler değiştiğinde animasyonu başlat
+  useEffect(() => {
+    if (isLoading) return;
+
+    const finalValues = [
+      statistics.totalMembers,
+      statistics.totalApplications,
+      statistics.pendingApplications
+    ];
+
     const animateCounters = () => {
       const duration = 2500; // 2.5 saniye
       const steps = 60;
@@ -67,10 +116,10 @@ const NostalgicCounter: React.FC = () => {
       return () => clearInterval(timer);
     };
 
-    // Bileşen yüklendiğinde 1 saniye bekleyip animasyonu başlat
-    const startTimer = setTimeout(animateCounters, 1000);
+    // Animasyonu başlat
+    const startTimer = setTimeout(animateCounters, 500);
     return () => clearTimeout(startTimer);
-  }, []);
+  }, [statistics, isLoading]);
 
   return (
     <motion.div
@@ -94,6 +143,20 @@ const NostalgicCounter: React.FC = () => {
         <p className="text-white text-lg max-w-2xl mx-auto">
           Silifke Teknoloji Klübü'nün büyüyen topluluğunun canlı istatistikleri
         </p>
+        
+        {/* Loading indicator */}
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-4 flex justify-center"
+          >
+            <div className="flex items-center space-x-2 text-yellow-400">
+              <div className="w-4 h-4 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-sm">İstatistikler yükleniyor...</span>
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Sayaç Kartları */}
