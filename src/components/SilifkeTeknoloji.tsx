@@ -319,17 +319,23 @@ const SilifkeTeknoloji: React.FC = () => {
           >
             <motion.button 
               onClick={handleBackToHome} 
-              className="focus:outline-none group"
+              className="focus:outline-none group relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
+              {/* Enhanced glow effect */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-400/20 via-yellow-500/30 to-yellow-400/20 
+                            blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-300/10 via-yellow-400/20 to-yellow-300/10 
+                            blur-lg scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
               <img 
                 src="/logo-512.png" 
                 alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön" 
-                className="h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
+                className="relative h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
                          scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
-                         transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_35px_rgba(255,215,0,0.7)]"
+                         transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_45px_rgba(255,215,0,0.8)]"
                 loading="eager"
                 decoding="async"
                 width="512"
@@ -569,16 +575,16 @@ const SilifkeTeknoloji: React.FC = () => {
       </AnimatePresence>
 
       {/* Main Content */}
-      <main className="relative z-40 pt-32 pb-16 px-6">
+      <main className="relative z-40 pt-24 sm:pt-32 pb-16 px-4 sm:px-6">
         <div className="container mx-auto max-w-6xl">
-          <div className="relative text-center space-y-8">
+          <div className="relative text-center space-y-6 sm:space-y-8">
             {/* Hero Title */}
             <motion.div
               variants={fadeInUp}
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.8, delay: contentDelay }}
-              className="space-y-8 mt-16 sm:mt-20 lg:mt-24"
+              className="space-y-6 sm:space-y-8 mt-4 sm:mt-6 md:mt-8 lg:mt-12 mb-8 sm:mb-12"
             >
               <h1 className="text-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tighter">
                 <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-extrabold">
@@ -587,10 +593,10 @@ const SilifkeTeknoloji: React.FC = () => {
                 <br />
                 <span className="bg-gradient-to-r from-gray-200 via-white to-gray-200 bg-clip-text text-transparent 
                                font-light text-3xl md:text-4xl lg:text-5xl opacity-90">ile</span>{" "}
-                <Suspense fallback={<span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent font-display font-black">Yenilik</span>}>
+                <Suspense fallback={<span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent font-display font-black">Yenilik</span>}>
                   <AnimatedTextCycle
                     words={["Yenilik", "İşbirliği", "Gelecek", "Değişim"]}
-                    className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent font-display font-black"
+                    className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent font-display font-black"
                   />
                 </Suspense>
               </h1>
@@ -606,12 +612,12 @@ const SilifkeTeknoloji: React.FC = () => {
                          bg-gradient-to-r from-gray-100 via-white to-gray-100 bg-clip-text text-transparent"
             >
               Yerelden başlayarak insanların sorunlarına{" "}
-              <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-white bg-clip-text text-transparent 
+              <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent 
                              font-bold">
                 teknolojiyle çözümler
               </span>{" "}
               üreten, faydayı motivasyona ve motivasyonu{" "}
-              <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent 
+              <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent 
                              font-bold">
                 kazanca dönüştüren
               </span>{" "}
@@ -631,18 +637,20 @@ const SilifkeTeknoloji: React.FC = () => {
                 onClick={() => handlePageChange('join-club')}
                 whileHover={{ scale: 1.08, y: -3 }}
                 whileTap={{ scale: 0.96 }}
-                className="group relative px-12 py-6 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 
-                         rounded-3xl font-black text-black text-2xl shadow-2xl shadow-yellow-500/40 
+                className="group relative px-8 sm:px-12 py-4 sm:py-6 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 
+                         rounded-2xl font-black text-black text-xl sm:text-2xl shadow-2xl shadow-yellow-500/40 
                          hover:shadow-yellow-500/60 transition-all duration-300 overflow-hidden
                          border-2 border-yellow-400/40 hover:border-yellow-300/60"
               >
-                {/* Animated background */}
+                {/* Enhanced animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
                               opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
-                {/* Glow effect */}
-                <div className="absolute inset-0 rounded-3xl bg-yellow-400/30 blur-2xl opacity-0 
-                              group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+                {/* Enhanced glow effect with golden halo */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/40 via-yellow-500/50 to-yellow-400/40 
+                              blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-110" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-300/20 via-yellow-400/30 to-yellow-300/20 
+                              blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 scale-125" />
                 
                 {/* Content */}
                 <div className="relative flex items-center space-x-4">
@@ -653,9 +661,9 @@ const SilifkeTeknoloji: React.FC = () => {
                                          group-hover:translate-x-2 group-hover:scale-125" />
                 </div>
                 
-                {/* Shine effect */}
+                {/* Enhanced shine effect */}
                 <div className="absolute inset-0 -top-3 -left-3 w-6 h-full bg-gradient-to-r 
-                              from-transparent via-white/30 to-transparent skew-x-12 
+                              from-transparent via-white/40 to-transparent skew-x-12 
                               -translate-x-full group-hover:translate-x-[200%] 
                               transition-transform duration-700 ease-out" />
               </motion.button>
