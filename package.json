@@ -6,8 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:analyze": "npm run build && npx vite-bundle-analyzer dist",
+    "build:production": "NODE_ENV=production npm run build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "test:security": "npm audit && npm run lint",
+    "optimize": "npm run lint:fix && npm run security:fix && npm run build:production"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
