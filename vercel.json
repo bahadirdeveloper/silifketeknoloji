@@ -88,10 +88,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "functions/on_application_submitted/index.ts": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  ]
 }
