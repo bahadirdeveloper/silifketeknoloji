@@ -81,52 +81,12 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
   const events: Event[] = [
     {
       id: 1,
-      title: "React ve Modern Web Geliştirme Atölyesi",
-      description: "React'in temellerinden ileri seviye konularına kadar kapsamlı eğitim",
-      longDescription: "Bu atölye çalışmasında React'in temel kavramlarından başlayarak, hooks, context API, state management ve modern web geliştirme araçlarını öğreneceksiniz. Uygulamalı örneklerle gerçek projeler üzerinde çalışacağız. Yeni başlayanlar için ideal bir başlangıç noktası.",
-      category: 'workshop',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 30,
-      registered: 0,
-      price: 0,
-      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Planlanıyor",
-      speakerTitle: "Planlanıyor",
-      speakerImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      tags: ['React', 'JavaScript', 'Web Development'],
-      status: 'upcoming',
-      featured: true
-    },
-    {
-      id: 2,
-      title: "Yapay Zeka ve Makine Öğrenmesi Semineri",
-      description: "AI/ML'nin geleceği ve pratik uygulamaları",
-      longDescription: "Yapay zeka ve makine öğrenmesinin günümüzdeki durumu, gelecekteki potansiyeli ve çeşitli sektörlerdeki uygulamaları hakkında detaylı bir seminer. Örneklerle desteklenmiş pratik bilgiler paylaşılacak. Bu seminer ile AI dünyasına ilk adımınızı atabilirsiniz.",
-      category: 'seminar',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 100,
-      registered: 0,
-      price: 0,
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Planlanıyor",
-      speakerTitle: "Planlanıyor",
-      speakerImage: "https://images.unsplash.com/photo-1494790108755-2616c5e2b8e9?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      tags: ['AI', 'Machine Learning', 'Future Tech'],
-      status: 'upcoming',
-      featured: true
-    },
-    {
-      id: 3,
       title: "Silifke Teknoloji Klübü İlk Buluşması",
       description: "Klübümüzün kuruluş buluşması ve tanışma etkinliği",
       longDescription: "Silifke Teknoloji Klübü'nün ilk resmi buluşması! Bu etkinlikte klüp üyeleriyle tanışacak, gelecek planlarımızı paylaşacak ve teknoloji dünyasından konuları tartışacağız. Networking ve deneyim paylaşımı için mükemmel bir başlangıç.",
       category: 'meetup',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
+      date: '30 Ekim 2025',
+      time: 'Saat belirlenecek',
       location: 'Planlanıyor',
       capacity: 50,
       registered: 0,
@@ -134,7 +94,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Networking', 'Community', 'Tech Talk'],
       status: 'upcoming',
-      featured: false
+      featured: true
     },
     {
       id: 4,
@@ -151,7 +111,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Hackathon', 'Innovation', 'Local Solutions'],
       status: 'upcoming',
-      featured: true
+      featured: false
     },
     {
       id: 5,
@@ -258,6 +218,13 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
     if (dateString === 'Planlanıyor') {
       return 'Planlanıyor';
     }
+    // Eğer tarih zaten Türkçe formatında ise direkt döndür
+    if (dateString.includes('Ekim') || dateString.includes('Ocak') || dateString.includes('Şubat') || 
+        dateString.includes('Mart') || dateString.includes('Nisan') || dateString.includes('Mayıs') || 
+        dateString.includes('Haziran') || dateString.includes('Temmuz') || dateString.includes('Ağustos') || 
+        dateString.includes('Eylül') || dateString.includes('Kasım') || dateString.includes('Aralık')) {
+      return dateString;
+    }
     const date = new Date(dateString);
     return date.toLocaleDateString('tr-TR', {
       day: 'numeric',
@@ -324,14 +291,15 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent flex items-center"
+              className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent flex items-center justify-center"
             >
               <Star className="w-8 h-8 text-yellow-400 mr-3" />
               Öne Çıkan Etkinlikler
             </motion.h2>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-              {featuredEvents.slice(0, 2).map((event) => (
+            <div className="flex justify-center">
+              <div className="w-full max-w-2xl">
+                {featuredEvents.slice(0, 2).map((event) => (
                 <motion.div
                   key={event.id}
                   variants={fadeInUp}
@@ -404,7 +372,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     </div>
                   </div>
                 </motion.div>
-              ))}
+                ))}
+              </div>
             </div>
           </motion.div>
 

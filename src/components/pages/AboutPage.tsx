@@ -29,26 +29,33 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
 
   const teamMembers = [
     {
-      name: "Bahadır Gemalmaz",
-      role: "Kurucu & Teknik Lider",
-      expertise: "Full-Stack Development, AI/ML",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
-      description: "10+ yıllık yazılım geliştirme deneyimi ile teknoloji dünyasında öncü projeler geliştiriyor."
-    },
-    {
       name: "Vadi Karal",
       role: "Grafik Tasarım UI/UX Uzmanı",
       expertise: "User Experience, Visual Design",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
+      image: "/vadikaral.png",
       description: "Kullanıcı odaklı tasarım anlayışıyla dijital deneyimleri şekillendiriyor."
+    },
+    {
+      name: "Bahadır Gemalmaz",
+      role: "Kurucu & Teknik Lider",
+      expertise: "Full-Stack Development, AI/ML",
+      image: "/bahadirgemalmaz.png",
+      description: "10+ yıllık yazılım geliştirme deneyimi ile teknoloji dünyasında öncü projeler geliştiriyor."
     },
     {
       name: "Nida Gemalmaz",
       role: "Metin Yazarı & Plan ve Proje",
       expertise: "Content Strategy, Project Planning",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
+      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
       description: "İçerik stratejisi ve proje planlamasında uzman, başarılı projelerin mimarı."
     }
+  ];
+
+  // Boş alanlar için placeholder'lar
+  const emptySlots = [
+    { id: 1, isPlaceholder: true },
+    { id: 2, isPlaceholder: true },
+    { id: 3, isPlaceholder: true }
   ];
 
   const values = [
@@ -340,6 +347,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               Ekibimiz
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+              {/* Mevcut ekip üyeleri */}
               {teamMembers.map((member) => (
                 <motion.div
                   key={member.name}
@@ -377,6 +385,39 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                   </p>
                   <p className="text-gray-300 text-sm leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
                     {member.description}
+                  </p>
+                </motion.div>
+              ))}
+              
+              {/* Boş alanlar - yeni üyeler için */}
+              {emptySlots.map((slot) => (
+                <motion.div
+                  key={slot.id}
+                  variants={fadeInUp}
+                  className="group bg-gradient-to-br from-black/20 via-black/30 to-black/40 backdrop-blur-sm
+                           rounded-2xl p-6 border-2 border-dashed border-yellow-400/30 hover:border-yellow-400/50
+                           transition-all duration-300 hover:transform hover:scale-105 text-center
+                           hover:shadow-2xl hover:shadow-yellow-500/10 min-h-[300px] flex flex-col items-center justify-center"
+                  role="article"
+                  aria-label="Yeni ekip üyesi için boş alan"
+                >
+                  <div className="relative mb-6">
+                    <div className="w-24 h-24 rounded-full mx-auto border-4 border-dashed border-yellow-400/40 
+                                 group-hover:border-yellow-400/60 transition-all duration-300
+                                 flex items-center justify-center bg-gradient-to-br from-yellow-400/10 to-yellow-500/5">
+                      <div className="text-4xl text-yellow-400/60 group-hover:text-yellow-400/80 transition-colors duration-300">
+                        +
+                      </div>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-400 mb-2 group-hover:text-gray-300 transition-colors duration-300">
+                    Yeni Üye
+                  </h3>
+                  <p className="text-yellow-400/70 font-semibold mb-2 group-hover:text-yellow-400/90 transition-colors duration-300">
+                    Sen Olabilirsin!
+                  </p>
+                  <p className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-400 transition-colors duration-300">
+                    Klübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!
                   </p>
                 </motion.div>
               ))}
