@@ -94,13 +94,13 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
     {
       icon: <Github className="w-6 h-6" />,
       name: "GitHub",
-      link: "#", // Hesap açılışları tamamlandığında güncellenecek
+      link: "https://github.com/silifketeknoloji",
       color: "hover:text-gray-400"
     },
     {
       icon: <TikTokIcon className="w-6 h-6" />,
       name: "TikTok",
-      link: "#", // Hesap açılışları tamamlandığında güncellenecek
+      link: "https://www.tiktok.com/@silifketeknoloji7",
       color: "hover:text-pink-500"
     }
   ];
