@@ -65,6 +65,10 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 # Discord Webhook (for notifications)
 DISCORD_WEBHOOK_URL=your_discord_webhook_url
+
+# Admin Panel Credentials
+VITE_ADMIN_USERNAME=your_admin_username
+VITE_ADMIN_PASSWORD=your_admin_password
 ```
 
 ### 4. Supabase Kurulumu

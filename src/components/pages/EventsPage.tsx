@@ -81,18 +81,21 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
   const events: Event[] = [
     {
       id: 1,
-      title: "Silifke Teknoloji Klübü İlk Buluşması",
-      description: "Klübümüzün kuruluş buluşması ve tanışma etkinliği",
-      longDescription: "Silifke Teknoloji Klübü'nün ilk resmi buluşması! Bu etkinlikte klüp üyeleriyle tanışacak, gelecek planlarımızı paylaşacak ve teknoloji dünyasından konuları tartışacağız. Networking ve deneyim paylaşımı için mükemmel bir başlangıç.",
+      title: "Silifke Teknoloji Kulübü İlk Buluşması",
+      description: "Kulübümüzün kuruluş buluşması ve tanışma etkinliği",
+      longDescription: "Silifke Teknoloji Kulübü'nün ilk resmi buluşması! Tanışma oturumlarının ardından 2025 yol haritamızı paylaşacak, mentorluk programı ve projelerimizi duyuracağız. Etkinlik sonunda networking alanı ve küçük ikramlar olacak.",
       category: 'meetup',
-      date: '30 Ekim 2025',
-      time: 'Saat belirlenecek',
-      location: 'Planlanıyor',
-      capacity: 50,
-      registered: 0,
+      date: '15 Şubat 2025',
+      time: '18:30 - 21:00',
+      location: 'Silifke Belediyesi Kültür Merkezi - Konferans Salonu',
+      capacity: 80,
+      registered: 42,
       price: 0,
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Networking', 'Community', 'Tech Talk'],
+      speaker: 'Bahadır Gemalmaz',
+      speakerTitle: 'Kurucu & Teknik Lider',
+      speakerImage: '/bahadirgemalmaz.png',
+      tags: ['Networking', 'Roadmap', 'Community'],
       status: 'upcoming',
       featured: true
     },
@@ -100,15 +103,18 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       id: 4,
       title: "İlk Hackathon: Silifke'nin Geleceği",
       description: "Silifke için teknolojik çözümler geliştirme yarışması",
-      longDescription: "Silifke'nin yerel sorunlarına teknolojik çözümler üreten ilk hackathonumuz. Katılımcılar ekipler halinde çalışarak şehrimizin geleceğine katkıda bulunacak projeler geliştirecek. Yaratıcılık ve teknoloji bir araya geliyor!",
+      longDescription: "Silifke'nin yerel sorunlarına teknolojik çözümler üreten ilk hackathonumuz. 48 saatlik maraton boyunca katılımcılar ekipler halinde çalışacak, mentor desteği alacak ve jüriye uygulanabilir ürünler sunacak.",
       category: 'hackathon',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 80,
-      registered: 0,
+      date: '12-13 Nisan 2025',
+      time: '48 saatlik maraton',
+      location: 'Mersin Üniversitesi Silifke Meslek Yüksekokulu - Teknokent',
+      capacity: 120,
+      registered: 64,
       price: 0,
       image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
+      speaker: 'Mentor Ekibi',
+      speakerTitle: 'Sektör Profesyonelleri',
+      speakerImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80',
       tags: ['Hackathon', 'Innovation', 'Local Solutions'],
       status: 'upcoming',
       featured: false
@@ -119,11 +125,11 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       description: "Girişimciler ve teknoloji meraklıları buluşması",
       longDescription: "Silifke ve çevresindeki girişimcilerin, teknoloji meraklılarının ve mentorların bir araya geldiği networking etkinliği. Startup fikirleri, deneyim paylaşımı ve iş birliği fırsatları için ideal ortam.",
       category: 'networking',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 60,
-      registered: 0,
+      date: '28 Mart 2025',
+      time: '19:00 - 22:00',
+      location: 'Silifke Tenis Kulübü - Açık Teras Alanı',
+      capacity: 90,
+      registered: 47,
       price: 0,
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Startup', 'Networking', 'Business'],
@@ -136,12 +142,12 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       description: "En yaratıcı mobil uygulama geliştirme yarışması",
       longDescription: "Silifke'nin yerel sorunlarına çözüm üreten mobil uygulamalar geliştirme yarışması. Katılımcılar belirlenen süre içinde projelerini tamamlayarak jüri önünde sunum yapacak. Ödüller ve tanınma fırsatları!",
       category: 'competition',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 40,
-      registered: 0,
-      price: 0,
+      date: '25 Mayıs 2025',
+      time: '10:00 - 18:00',
+      location: 'Silifke Atatürk Kültür Merkezi - Studio Lab',
+      capacity: 60,
+      registered: 18,
+      price: 50,
       image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Mobile', 'Competition', 'Innovation'],
       status: 'upcoming',
@@ -153,11 +159,11 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       description: "Veri analizi ve görselleştirme teknikleri",
       longDescription: "Python programlama dili kullanarak veri bilimi projelerinde nasıl çalışılacağını öğreneceksiniz. Pandas, NumPy, Matplotlib gibi kütüphanelerle uygulamalı eğitim. Başlangıç seviyesinden ileri seviyeye kadar herkes için uygun.",
       category: 'workshop',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 50,
-      registered: 0,
+      date: '8 Mart 2025',
+      time: '11:00 - 16:00',
+      location: 'Silifke Belediyesi Dijital Dönüşüm Ofisi',
+      capacity: 55,
+      registered: 23,
       price: 0,
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format&q=80",
       speaker: "Planlanıyor",
@@ -173,11 +179,11 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       description: "Online satış stratejileri ve dijital pazarlama",
       longDescription: "E-ticaret dünyasında başarılı olmak için gerekli dijital pazarlama stratejileri, SEO, sosyal medya pazarlama ve müşteri analizi konularında kapsamlı seminer. İşletmenizi dijital dünyaya taşıyın!",
       category: 'seminar',
-      date: 'Planlanıyor',
-      time: 'Planlanıyor',
-      location: 'Planlanıyor',
-      capacity: 70,
-      registered: 0,
+      date: '19 Nisan 2025',
+      time: '13:00 - 17:30',
+      location: 'Mersin Tarsus Girişimcilik Merkezi',
+      capacity: 80,
+      registered: 31,
       price: 0,
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
       tags: ['Marketing', 'E-commerce', 'Business'],
@@ -271,15 +277,24 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            className="glass-panel glass-border-accent px-6 sm:px-12 py-12 text-center mb-12"
           >
+            <div className="flex justify-center mb-6">
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">Silifke'de Teknoloji Buluşmaları</span>
+            </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
               Etkinlikler
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Teknoloji dünyasındaki son gelişmeleri takip edin, yeni beceriler kazanın 
-              ve toplulukla buluşun. Tüm etkinliklerimiz ücretsiz veya uygun fiyatlı!
+            <p className="text-xl md:text-2xl text-gray-200/90 max-w-4xl mx-auto leading-relaxed">
+              Teknoloji gündemini takip edin, yeni beceriler kazanın ve toplulukla aynı cam masada buluşun. Etkinliklerin çoğu ücretsiz veya sembolik katkı payı ile.
             </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {['Workshop', 'Networking', 'Hackathon', 'Sosyal Etki'].map((tag) => (
+                <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs tracking-[0.25em] uppercase text-gray-200 backdrop-blur-lg">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </motion.div>
 
           {/* Featured Events */}
@@ -303,9 +318,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                 <motion.div
                   key={event.id}
                   variants={fadeInUp}
-                  className="bg-gradient-to-br from-yellow-500/10 via-yellow-400/5 to-transparent backdrop-blur-sm
-                           rounded-3xl overflow-hidden border-2 border-yellow-400/30 hover:border-yellow-400/50
-                           transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer"
+                  className="group glass-panel glass-border-accent overflow-hidden cursor-pointer hover:-translate-y-3"
                   onClick={() => setSelectedEvent(event)}
                 >
                   <div className="relative h-48 overflow-hidden">
@@ -383,45 +396,40 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-12"
+            className="glass-panel glass-border-accent p-6 mb-12"
           >
-            <div className="bg-gradient-to-r from-black/40 via-black/60 to-black/40 backdrop-blur-sm
-                          rounded-2xl p-6 border border-yellow-400/20">
-              <div className="flex flex-col lg:flex-row gap-6">
-                {/* Search */}
-                <div className="flex-1">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Etkinlik ara..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-black/50 border border-gray-600 rounded-lg
-                               text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400
-                               transition-colors duration-300"
-                    />
-                  </div>
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* Search */}
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-200/80" />
+                  <input
+                    type="text"
+                    placeholder="Etkinlik ara..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/15 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-300/60 focus:bg-white/10 transition-colors duration-300"
+                  />
                 </div>
+              </div>
 
-                {/* Category Filter */}
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category.id}
-                      onClick={() => setSelectedCategory(category.id)}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium
-                                transition-all duration-300 ${
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-full font-medium
+                                transition-all duration-300 border ${
                         selectedCategory === category.id
-                          ? 'bg-yellow-400/20 text-yellow-400 border border-yellow-400/40'
-                          : 'bg-black/30 text-gray-300 border border-gray-600 hover:border-yellow-400/30 hover:text-yellow-400'
-                      }`}
-                    >
-                      {category.icon}
-                      <span className="hidden sm:inline">{category.name}</span>
-                    </button>
-                  ))}
-                </div>
+                          ? 'border-yellow-400/40 bg-yellow-400/15 text-yellow-200'
+                          : 'border-white/10 bg-white/5 text-gray-200 hover:border-yellow-300/40 hover:text-yellow-200'
+                    }`}
+                  >
+                    {category.icon}
+                    <span className="hidden sm:inline">{category.name}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -442,9 +450,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                   animate="visible"
                   exit="hidden"
                   layout
-                  className="bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                           rounded-2xl overflow-hidden border border-yellow-400/20 hover:border-yellow-400/40
-                           transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer"
+                  className="group glass-panel glass-border-accent overflow-hidden cursor-pointer hover:-translate-y-3"
                   onClick={() => setSelectedEvent(event)}
                 >
                   {/* Event Image */}
@@ -479,15 +485,15 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
 
                     {/* Event Details */}
                     <div className="space-y-2 mb-4 text-sm">
-                      <div className="flex items-center text-gray-400">
+                      <div className="flex items-center text-gray-300">
                         <Calendar className="w-4 h-4 mr-2 text-yellow-400" />
                         <span>{formatDate(event.date)}</span>
                       </div>
-                      <div className="flex items-center text-gray-400">
+                      <div className="flex items-center text-gray-300">
                         <Clock className="w-4 h-4 mr-2 text-yellow-400" />
                         <span>{event.time}</span>
                       </div>
-                      <div className="flex items-center text-gray-400">
+                      <div className="flex items-center text-gray-300">
                         <MapPin className="w-4 h-4 mr-2 text-yellow-400" />
                         <span className="truncate">{event.location}</span>
                       </div>
@@ -495,18 +501,18 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
 
                     {/* Capacity Bar */}
                     <div className="mb-4">
-                      <div className="flex justify-between text-sm text-gray-400 mb-2">
+                      <div className="flex justify-between text-sm text-gray-300 mb-2">
                         <span>Katılımcı</span>
                         <span>{event.registered}/{event.capacity}</span>
                       </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div className="w-full bg-white/10 rounded-full h-2">
                         <div 
-                          className="bg-gradient-to-r from-yellow-500 to-yellow-600 h-2 rounded-full transition-all duration-300"
+                          className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${event.registered > 0 ? (event.registered / event.capacity) * 100 : 0}%` }}
                         ></div>
                       </div>
                       {event.registered === 0 && (
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-xs text-gray-400 mt-1">
                           Henüz katılımcı yok - İlk siz olun!
                         </div>
                       )}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Sparkles, Cpu, Globe2, HeartHandshake, MessageCircle, Mail } from "lucide-react";
 import ModernFlipCard from "./ModernFlipCard";
 import DetailModal from "./DetailModal";
 import NostalgicCounter from "./NostalgicCounter";
@@ -13,6 +13,8 @@ import ProjectsPage from "./pages/ProjectsPage";
 import EventsPage from "./pages/EventsPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import AdminPage from "./pages/AdminPage";
+import AdminLogin from "./AdminLogin";
+import { ADMIN_STORAGE_KEY, getAdminAuthorizationToken } from "../lib/adminConfig";
 
 // Lazy load heavy components
 const MatrixRain = lazy(() => import("./MatrixRain"));
@@ -26,6 +28,7 @@ const SilifkeTeknoloji: React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<CurrentPage>('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAdminAuthorized, setIsAdminAuthorized] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -53,12 +56,50 @@ const SilifkeTeknoloji: React.FC = () => {
     visible: { opacity: 1, y: 0 }
   };
 
+  const heroHighlights = [
+    {
+      title: "Yapay Zeka & Otomasyon",
+      description: "Projeleri GPT-asistanları ve özel otomasyonlarla hızlandırıyoruz.",
+      icon: Sparkles
+    },
+    {
+      title: "Ürünleştirme Mentorluğu",
+      description: "Fikirleri iş modeline dönüştürmek için haftalık mentorluk seansları.",
+      icon: HeartHandshake
+    },
+    {
+      title: "Teknoloji Atölyeleri",
+      description: "Modern stack'lerle kod kampı, veri bilimi ve tasarım oturumları.",
+      icon: Cpu
+    },
+    {
+      title: "Yerel Etki Programları",
+      description: "Silifke’de sosyal fayda yaratan girişimleri birlikte kuruyoruz.",
+      icon: Globe2
+    }
+  ];
+
+  const quickActions = [
+    {
+      label: "Discord Topluluğu",
+      sublabel: "Güncel etkinlik akışı",
+      href: "https://discord.gg/silifketeknoloji",
+      icon: MessageCircle
+    },
+    {
+      label: "E-posta ile İletişim",
+      sublabel: "silifketeknoloji@gmail.com",
+      href: "mailto:silifketeknoloji@gmail.com",
+      icon: Mail
+    }
+  ];
+
   const features = [
     {
       title: "Uygulama Geliştirme",
       desc: "Web ve mobil için uygulamalar geliştiriyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "📱 Web ve mobil için uygulamalar geliştiriyoruz. Önce fikri birlikte planlıyor, sonra vibe coding ile adım adım kodlayarak hayata geçiriyoruz.",
+      detailedContent: "📱 Web ve mobil için uygulamalar geliştiriyoruz. Önce fikri birlikte planlıyor, sonra vibe coding (eş zamanlı ortak kodlama yaklaşımı) ile adım adım kodlayarak hayata geçiriyoruz.",
       details: {
         vision: "Silifke'nin teknoloji alanında öncü olmasını hedefleyerek, yerel işletmeler ve girişimciler için modern, ölçeklenebilir ve kullanıcı dostu uygulamalar geliştiriyoruz. Amacımız, teknolojinin gücünü kullanarak bölgemizin dijital dönüşümüne katkıda bulunmak.",
         services: [
@@ -215,6 +256,19 @@ const SilifkeTeknoloji: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleAdminLoginSuccess = () => {
+    setIsAdminAuthorized(true);
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdminAuthorized(false);
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem(ADMIN_STORAGE_KEY);
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   // Toggle mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -244,6 +298,14 @@ const SilifkeTeknoloji: React.FC = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const storedToken = window.localStorage.getItem(ADMIN_STORAGE_KEY);
+    if (storedToken && storedToken === getAdminAuthorizationToken()) {
+      setIsAdminAuthorized(true);
+    }
+  }, []);
+
   // Render current page
   switch (currentPage) {
     case 'about':
@@ -259,7 +321,11 @@ const SilifkeTeknoloji: React.FC = () => {
     case 'thank-you':
       return <ThankYouPage onBack={handleBackToHome} />;
     case 'admin':
-      return <AdminPage onBack={handleBackToHome} />;
+      if (!isAdminAuthorized) {
+        return <AdminLogin onBack={handleBackToHome} onSuccess={handleAdminLoginSuccess} />;
+      }
+
+      return <AdminPage onBack={handleBackToHome} onLogout={handleAdminLogout} />;
     case 'home':
     default:
       break;
@@ -332,7 +398,7 @@ const SilifkeTeknoloji: React.FC = () => {
               
               <img 
                 src="/logo-512.png" 
-                alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön" 
+                alt="Silifke Teknoloji Kulübü - Ana Sayfaya Dön" 
                 className="relative h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
                          scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
                          transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_45px_rgba(255,215,0,0.8)]"
@@ -452,7 +518,7 @@ const SilifkeTeknoloji: React.FC = () => {
                   >
                     <img
                       src="/logo-128.png"
-                      alt="Silifke Teknoloji Klübü - Ana Sayfaya Dön"
+                      alt="Silifke Teknoloji Kulübü - Ana Sayfaya Dön"
                       className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]
                                group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,0.7)] transition-all duration-300"
                       loading="eager"
@@ -588,7 +654,7 @@ const SilifkeTeknoloji: React.FC = () => {
             >
               <h1 className="text-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tighter">
                 <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-extrabold">
-                  Silifke Teknoloji Klübü
+                  Silifke Teknoloji Kulübü
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-gray-200 via-white to-gray-200 bg-clip-text text-transparent 
@@ -667,6 +733,43 @@ const SilifkeTeknoloji: React.FC = () => {
                               -translate-x-full group-hover:translate-x-[200%] 
                               transition-transform duration-700 ease-out" />
               </motion.button>
+            </motion.div>
+
+            {/* Hero Highlights */}
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              animate="visible"
+              transition={{ duration: 0.7, delay: contentDelay + itemDelayIncrement * 3 }}
+              className="mt-10 sm:mt-12"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+                {heroHighlights.map((highlight, index) => {
+                  const Icon = highlight.icon;
+                  return (
+                    <motion.div
+                      key={highlight.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.08 }}
+                      className="group glass-panel glass-border-accent p-5 sm:p-6 shadow-yellow-500/10 hover:-translate-y-2"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative flex items-start space-x-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-500/15 border border-yellow-400/30 text-yellow-200">
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div className="text-left">
+                          <h3 className="text-lg font-semibold text-white">{highlight.title}</h3>
+                          <p className="mt-1 text-sm text-gray-300 leading-relaxed">
+                            {highlight.description}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
             </motion.div>
 
             {/* Nostalgic Counter */}
@@ -841,6 +944,49 @@ const SilifkeTeknoloji: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* Floating Quick Actions */}
+      <motion.aside
+        initial={{ opacity: 0, x: 40, y: 40 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+        className="pointer-events-auto hidden xl:flex flex-col space-y-4 fixed bottom-16 right-12 z-50"
+      >
+        <div className="glass-panel glass-border-accent p-6 w-72 shadow-yellow-500/15">
+          <div className="mb-5">
+            <span className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">Hızlı Erişim</span>
+            <h3 className="mt-2 text-lg font-semibold text-white">Soruların mı var?</h3>
+            <p className="text-sm text-gray-300">
+              Topluluğa katıl veya ekiple hemen iletişime geç.
+            </p>
+          </div>
+          <div className="space-y-3">
+            {quickActions.map(action => {
+              const Icon = action.icon;
+              return (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-all duration-300 hover:border-yellow-400/40 hover:bg-yellow-500/10"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-yellow-500/15 text-yellow-200 group-hover:bg-yellow-500/25">
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-medium leading-none">{action.label}</div>
+                      <div className="mt-1 text-xs text-gray-300">{action.sublabel}</div>
+                    </div>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-yellow-200 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </motion.aside>
 
       {/* Detail Modal */}
       <DetailModal

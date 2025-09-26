@@ -82,7 +82,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
     {
       icon: <Twitter className="w-6 h-6" />,
       name: "Twitter",
-      link: "https://x.com/Silifketeknolji",
+      link: "https://x.com/SilifkeTeknoloji",
       color: "hover:text-blue-400"
     },
     {
@@ -140,15 +140,30 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.8 }}
-            className="text-center mb-20"
+            className="glass-panel glass-border-accent px-6 sm:px-12 py-12 md:py-16 text-center mb-20"
           >
+            <div className="flex justify-center mb-6">
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">Bağlantıda Kal</span>
+            </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
               İletişim
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Bizimle iletişime geçin! Sorularınızı yanıtlamak, projelerinizde işbirliği yapmak 
-              ve teknoloji yolculuğunuzda size destek olmak için buradayız.
+            <p className="text-xl md:text-2xl text-gray-200/90 max-w-3xl mx-auto leading-relaxed">
+              Sorularınızı yanıtlamak, projelerinize ortak olmak ve Silifke'de teknoloji hikâyeleri yazmak için buradayız.
             </p>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+              {['7/24 yanıt', '1 iş günü içinde geri dönüş', 'Topluluk tabanlı destek'].map((item, index) => (
+                <motion.div
+                  key={item}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 + index * 0.05 }}
+                  className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm md:text-base text-gray-200 backdrop-blur-md"
+                >
+                  {item}
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Social Media Accounts */}
@@ -160,8 +175,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
           >
             <motion.div
               variants={fadeInUp}
-              className="bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                       rounded-3xl p-8 border border-yellow-400/20"
+              className="glass-panel glass-border-accent p-8"
             >
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent text-center">
                 Sosyal Medya Hesaplarımız
@@ -177,10 +191,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                     variants={fadeInUp}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`flex flex-col items-center space-y-3 p-6 bg-black/30 rounded-2xl
-                             border border-gray-600 hover:border-yellow-400/50
-                             transition-all duration-300 text-gray-300 ${social.color}
-                             group cursor-pointer`}
+                    className={`group glass-panel flex flex-col items-center space-y-3 p-6 text-gray-200 ${social.color} cursor-pointer hover:-translate-y-2`}
                   >
                     <div className="group-hover:scale-110 transition-transform duration-300">
                       {social.icon}
@@ -200,8 +211,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               animate="visible"
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                            rounded-3xl p-8 border border-yellow-400/20">
+              <div className="glass-panel glass-border-accent p-8">
                 <div className="text-center">
                   <div className="mb-6">
                     <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center">
@@ -245,8 +255,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               animate="visible"
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <div className="bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                            rounded-3xl p-8 border border-yellow-400/20">
+              <div className="glass-panel glass-border-accent p-8">
                 <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent">
                   İletişim Bilgileri
                 </h2>
@@ -274,7 +283,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                   ))}
                 </div>
                 
-                <div className="mt-8 p-6 bg-black/30 rounded-2xl border border-gray-600">
+                <div className="mt-8 glass-panel border-white/15 p-6">
                   <h3 className="text-white font-semibold mb-3 flex items-center">
                     <Clock className="w-5 h-5 mr-2 text-yellow-400" />
                     Adres

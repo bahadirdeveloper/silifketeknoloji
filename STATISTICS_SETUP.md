@@ -1,6 +1,6 @@
 # Başvuru Sayıları Dinamik Entegrasyonu
 
-Bu dokümantasyon, Silifke Teknoloji Klübü web sitesindeki başvuru sayılarının Supabase veritabanına bağlanması ve real-time güncellemeler için yapılan değişiklikleri açıklar.
+Bu dokümantasyon, Silifke Teknoloji Kulübü web sitesindeki başvuru sayılarının Supabase veritabanına bağlanması ve real-time güncellemeler için yapılan değişiklikleri açıklar.
 
 ## 🎯 Yapılan Değişiklikler
 
@@ -43,13 +43,13 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ### 3. Development Mode
 
 Environment variables ayarlanmamışsa, sistem otomatik olarak mock veriler kullanır:
-- Klüp Üye Sayısı: 3
+- Kulüp Üye Sayısı: 3
 - Toplam Başvuru Sayısı: 3  
 - Bekleyen Başvuru Sayısı: 0
 
 ## 📊 İstatistik Türleri
 
-### 1. Klüp Üye Sayısı
+### 1. Kulüp Üye Sayısı
 - **Kaynak**: `members` tablosu
 - **Filtre**: `status = 'active'` olan üyeler
 - **Açıklama**: Aktif teknoloji meraklısı üye sayısı

@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  Users, 
-  Clock, 
-  CheckCircle, 
-  XCircle, 
-  Eye, 
+import {
+  ArrowLeft,
+  Users,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Eye,
   Search,
   RefreshCw,
   Star,
   UserCheck,
-  UserX
+  UserX,
+  LogOut,
 } from 'lucide-react';
 import { supabase, type Application } from '../../lib/supabaseClient';
 
 interface AdminPageProps {
   onBack: () => void;
+  onLogout?: () => void;
 }
 
 interface ApplicationWithDetails extends Application {
   days_since_created: number;
 }
 
-const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
+const AdminPage: React.FC<AdminPageProps> = ({ onBack, onLogout }) => {
   const [applications, setApplications] = useState<ApplicationWithDetails[]>([]);
   const [filteredApplications, setFilteredApplications] = useState<ApplicationWithDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -236,15 +238,27 @@ const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
                   Üyelik başvurularını yönetin ve değerlendirin
                 </p>
               </div>
-              
-              <button
-                onClick={fetchApplications}
-                disabled={isLoading}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition-colors duration-300 flex items-center space-x-2"
-              >
-                <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-                <span>Yenile</span>
-              </button>
+
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={fetchApplications}
+                  disabled={isLoading}
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition-colors duration-300 flex items-center space-x-2"
+                >
+                  <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                  <span>Yenile</span>
+                </button>
+                {onLogout && (
+                  <button
+                    onClick={onLogout}
+                    className="px-4 py-2 bg-red-600/80 hover:bg-red-600 text-white rounded-lg transition-colors duration-300 flex items-center space-x-2"
+                    type="button"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Çıkış</span>
+                  </button>
+                )}
+              </div>
             </div>
           </motion.div>
 

@@ -560,7 +560,15 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 />
                 <div className="ml-3">
                   <span className="text-white font-medium">
-                    KVKK Aydınlatma Metni'ni okudum ve kişisel verilerimin işlenmesine onay veriyorum *
+                    <a
+                      href="/kvkk-aydinlatma.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-yellow-400/60 decoration-dotted underline-offset-4 hover:text-yellow-300 transition-colors"
+                    >
+                      KVKK Aydınlatma Metni'ni
+                    </a>
+                    {' '}okudum ve kişisel verilerimin işlenmesine onay veriyorum *
                   </span>
                   <p className="text-sm text-gray-400 mt-1">
                     Ad, soyad, e-posta, telefon numarası ve diğer form verileriniz üyelik süreci için işlenecektir.
@@ -606,7 +614,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
             </button>
 
             <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent mb-4">
-              Klübe Katıl
+              Kulübe Katıl
             </h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Silifke Teknoloji Kulübü'ne katılmak için aşağıdaki formu doldur. Her adım seni daha yakından tanımamızı sağlayacak.

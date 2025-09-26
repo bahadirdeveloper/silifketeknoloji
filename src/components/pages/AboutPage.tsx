@@ -117,8 +117,13 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.8 }}
-            className="text-center mb-24"
+            className="glass-panel glass-border-accent px-6 sm:px-12 py-12 md:py-16 text-center mb-24"
           >
+            <div className="flex justify-center mb-6">
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">
+                Silifke Teknoloji Kulübü
+              </span>
+            </div>
             <motion.h1
               className="text-5xl md:text-7xl lg:text-8xl font-black mb-8
                          bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent
@@ -130,18 +135,35 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               Hakkımızda
             </motion.h1>
             <motion.p
-              className="text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-5xl mx-auto leading-relaxed
+              className="text-xl md:text-2xl lg:text-3xl text-gray-200/90 max-w-4xl mx-auto leading-relaxed
                          font-light tracking-wide"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Silifke Teknoloji Klübü, teknolojinin gücünü toplumsal fayda için kullanan,
+              Silifke Teknoloji Kulübü, teknolojinin gücünü toplumsal fayda için kullanan,
               <br className="hidden md:block" />
               <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent font-medium">
                 yenilikçi çözümler üreten
               </span> ve yerel kalkınmaya katkıda bulunan bir topluluktur.
             </motion.p>
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              {[
+                'Gündüzleri üretim, geceleri ideathon',
+                'Yerelden globale uzanan teknoloji hikâyeleri',
+                'Topluluk temelli paylaşım ve büyüme kültürü',
+              ].map((highlight) => (
+                <motion.div
+                  key={highlight}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm md:text-base text-gray-200/95 backdrop-blur-md"
+                >
+                  {highlight}
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Mission, Vision, Values */}
@@ -171,41 +193,21 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 <motion.div
                   key={value.title}
                   variants={fadeInUp}
-                  className="group relative bg-gradient-to-br from-black/30 via-black/50 to-black/70 backdrop-blur-xl
-                           rounded-3xl p-8 md:p-10 border border-yellow-400/10 hover:border-yellow-400/40
-                           transition-all duration-500 hover:transform hover:scale-[1.02]
-                           hover:shadow-2xl hover:shadow-yellow-500/20 overflow-hidden
-                           before:absolute before:inset-0 before:bg-gradient-to-br before:from-yellow-500/5 before:to-transparent
-                           before:opacity-0 before:transition-opacity before:duration-500 hover:before:opacity-100"
-                  style={{ animationDelay: `${index * 0.2}s` }}
+                  className="group glass-panel glass-border-accent p-8 md:p-10 hover:-translate-y-3 hover:shadow-yellow-500/20"
+                  style={{ animationDelay: `${index * 0.12}s` }}
                 >
-                  {/* Background Pattern */}
-                  <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-400/20 rounded-full blur-3xl" />
-                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-yellow-400/20 rounded-full blur-2xl" />
-                  </div>
-
-                  {/* Icon with enhanced animation */}
                   <motion.div
                     className="relative mb-8 flex justify-center"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <div className="w-20 h-20 bg-gradient-to-br from-yellow-400/20 to-yellow-500/10
-                                  rounded-2xl flex items-center justify-center border border-yellow-400/20
-                                  group-hover:border-yellow-400/40 group-hover:from-yellow-400/30 group-hover:to-yellow-500/20
-                                  transition-all duration-500 shadow-lg shadow-yellow-400/10">
-                      <div className="text-yellow-400 group-hover:text-yellow-300 transition-colors duration-500">
-                        <div className="w-10 h-10">
-                          {value.icon}
-                        </div>
+                    <div className="glass-gradient-ring w-20 h-20 rounded-2xl flex items-center justify-center border border-yellow-400/30 text-yellow-200">
+                      <div className="w-10 h-10">
+                        {value.icon}
                       </div>
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 to-transparent
-                                  rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </motion.div>
 
-                  {/* Title with enhanced typography */}
                   <motion.h3
                     className="text-2xl md:text-3xl font-bold text-white mb-6 text-center
                              group-hover:text-yellow-100 transition-colors duration-500 relative"
@@ -217,7 +219,6 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                                   group-hover:w-16 transition-all duration-500 transform -translate-x-1/2" />
                   </motion.h3>
 
-                  {/* Description with better typography */}
                   <motion.p
                     className="text-gray-300 leading-relaxed text-center text-base md:text-lg
                              group-hover:text-gray-200 transition-colors duration-500 font-light"
@@ -227,11 +228,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                     {value.description}
                   </motion.p>
 
-                  {/* Decorative elements */}
-                  <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400/40 rounded-full
-                                group-hover:bg-yellow-400/60 transition-colors duration-500" />
-                  <div className="absolute bottom-4 left-4 w-1 h-1 bg-yellow-400/30 rounded-full
-                                group-hover:bg-yellow-400/50 transition-colors duration-500" />
+                  <div className="absolute top-5 right-5 h-16 w-16 rounded-full bg-yellow-400/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </motion.div>
               ))}
             </div>
@@ -244,15 +241,12 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
             animate="visible"
             className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-20"
           >
-            {achievements.map((achievement) => (
+            {achievements.map((achievement, index) => (
               <motion.div
                 key={achievement.label}
                 variants={fadeInUp}
-                className="group text-center bg-gradient-to-br from-yellow-500/10 via-yellow-400/5 to-transparent
-                         backdrop-blur-sm rounded-2xl p-8 border border-yellow-400/10
-                         hover:border-yellow-400/30 hover:bg-yellow-500/15
-                         transition-all duration-300 hover:transform hover:scale-105
-                         hover:shadow-2xl hover:shadow-yellow-500/20"
+                transition={{ duration: 0.6, delay: index * 0.05 }}
+                className="group glass-panel glass-border-accent text-center p-6 md:p-8 hover:-translate-y-2"
                 role="region"
                 aria-labelledby={`achievement-${achievement.label.replace(/\s+/g, '-').toLowerCase()}`}
               >
@@ -280,9 +274,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mb-24"
           >
-            <div className="bg-gradient-to-r from-black/40 via-black/60 to-black/40 backdrop-blur-sm
-                          rounded-3xl p-8 md:p-12 border border-yellow-400/20
-                          hover:border-yellow-400/30 transition-all duration-300">
+            <div className="glass-panel glass-border-accent p-8 md:p-12">
               <motion.h2
                 className="text-4xl md:text-5xl font-bold text-center mb-12
                            bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent"
@@ -352,10 +344,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 <motion.div
                   key={member.name}
                   variants={fadeInUp}
-                  className="group bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                           rounded-2xl p-6 border border-yellow-400/20 hover:border-yellow-400/40
-                           transition-all duration-300 hover:transform hover:scale-105 text-center
-                           hover:shadow-2xl hover:shadow-yellow-500/20"
+                  className="group glass-panel glass-border-accent p-6 text-center hover:-translate-y-3 hover:shadow-yellow-500/20"
                   role="article"
                   aria-labelledby={`team-member-${member.name.replace(/\s+/g, '-').toLowerCase()}`}
                 >
@@ -394,10 +383,9 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 <motion.div
                   key={slot.id}
                   variants={fadeInUp}
-                  className="group bg-gradient-to-br from-black/20 via-black/30 to-black/40 backdrop-blur-sm
-                           rounded-2xl p-6 border-2 border-dashed border-yellow-400/30 hover:border-yellow-400/50
-                           transition-all duration-300 hover:transform hover:scale-105 text-center
-                           hover:shadow-2xl hover:shadow-yellow-500/10 min-h-[300px] flex flex-col items-center justify-center"
+                  className="group glass-panel border-2 border-dashed border-yellow-400/40 hover:border-yellow-300/60
+                           transition-all duration-300 hover:-translate-y-2 text-center
+                           min-h-[300px] flex flex-col items-center justify-center"
                   role="article"
                   aria-label="Yeni ekip üyesi için boş alan"
                 >
@@ -417,7 +405,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                     Sen Olabilirsin!
                   </p>
                   <p className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-400 transition-colors duration-300">
-                    Klübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!
+                    Kulübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!
                   </p>
                 </motion.div>
               ))}
@@ -432,9 +420,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-center"
           >
-            <div className="bg-gradient-to-r from-yellow-500/10 via-yellow-400/5 to-yellow-500/10 backdrop-blur-sm
-                          rounded-3xl p-8 md:p-12 border border-yellow-400/20
-                          hover:border-yellow-400/30 transition-all duration-300">
+            <div className="glass-panel glass-border-accent p-8 md:p-12">
               <motion.h2
                 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white"
                 initial={{ opacity: 0, y: 20 }}

@@ -22,7 +22,7 @@ const NostalgicCounter: React.FC = () => {
   const [counters, setCounters] = useState<CounterData[]>([
     {
       value: 0,
-      label: "Klüp Üye Sayısı",
+      label: "Kulüp Üye Sayısı",
       description: "Aktif teknoloji meraklısı üye sayısı",
       color: "from-yellow-400 to-yellow-600",
       glowColor: "rgba(255, 215, 0, 0.4)"
@@ -50,6 +50,7 @@ const NostalgicCounter: React.FC = () => {
   });
 
   const [isLoading, setIsLoading] = useState(true);
+  const hasStatistics = statistics.totalMembers > 0 || statistics.totalApplications > 0 || statistics.pendingApplications > 0;
 
   // İstatistikleri yükle ve real-time güncellemelere abone ol
   useEffect(() => {
@@ -133,7 +134,7 @@ const NostalgicCounter: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
-        className="text-center mb-12"
+        className="glass-panel glass-border-accent text-center mb-12 px-6 py-10"
       >
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-display">
           <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
@@ -141,7 +142,7 @@ const NostalgicCounter: React.FC = () => {
           </span>
         </h2>
         <p className="text-white text-lg max-w-2xl mx-auto">
-          Silifke Teknoloji Klübü'nün büyüyen topluluğunun canlı istatistikleri
+          Silifke Teknoloji Kulübü'nün büyüyen topluluğunun canlı istatistikleri
         </p>
         
         {/* Loading indicator */}
@@ -154,6 +155,18 @@ const NostalgicCounter: React.FC = () => {
             <div className="flex items-center space-x-2 text-yellow-400">
               <div className="w-4 h-4 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
               <span className="text-sm">İstatistikler yükleniyor...</span>
+            </div>
+          </motion.div>
+        )}
+        {!isLoading && !hasStatistics && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mt-4 flex justify-center"
+          >
+            <div className="rounded-2xl border border-yellow-500/40 bg-yellow-500/15 px-4 py-3 text-sm text-yellow-200">
+              Canlı istatistikleriniz burada görünecek. Henüz kayıt bulunmuyorsa bile, başvurular geldikçe bu alan otomatik güncellenecek.
             </div>
           </motion.div>
         )}
@@ -174,42 +187,16 @@ const NostalgicCounter: React.FC = () => {
             className="relative group"
           >
             {/* Nostaljik Çerçeve */}
-            <div className="relative bg-gradient-to-br from-black/95 via-black/98 to-black/95 
-                          rounded-2xl border-2 border-white/20 backdrop-blur-sm 
-                          shadow-2xl hover:shadow-3xl transition-all duration-500
-                          overflow-hidden">
-              
+            <div className="glass-panel glass-border-accent p-8 text-center space-y-6 overflow-hidden">
               {/* Glow Efekti */}
               <div 
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
-                  background: `radial-gradient(circle at 50% 50%, ${counter.glowColor} 0%, transparent 70%)`,
-                  filter: 'blur(20px)'
+                  background: `radial-gradient(circle at 50% 30%, ${counter.glowColor} 0%, transparent 65%)`
                 }}
               />
-              
-              {/* Animasyonlu Sınır */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px]"
-                   style={{
-                     background: `linear-gradient(45deg, ${counter.glowColor}, transparent, ${counter.glowColor})`
-                   }}>
-                <div className="w-full h-full rounded-2xl bg-black/98" />
-              </div>
 
-              {/* Retro Izgara Deseni */}
-              <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-                <div className="w-full h-full" 
-                     style={{
-                       backgroundImage: `
-                         linear-gradient(rgba(255, 215, 0, 0.1) 1px, transparent 1px),
-                         linear-gradient(90deg, rgba(255, 215, 0, 0.1) 1px, transparent 1px)
-                       `,
-                       backgroundSize: '20px 20px'
-                     }} />
-              </div>
-
-              {/* İçerik */}
-              <div className="relative z-10 p-8 text-center space-y-6">
+              <div className="relative z-10 space-y-6">
                 {/* Sayı Gösterimi - Nostaljik LCD Tarzı */}
                 <div className="relative">
                   <div className="bg-black/80 rounded-xl p-6 border border-white/20 shadow-inner">
@@ -259,38 +246,8 @@ const NostalgicCounter: React.FC = () => {
                                  shadow-lg group-hover:w-32 transition-all duration-500`}
                        style={{ boxShadow: `0 0 20px ${counter.glowColor}` }} />
                 </div>
-
-                {/* Nostaljik Köşe Detayları */}
-                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-yellow-400/50 rounded-tl-lg" />
-                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-yellow-400/50 rounded-tr-lg" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-yellow-400/50 rounded-bl-lg" />
-                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-yellow-400/50 rounded-br-lg" />
               </div>
-
-              {/* Hover Parıltı Efekti */}
-              <motion.div
-                className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 pointer-events-none"
-                initial={false}
-                animate={{
-                  background: [
-                    `radial-gradient(circle at 0% 0%, ${counter.glowColor} 0%, transparent 50%)`,
-                    `radial-gradient(circle at 100% 100%, ${counter.glowColor} 0%, transparent 50%)`,
-                    `radial-gradient(circle at 0% 100%, ${counter.glowColor} 0%, transparent 50%)`,
-                    `radial-gradient(circle at 100% 0%, ${counter.glowColor} 0%, transparent 50%)`,
-                    `radial-gradient(circle at 0% 0%, ${counter.glowColor} 0%, transparent 50%)`
-                  ]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              />
             </div>
-
-            {/* Yansıma Efekti */}
-            <div className="absolute -bottom-8 left-0 right-0 h-8 bg-gradient-to-b from-slate-800/20 to-transparent 
-                          rounded-b-2xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </motion.div>
         ))}
       </div>

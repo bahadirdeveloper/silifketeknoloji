@@ -57,107 +57,107 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
   const projects: Project[] = [
     {
       id: 1,
-      title: "Silifke Teknoloji Klübü Web Sitesi",
-      description: "Klübümüzün resmi web sitesi ve üye yönetim sistemi",
-      longDescription: "Silifke Teknoloji Klübü olarak üyelerimizin bir araya geldiği, etkinliklerimizi duyurduğumuz ve projelerimizi sergilediğimiz modern web platformu. Çok yakında daha da gelişmiş özellikleriyle sizlerle buluşacak!",
+      title: "Silifke Teknoloji Kulübü Web Sitesi",
+      description: "Kulübümüzün resmi web sitesi ve üye yönetim sistemi",
+      longDescription: "Silifke Teknoloji Kulübü olarak üyelerimizin bir araya geldiği, etkinliklerimizi duyurduğumuz ve projelerimizi sergilediğimiz modern web platformu. Üye girişi, başvuru yönetimi, blog ve etkinlik takvimi modülleri tamamlandı; şimdi içerik yönetimi ve performans optimizasyonu üzerinde çalışıyoruz.",
       category: 'web',
       status: 'in-progress',
       technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Vite'],
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 3,
-      duration: "2 ay",
-      impact: "Çok yakında..."
+      duration: "Aralık 2024 - Şubat 2025",
+      impact: "Beta yayını 1 Mart 2025'te planlanıyor."
     },
     {
       id: 2,
       title: "Öğrenci Mentorluk Platformu",
       description: "Deneyimli üyelerimizin yeni başlayanları desteklediği platform",
-      longDescription: "Klübümüzdeki deneyimli yazılımcıların, yeni başlayan öğrencilere mentorluk yapabileceği interaktif platform. Kişisel gelişim planları, proje önerileri ve birebir görüşme sistemi içerecek. Çok yakında kullanıma açılacak!",
+      longDescription: "Kulübümüzdeki deneyimli yazılımcıların, yeni başlayan öğrencilere mentorluk yapabileceği interaktif platform. Kişisel gelişim planları, proje önerileri ve birebir görüşme sistemi içerecek. Şubat ayı boyunca mentor profilleri toplanıyor, Mart ayında eşleştirme algoritması test edilecek.",
       category: 'education',
-      status: 'planning',
+      status: 'in-progress',
       technologies: ['Next.js', 'Socket.io', 'MongoDB', 'WebRTC'],
       image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 4,
-      duration: "3 ay",
-      impact: "Çok yakında..."
+      duration: "Şubat 2025 - Nisan 2025",
+      impact: "Nisan 2025 sonunda 25 mentor/mentee eşleşmesiyle pilot yayın hedefleniyor."
     },
     {
       id: 3,
       title: "Hackathon Organizasyon Sistemi",
       description: "Silifke'nin ilk teknoloji yarışmasını düzenleyeceğimiz platform",
-      longDescription: "Yerel ve ulusal katılımcıların bir araya geleceği hackathon etkinliğimiz için geliştirdiğimiz organizasyon sistemi. Takım oluşturma, proje sunumu ve jüri değerlendirme modülleri içerecek. Çok yakında duyurulacak!",
+      longDescription: "Yerel ve ulusal katılımcıların bir araya geleceği hackathon etkinliğimiz için geliştirdiğimiz organizasyon sistemi. Takım oluşturma, proje sunumu ve jüri değerlendirme modülleri tamamlandı; ödül yönetimi ve canlı skor tahtası geliştirme aşamasında.",
       category: 'web',
       status: 'planning',
       technologies: ['Vue.js', 'Laravel', 'MySQL', 'AWS'],
       image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 5,
-      duration: "4 ay",
-      impact: "Çok yakında..."
+      duration: "Ocak 2025 - Mayıs 2025",
+      impact: "Hackathon 12-13 Nisan 2025 tarihlerinde sistem üzerinden yönetilecek."
     },
     {
       id: 4,
       title: "Teknoloji Eğitim Mobil Uygulaması",
       description: "Programlama öğrenmek isteyenler için mobil eğitim platformu",
-      longDescription: "Silifke'deki gençlerin programlama öğrenmesini destekleyecek mobil uygulama. İnteraktif dersler, kod editörü ve gerçek zamanlı mentör desteği sunacak. Çok yakında beta sürümü yayınlanacak!",
+      longDescription: "Silifke'deki gençlerin programlama öğrenmesini destekleyecek mobil uygulama. İnteraktif dersler, kod editörü ve gerçek zamanlı mentör desteği sunacak. İçerik mimarisi tamamlandı, Mart ayında React Native prototipine geçiyoruz.",
       category: 'mobile',
       status: 'planning',
       technologies: ['React Native', 'Firebase', 'Node.js', 'Express'],
       image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 3,
-      duration: "5 ay",
-      impact: "Çok yakında..."
+      duration: "Mart 2025 - Temmuz 2025",
+      impact: "Alfa sürümü Mayıs 2025'te mentorlarla test edilecek."
     },
     {
       id: 5,
       title: "Yerel İşletme Dijitalleşme Projesi",
       description: "Silifke işletmelerinin dijital dönüşümünü destekleme programı",
-      longDescription: "Yerel esnaf ve KOBİ'lerin dijital dünyaya geçişini destekleyeceğimiz kapsamlı proje. Web sitesi kurulumu, sosyal medya yönetimi ve e-ticaret çözümleri sunacağız. Çok yakında başvurular açılacak!",
+      longDescription: "Yerel esnaf ve KOBİ'lerin dijital dünyaya geçişini destekleyeceğimiz kapsamlı program. Web sitesi kurulumu, sosyal medya yönetimi ve e-ticaret çözümleri sunacağız. İlk etapta 10 işletmeyle pilot çalışma başlatıldı.",
       category: 'ecommerce',
       status: 'planning',
       technologies: ['WordPress', 'WooCommerce', 'PHP', 'MySQL'],
       image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 6,
-      duration: "6 ay",
-      impact: "Çok yakında..."
+      duration: "Şubat 2025 - Ağustos 2025",
+      impact: "İlk üç işletmenin e-ticaret sitesi Nisan 2025'te yayına alınacak."
     },
     {
       id: 6,
       title: "Silifke Tech Podcast Platformu",
       description: "Teknoloji dünyasından haberler ve röportajlar",
-      longDescription: "Klüp üyelerimizin teknoloji dünyasındaki gelişmeleri tartıştığı, sektör profesyonelleriyle röportajlar yaptığı podcast platformu. Özel web sitesi ve mobil uygulama ile yayınlanacak. Çok yakında ilk bölüm!",
+      longDescription: "Kulüp üyelerimizin teknoloji dünyasındaki gelişmeleri tartıştığı, sektör profesyonelleriyle röportajlar yaptığı podcast platformu. Web sitesi tasarım sistemi hazırlandı; kayıt stüdyosu ayarlandı ve ilk üç bölümün senaryosu yazıldı.",
       category: 'web',
       status: 'planning',
       technologies: ['React', 'Node.js', 'PostgreSQL', 'AWS S3'],
       image: "https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 4,
-      duration: "3 ay",
-      impact: "Çok yakında..."
+      duration: "Ocak 2025 - Nisan 2025",
+      impact: "İlk sezonun yayın planı Mayıs 2025'te başlıyor."
     },
     {
       id: 7,
       title: "Açık Kaynak Katkı Programı",
       description: "Üyelerimizin açık kaynak projelere katkı yapmasını teşvik programı",
-      longDescription: "Klüp üyelerinin dünya çapındaki açık kaynak projelere katkı yapmasını destekleyecek program. Proje seçimi, mentorluk ve katkı takibi sistemi içerecek. Çok yakında kayıtlar başlayacak!",
+      longDescription: "Kulüp üyelerinin dünya çapındaki açık kaynak projelere katkı yapmasını destekleyecek program. Proje seçimi, mentorluk ve katkı takibi sistemi içerecek. GitHub organizasyonu kuruldu ve ilk proje listesi paylaşıldı.",
       category: 'social',
-      status: 'planning',
+      status: 'in-progress',
       technologies: ['GitHub API', 'Python', 'Django', 'React'],
       image: "https://images.unsplash.com/photo-1556075798-4825dfaaf498?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 3,
       duration: "Sürekli",
-      impact: "Çok yakında..."
+      impact: "2025 boyunca en az 15 katkının mentor eşliğinde tamamlanması hedefleniyor."
     },
     {
       id: 8,
       title: "Silifke Tech Meetup Organizasyon Sistemi",
       description: "Aylık teknoloji buluşmalarımızı organize ettiğimiz sistem",
-      longDescription: "Her ay düzenleyeceğimiz teknoloji meetup'larının organizasyonunu kolaylaştıracak sistem. Etkinlik duyuruları, katılımcı yönetimi ve sunum planlaması özellikleri içerecek. Çok yakında ilk meetup!",
+      longDescription: "Her ay düzenlediğimiz teknoloji meetup'larının organizasyonunu kolaylaştıracak sistem. Etkinlik duyuruları, katılımcı yönetimi ve sunum planlaması özellikleri tamamlandı; şimdi geri bildirim modülü ekleniyor.",
       category: 'web',
-      status: 'planning',
+      status: 'in-progress',
       technologies: ['Next.js', 'Supabase', 'Stripe', 'Tailwind CSS'],
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
       teamSize: 5,
-      duration: "2 ay",
-      impact: "Çok yakında..."
+      duration: "Ocak 2025 - Mart 2025",
+      impact: "Mart 2025 meetup'ı yeni sistem üzerinden kayıt alacak."
     }
   ];
 
@@ -215,15 +215,24 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.8 }}
-            className="text-center mb-12"
+            className="glass-panel glass-border-accent px-6 sm:px-12 py-12 text-center mb-12"
           >
+            <div className="flex justify-center mb-6">
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">Üretim Yol Haritası</span>
+            </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
               Projelerimiz
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Yeni kurulan klübümüzün heyecan verici proje planlarını keşfedin. 
-              Her biri Silifke ve çevresine değer katacak, teknoloji ile hayatı kolaylaştıracak çözümler sunacak.
+            <p className="text-xl md:text-2xl text-gray-200/90 max-w-4xl mx-auto leading-relaxed">
+              Silifke'nin geleceğini inşa eden teknoloji planlarımızı keşfedin. Her proje, topluluğun ihtiyaçlarına cam gibi şeffaf ve güçlü çözümler sunmak için tasarlandı.
             </p>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {['Web & Mobil Ürünler', 'Topluluk Programları', 'AI ve Veri Projeleri'].map((tag) => (
+                <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs tracking-[0.25em] uppercase text-gray-200 backdrop-blur-lg">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </motion.div>
 
           {/* VIP References Ticker */}
@@ -232,10 +241,9 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-16"
+            className="glass-panel glass-border-accent mb-16 overflow-hidden"
           >
-            {/* VIP Black Stripe */}
-            <div className="relative bg-black border-t border-b border-yellow-400/30 py-4 sm:py-6 overflow-hidden">
+            <div className="relative py-4 sm:py-6">
               {/* Subtle background pattern */}
               <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/5 to-transparent" />
@@ -339,9 +347,7 @@ const ProjectsPage: React.FC<ProjectsPageProps> = ({ onBack }) => {
                   animate="visible"
                   exit="hidden"
                   layout
-                  className="bg-gradient-to-br from-black/40 via-black/60 to-black/80 backdrop-blur-sm
-                           rounded-2xl overflow-hidden border border-yellow-400/20 hover:border-yellow-400/40
-                           transition-all duration-300 hover:transform hover:scale-105 group cursor-pointer"
+                  className="group glass-panel glass-border-accent overflow-hidden cursor-pointer hover:-translate-y-3"
                   onClick={() => setSelectedProject(project)}
                 >
                   {/* Project Image */}

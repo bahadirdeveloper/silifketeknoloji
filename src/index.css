@@ -208,6 +208,45 @@ body {
   }
 }
 
+@layer components {
+  .glass-panel {
+    @apply relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl shadow-black/40 transition duration-300 ease-out;
+  }
+
+  .glass-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(255, 215, 0, 0.20), transparent 55%);
+    opacity: 0.35;
+  }
+
+  .glass-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 45%);
+    opacity: 0.5;
+  }
+
+  .glass-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .glass-border-accent {
+    @apply border border-yellow-400/30 hover:border-yellow-300/60 transition-colors duration-500;
+  }
+
+  .glass-gradient-ring {
+    background: conic-gradient(from 90deg, rgba(255, 215, 0, 0.25), rgba(255, 255, 255, 0.05), rgba(255, 215, 0, 0.25));
+  }
+
+  .glass-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.35em] text-gray-200 backdrop-blur-lg;
+  }
+}
+
 .animate-premium-glow {
   animation: premium-glow 3s ease-in-out infinite;
 }

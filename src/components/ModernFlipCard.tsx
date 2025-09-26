@@ -65,7 +65,7 @@ const ModernFlipCard: React.FC<ModernFlipCardProps> = ({
       >
         {/* Front Face */}
         <div className="absolute inset-0 w-full h-full backface-hidden">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-black/90 via-black/95 to-black/90 border border-white/20 backdrop-blur-sm shadow-2xl hover:shadow-yellow-400/20 transition-all duration-500">
+          <div className="glass-panel glass-border-accent w-full h-full rounded-2xl overflow-hidden shadow-2xl hover:shadow-yellow-400/20 transition-all duration-500">
             {/* Premium Background Image */}
             <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500">
               <img 
@@ -117,7 +117,7 @@ const ModernFlipCard: React.FC<ModernFlipCardProps> = ({
 
         {/* Back Face */}
         <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-br from-black/90 via-black/95 to-black/90 border border-yellow-400/30 backdrop-blur-sm shadow-2xl shadow-yellow-400/20">
+          <div className="glass-panel glass-border-accent w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-yellow-400/20">
             {/* Premium Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,215,0,0.1),transparent_50%)]" />
