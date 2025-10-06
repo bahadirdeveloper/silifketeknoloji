@@ -14,6 +14,7 @@ import EventsPage from "./pages/EventsPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import AdminPage from "./pages/AdminPage";
 import AdminLogin from "./AdminLogin";
+import BlogPage from "./pages/BlogPage";
 import { ADMIN_STORAGE_KEY, getAdminAuthorizationToken } from "../lib/adminConfig";
 
 // Lazy load heavy components
@@ -21,7 +22,7 @@ const MatrixRain = lazy(() => import("./MatrixRain"));
 const AnimatedTextCycle = lazy(() => import("./AnimatedTextCycle"));
 const InteractiveDots = lazy(() => import("./InteractiveDots"));
 
-type CurrentPage = 'home' | 'about' | 'contact' | 'projects' | 'events' | 'join-club' | 'thank-you' | 'admin';
+type CurrentPage = 'home' | 'about' | 'contact' | 'projects' | 'events' | 'join-club' | 'thank-you' | 'admin' | 'blog';
 
 const SilifkeTeknoloji: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -282,6 +283,9 @@ const SilifkeTeknoloji: React.FC = () => {
       case '/katil':
         setCurrentPage('join-club');
         break;
+      case '/blog':
+        setCurrentPage('blog');
+        break;
       default:
         setCurrentPage('home');
         break;
@@ -316,6 +320,8 @@ const SilifkeTeknoloji: React.FC = () => {
       }
 
       return <AdminPage onBack={handleBackToHome} onLogout={handleAdminLogout} />;
+    case 'blog':
+      return <BlogPage onBack={handleBackToHome} />;
     case 'home':
     default:
       break;
@@ -362,6 +368,13 @@ const SilifkeTeknoloji: React.FC = () => {
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               İletişim
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </button>
+            <button 
+              onClick={() => handlePageChange('blog')}
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
+            >
+              Blog
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
           </motion.div>
@@ -579,6 +592,15 @@ const SilifkeTeknoloji: React.FC = () => {
                   >
                     <span className="text-xl">🤝</span>
                     <span>Kulübe Katıl</span>
+                  </button>
+
+                  <button
+                    onClick={() => handlePageChange('blog')}
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
+                  >
+                    <span className="text-xl">📝</span>
+                    <span>Blog</span>
                   </button>
                 </nav>
 
@@ -906,12 +928,22 @@ const SilifkeTeknoloji: React.FC = () => {
 
             {/* Decorative Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <motion.div 
+              <motion.button
+                type="button"
+                onClick={() => handlePageChange('blog')}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 2, delay: 1 }}
-                className="absolute top-20 left-10 w-32 h-32 border border-white/25 rounded-full shadow-lg shadow-white/15 [box-shadow:_0_0_50px_rgba(255,215,0,0.15)]"
-              />
+                className="absolute top-20 left-10 w-32 h-32 rounded-full border border-white/25 shadow-lg shadow-white/15 [box-shadow:_0_0_50px_rgba(255,215,0,0.15)]
+                           pointer-events-auto bg-black/40 backdrop-blur-sm flex items-center justify-center group focus:outline-none
+                           focus:ring-2 focus:ring-yellow-300/70 focus:ring-offset-2 focus:ring-offset-black"
+                aria-label="Blog sayfasını aç"
+              >
+                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400/0 via-yellow-400/10 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <span className="text-xs tracking-[0.55em] text-yellow-200/80 group-hover:text-yellow-100 font-semibold relative">
+                  BLOG
+                </span>
+              </motion.button>
               <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
