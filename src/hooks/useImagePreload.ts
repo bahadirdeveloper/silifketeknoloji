@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 interface UseImagePreloadOptions {
   priority?: boolean;
+  highPriorityCount?: number;
 }
 
 export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOptions = {}) => {
@@ -9,7 +10,7 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
-  const { priority = false } = options;
+  const { priority = false, highPriorityCount } = options;
 
   useEffect(() => {
     if (!imageUrls.length) {
@@ -19,12 +20,18 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
 
     let loadedCount = 0;
     const totalImages = imageUrls.length;
+    let isMounted = true;
 
     const preloadImage = (url: string) => {
       return new Promise<string>((resolve, reject) => {
         const img = new Image();
         
         img.onload = () => {
+          if (!isMounted) {
+            resolve(url);
+            return;
+          }
+
           setLoadedImages(prev => new Set([...prev, url]));
           loadedCount++;
           
@@ -39,6 +46,11 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
           console.warn(`Failed to load image: ${url}`);
           loadedCount++;
           
+          if (!isMounted) {
+            reject(new Error(`Failed to load image: ${url}`));
+            return;
+          }
+
           if (loadedCount === totalImages) {
             setIsLoading(false);
           }
@@ -60,8 +72,19 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
     const preloadBatch = async () => {
       try {
         if (priority) {
-          // Load priority images immediately
-          await Promise.allSettled(imageUrls.map(preloadImage));
+          const immediateCount = Math.min(
+            imageUrls.length,
+            Math.max(1, highPriorityCount ?? 3)
+          );
+
+          const immediateImages = imageUrls.slice(0, immediateCount);
+          const deferredImages = imageUrls.slice(immediateCount);
+
+          await Promise.allSettled(immediateImages.map(preloadImage));
+
+          for (const deferredUrl of deferredImages) {
+            await preloadImage(deferredUrl);
+          }
         } else {
           // Load non-priority images in smaller batches
           const batchSize = 3;
@@ -71,7 +94,7 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
             
             // Small delay between batches to prevent overwhelming the browser
             if (i + batchSize < imageUrls.length) {
-              await new Promise(resolve => setTimeout(resolve, 50));
+              await new Promise(resolve => setTimeout(resolve, 75));
             }
           }
         }
@@ -83,7 +106,10 @@ export const useImagePreload = (imageUrls: string[], options: UseImagePreloadOpt
     };
 
     preloadBatch();
-  }, [imageUrls, priority]);
+    return () => {
+      isMounted = false;
+    };
+  }, [imageUrls, priority, highPriorityCount]);
 
   return {
     loadedImages,

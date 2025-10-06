@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { LockKeyhole, ArrowLeft, ShieldCheck, AlertCircle } from 'lucide-react';
-import {
-  ADMIN_USERNAME,
-  ADMIN_PASSWORD,
-  ADMIN_STORAGE_KEY,
-  ADMIN_DEFAULT_CREDENTIALS_IN_USE,
-  getAdminAuthorizationToken,
-} from '../lib/adminConfig';
+import { useLanguage } from '../i18n/LanguageContext';
+import { AdminAuthError, loginAsAdmin } from '../lib/adminConfig';
 
 type AdminLoginProps = {
   onSuccess: () => void;
@@ -15,12 +10,14 @@ type AdminLoginProps = {
 };
 
 const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
+  const { language } = useLanguage();
+  const isTR = language === 'tr';
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
     setIsSubmitting(true);
@@ -28,23 +25,42 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
 
-    const isValid =
-      trimmedUsername === ADMIN_USERNAME && trimmedPassword === ADMIN_PASSWORD;
-
-    if (!isValid) {
-      setTimeout(() => {
-        setError('Bilgiler eşleşmedi. Kullanıcı adı veya şifre hatalı.');
-        setIsSubmitting(false);
-      }, 400);
-      return;
-    }
-
-    localStorage.setItem(ADMIN_STORAGE_KEY, getAdminAuthorizationToken());
-
-    setTimeout(() => {
+    try {
+      await loginAsAdmin(trimmedUsername, trimmedPassword);
       setIsSubmitting(false);
       onSuccess();
-    }, 300);
+    } catch (error) {
+      let message = isTR
+        ? 'Giriş yapılamadı. Lütfen bilgilerinizi kontrol edin.'
+        : 'Unable to sign in. Please check your credentials.';
+
+      if (error instanceof AdminAuthError) {
+        switch (error.code) {
+          case 'CONFIG':
+            message = isTR
+              ? 'Yönetici girişi yapılandırılmamış. Supabase ve yönetici şifre değişkenlerini tanımlayın.'
+              : 'Admin login is not configured. Please provide the Supabase and admin credential environment variables.';
+            break;
+          case 'INVALID_CREDENTIALS':
+            message = isTR
+              ? 'Kullanıcı adı veya şifre hatalı.'
+              : 'Username or password is incorrect.';
+            break;
+          case 'NETWORK':
+            message = isTR
+              ? 'Kimlik doğrulama servisine ulaşamıyoruz. Daha sonra tekrar deneyin.'
+              : 'Unable to reach the authentication service. Please try again later.';
+            break;
+          default:
+            break;
+        }
+      }
+
+      setTimeout(() => {
+        setError(message);
+        setIsSubmitting(false);
+      }, 300);
+    }
   };
 
   const fadeInUp = {
@@ -67,7 +83,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
             className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-10"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span>Ana Sayfaya Dön</span>
+            <span>{isTR ? 'Ana Sayfaya Dön' : 'Back to Home'}</span>
           </motion.button>
 
           <motion.div
@@ -88,37 +104,22 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
               </motion.div>
 
               <h1 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
-                Yönetim Paneli Girişi
+                {isTR ? 'Yönetim Paneli Girişi' : 'Admin Panel Login'}
               </h1>
               <p className="text-gray-300 max-w-xl">
-                Yönetim paneline erişmek için yetkili kullanıcı adı ve şifreyi girin.
-                Bu bilgiler kulüp yönetimi tarafından paylaşılır.
+                {isTR
+                  ? 'Yönetim paneline erişmek için yetkili kullanıcı adı ve şifreyi girin. Bu bilgiler kulüp yönetimi tarafından paylaşılır.'
+                  : 'Enter the authorised username and password to access the admin panel. These credentials are shared by the club management.'}
               </p>
             </div>
 
-            {ADMIN_DEFAULT_CREDENTIALS_IN_USE && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mb-8 flex items-center space-x-3 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 px-4 py-3 text-left text-sm text-yellow-100"
-              >
-                <AlertCircle className="w-4 h-4 flex-shrink-0 text-yellow-300" />
-                <span>
-                  Varsayılan yönetici bilgileri kullanılıyor. Güvenlik için `.env`
-                  dosyanıza `VITE_ADMIN_USERNAME` ve `VITE_ADMIN_PASSWORD`
-                  değişkenlerini tanımlayın.
-                </span>
-              </motion.div>
-            )}
-
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2 text-left">
-                <label className="text-sm font-semibold text-gray-300">Kullanıcı Adı</label>
+                <label className="text-sm font-semibold text-gray-300">{isTR ? 'Kullanıcı Adı' : 'Username'}</label>
                 <input
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
-                  placeholder="Yönetici kullanıcı adını girin"
+                  placeholder={isTR ? 'Yönetici kullanıcı adını girin' : 'Enter administrator username'}
                   className="w-full rounded-xl border border-gray-700 bg-black/50 px-4 py-3 text-white placeholder-gray-500 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition"
                   autoComplete="username"
                   disabled={isSubmitting}
@@ -127,12 +128,12 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
               </div>
 
               <div className="space-y-2 text-left">
-                <label className="text-sm font-semibold text-gray-300">Şifre</label>
+                <label className="text-sm font-semibold text-gray-300">{isTR ? 'Şifre' : 'Password'}</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  placeholder="Yönetici şifresini girin"
+                  placeholder={isTR ? 'Yönetici şifresini girin' : 'Enter administrator password'}
                   className="w-full rounded-xl border border-gray-700 bg-black/50 px-4 py-3 text-white placeholder-gray-500 focus:border-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-400/20 transition"
                   autoComplete="current-password"
                   disabled={isSubmitting}
@@ -161,7 +162,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onSuccess, onBack }) => {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative flex items-center space-x-3">
                   <ShieldCheck className={`w-5 h-5 ${isSubmitting ? 'animate-spin' : ''}`} />
-                  <span>{isSubmitting ? 'Doğrulanıyor...' : 'Giriş Yap'}</span>
+                  <span>{isSubmitting ? (isTR ? 'Doğrulanıyor...' : 'Verifying...') : isTR ? 'Giriş Yap' : 'Sign In'}</span>
                 </div>
               </motion.button>
             </form>

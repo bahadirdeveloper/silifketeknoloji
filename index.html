@@ -9,14 +9,17 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com https://i.ytimg.com https://img.youtube.com; connect-src 'self' https://*.supabase.co; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://images.unsplash.com https://i.ytimg.com https://img.youtube.com; connect-src 'self' https://*.supabase.co https://*.supabase.in; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" />
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
     
     <!-- Favicon and PWA -->
     <link rel="icon" type="image/png" sizes="32x32" href="/logo-64.png" />
     <link rel="apple-touch-icon" href="/logo-128.png" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="canonical" href="https://silifketeknoloji.com/" />
+    <link rel="canonical" href="https://silifketeknoloji.org/" />
+    <link rel="alternate" href="https://silifketeknoloji.org/" hreflang="tr" />
+    <link rel="alternate" href="https://silifketeknoloji.org/?lang=en" hreflang="en" />
+    <link rel="alternate" href="https://silifketeknoloji.org/" hreflang="x-default" />
     
     <!-- Viewport and Basic Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -49,13 +52,14 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Silifke Teknoloji Kulübü - Yenilik, İşbirliği, Gelecek" />
     <meta property="og:description" content="29 Kasım 2025 Cumartesi 20:00-22:00 gerçekleşecek Silifke Teknoloji Kulübü ilk buluşmasına davetlisiniz. 2025-2026 teknoloji ve girişimcilik fırsatlarını birlikte planlayalım." />
-    <meta property="og:image" content="https://silifketeknoloji.com/logo-512.png" />
+    <meta property="og:image" content="https://silifketeknoloji.org/logo-512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:url" content="https://silifketeknoloji.com" />
+    <meta property="og:url" content="https://silifketeknoloji.org" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:site_name" content="Silifke Teknoloji Kulübü" />
     <meta property="og:updated_time" content="2025-11-29T22:00:00+03:00" />
 
@@ -63,7 +67,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Silifke Teknoloji Kulübü" />
     <meta name="twitter:description" content="Silifke Teknoloji Kulübü 29 Kasım 2025 Cumartesi 20:00-22:00 ilk buluşmasıyla 2025-2026 teknoloji ve girişimcilik yol haritamızı başlatıyoruz." />
-    <meta name="twitter:image" content="/logo-512.png" />
+    <meta name="twitter:image" content="https://silifketeknoloji.org/logo-512.png" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -71,8 +75,8 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Silifke Teknoloji Kulübü",
-      "url": "https://silifketeknoloji.com",
-      "logo": "/logo-512.png",
+      "url": "https://silifketeknoloji.org",
+      "logo": "https://silifketeknoloji.org/logo-512.png",
       "description": "Yerelden başlayarak insanların sorunlarına teknolojiyle çözümler üreten kulüp",
       "foundingDate": "2023",
       "sameAs": [
@@ -88,7 +92,7 @@
         "endDate": "2025-11-29T22:00:00+03:00",
         "description": "Silifke Teknoloji Kulübü'nün 29 Kasım 2025 Cumartesi 20:00-22:00 gerçekleşecek tanışma buluşması ve 2025-2026 yol haritası paylaşımı.",
         "image": [
-          "https://silifketeknoloji.com/logo-512.png"
+          "https://silifketeknoloji.org/logo-512.png"
         ],
         "location": {
           "@type": "Place",
@@ -105,11 +109,11 @@
         "organizer": {
           "@type": "Organization",
           "name": "Silifke Teknoloji Kulübü",
-          "url": "https://silifketeknoloji.com"
+          "url": "https://silifketeknoloji.org"
         },
         "offers": {
           "@type": "Offer",
-          "url": "https://silifketeknoloji.com",
+          "url": "https://silifketeknoloji.org",
           "price": "0",
           "priceCurrency": "TRY",
           "availability": "https://schema.org/InStock",
@@ -134,19 +138,6 @@
     
     <title>Silifke Teknoloji Kulübü - Yenilik, İşbirliği, Gelecek</title>
     
-    <!-- Critical CSS inlining for faster rendering -->
-    <style>
-      body { 
-        margin: 0; 
-        padding: 0; 
-        background-color: #000; 
-        color: #fff;
-        font-family: system-ui, -apple-system, sans-serif;
-      }
-      #root { 
-        min-height: 100vh;
-      }
-    </style>
   </head>
   <body>
     <div id="root"></div>

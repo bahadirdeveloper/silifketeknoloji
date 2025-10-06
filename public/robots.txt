@@ -16,4 +16,4 @@ Allow: /public/
 Allow: /assets/
 
 # Sitemap
-Sitemap: https://silifketeknoloji.com/sitemap.xml
+Sitemap: https://silifketeknoloji.org/sitemap.xml

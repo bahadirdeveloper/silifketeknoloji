@@ -61,21 +61,9 @@ Deno.serve(async (req: Request) => {
       throw updateError;
     }
 
-    // Send Discord notification
+    // Send Discord notification without exposing sensitive data
     if (discordWebhookUrl) {
       await sendDiscordNotification(application, scoring, discordWebhookUrl);
-    }
-
-    // Auto-approve high-scoring applications for community level
-    if (scoring.total >= 70) {
-      await supabase
-        .from('applications')
-        .update({
-          status: 'approved',
-          level: 'community',
-          admin_notes: 'Otomatik onay - yüksek puan'
-        })
-        .eq('id', application.id);
     }
 
     return new Response(
@@ -83,7 +71,7 @@ Deno.serve(async (req: Request) => {
         success: true, 
         application_id: application.id,
         score: scoring.total,
-        status: scoring.total >= 70 ? 'auto_approved' : 'under_review'
+        status: 'under_review'
       }),
       {
         headers: { 'Content-Type': 'application/json' },
@@ -196,36 +184,32 @@ async function sendDiscordNotification(
   try {
     const embed = {
       title: "🆕 Yeni Üyelik Başvurusu",
-      color: scoring.total >= 70 ? 0x00ff00 : 0xffaa00,
+      color: 0xffaa00,
+      description: `Skor: ${scoring.total}/100 | ID: ${application.id}`,
       fields: [
         {
           name: "👤 Başvuran",
-          value: application.full_name,
+          value: maskFullName(application.full_name),
           inline: true
         },
         {
           name: "📧 E-posta",
-          value: application.email,
-          inline: true
-        },
-        {
-          name: "📱 Telefon",
-          value: application.phone,
+          value: maskEmail(application.email),
           inline: true
         },
         {
           name: "🎯 İlgi Alanları",
-          value: application.interests.join(", "),
+          value: formatInterestList(application.interests),
           inline: false
         },
         {
           name: "💻 Bilgisayar",
-          value: application.computer_type,
+          value: application.computer_type || 'Belirtilmemiş',
           inline: true
         },
         {
           name: "⏰ Haftalık Saat",
-          value: application.weekly_hours,
+          value: application.weekly_hours || 'Belirtilmemiş',
           inline: true
         },
         {
@@ -234,13 +218,13 @@ async function sendDiscordNotification(
           inline: true
         },
         {
-          name: "📈 Puan Detayı",
+          name: "📈 Puan Özeti",
           value: `Portfolio: ${scoring.portfolio_quality}/25\nMotivasyon: ${scoring.motivation_strength}/20\nTeknik: ${scoring.technical_skills}/20\nMüsaitlik: ${scoring.availability}/15\nDonanım: ${scoring.hardware_contribution}/20`,
           inline: false
         }
       ],
       footer: {
-        text: `Başvuru ID: ${application.id}`
+        text: 'Kişisel veriler maskelenmiştir'
       },
       timestamp: new Date().toISOString()
     };
@@ -259,4 +243,33 @@ async function sendDiscordNotification(
   } catch (error) {
     console.error('Error sending Discord notification:', error);
   }
+}
+
+function maskFullName(fullName: string): string {
+  if (!fullName) return 'Belirtilmedi';
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length === 0) return 'Belirtilmedi';
+
+  const [first, ...rest] = parts;
+  const initials = rest.map((part) => (part ? `${part.charAt(0).toUpperCase()}.` : '')).filter(Boolean).join(' ');
+  return initials ? `${first} ${initials}` : first;
+}
+
+function maskEmail(email: string): string {
+  if (!email || !email.includes('@')) return '***@***';
+  const [localPart, domain] = email.split('@');
+  if (!localPart) return `***@${domain}`;
+
+  const visible = localPart.slice(0, Math.min(2, localPart.length));
+  return `${visible}${'*'.repeat(Math.max(3, localPart.length - visible.length))}@${domain}`;
+}
+
+function formatInterestList(interests: string[]): string {
+  if (!interests || interests.length === 0) {
+    return 'Belirtilmemiş';
+  }
+
+  const list = interests.slice(0, 5).join(', ');
+  const remaining = interests.length - 5;
+  return remaining > 0 ? `${list} (+${remaining})` : list;
 }

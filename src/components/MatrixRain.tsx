@@ -24,6 +24,8 @@ const MatrixRain: React.FC<MatrixRainProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -58,10 +60,42 @@ const MatrixRain: React.FC<MatrixRainProps> = ({
       }
     };
 
-    const interval = setInterval(draw, 33 / speed);
+    const animationDelay = Math.max(24, 33 / Math.max(speed, 0.1));
+    let interval: number | null = null;
+
+    const startAnimation = () => {
+      if (interval !== null) return;
+      interval = window.setInterval(draw, animationDelay);
+    };
+
+    const stopAnimation = () => {
+      if (interval !== null) {
+        clearInterval(interval);
+        interval = null;
+      }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    };
+
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        stopAnimation();
+      } else {
+        stopAnimation();
+        startAnimation();
+      }
+    };
+
+    if (mediaQuery.matches) {
+      stopAnimation();
+    } else {
+      startAnimation();
+    }
+
+    mediaQuery.addEventListener('change', handleMotionChange);
 
     return () => {
-      clearInterval(interval);
+      stopAnimation();
+      mediaQuery.removeEventListener('change', handleMotionChange);
       window.removeEventListener('resize', resizeCanvas);
     };
   }, [fontSize, color, characters, fadeOpacity, speed]);

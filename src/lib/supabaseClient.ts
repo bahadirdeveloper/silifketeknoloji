@@ -1,11 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
+const SUPABASE_PLACEHOLDER_URL = 'https://placeholder.supabase.co';
+const SUPABASE_PLACEHOLDER_KEY = 'placeholder-key';
+
 // Supabase configuration
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'placeholder-key';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || SUPABASE_PLACEHOLDER_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || SUPABASE_PLACEHOLDER_KEY;
 
 // Development mode için geçici çözüm
-if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
+export const isSupabaseConfigured =
+  supabaseUrl !== SUPABASE_PLACEHOLDER_URL && supabaseAnonKey !== SUPABASE_PLACEHOLDER_KEY;
+
+if (!isSupabaseConfigured) {
   console.warn('⚠️ Supabase environment variables not set. Please create .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
 }
 
@@ -110,7 +116,7 @@ export async function submitApplication(data: ApplicationFormData): Promise<{ su
     // Check if Supabase is properly configured
     if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
       // Development mode - simulate success
-      console.log('Development mode: Simulating application submission', data);
+      console.log('Development mode: Simulating application submission');
       return { 
         success: true, 
         applicationId: 'dev-' + Date.now().toString() 

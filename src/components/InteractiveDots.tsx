@@ -168,6 +168,22 @@ const InteractiveDots: React.FC = () => {
 
   useEffect(() => {
     handleResize();
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) {
+      const canvas = canvasRef.current;
+      const context = canvas?.getContext('2d');
+      if (canvas && context) {
+        canvas.width = canvas.parentElement ? canvas.parentElement.clientWidth : window.innerWidth;
+        canvas.height = canvas.parentElement ? canvas.parentElement.clientHeight : window.innerHeight;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('resize', handleResize);
     

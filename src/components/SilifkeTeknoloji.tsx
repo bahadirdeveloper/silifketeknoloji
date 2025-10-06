@@ -15,7 +15,13 @@ import ThankYouPage from "./pages/ThankYouPage";
 import AdminPage from "./pages/AdminPage";
 import AdminLogin from "./AdminLogin";
 import BlogPage from "./pages/BlogPage";
-import { ADMIN_STORAGE_KEY, getAdminAuthorizationToken } from "../lib/adminConfig";
+import {
+  clearAdminSession,
+  getStoredAdminSession,
+  logoutAdminSession,
+  validateAdminSession,
+} from "../lib/adminConfig";
+import { useLanguage } from "../i18n/LanguageContext";
 
 // Lazy load heavy components
 const MatrixRain = lazy(() => import("./MatrixRain"));
@@ -24,7 +30,64 @@ const InteractiveDots = lazy(() => import("./InteractiveDots"));
 
 type CurrentPage = 'home' | 'about' | 'contact' | 'projects' | 'events' | 'join-club' | 'thank-you' | 'admin' | 'blog';
 
+const pagePathMap: Record<CurrentPage, string> = {
+  home: '/',
+  about: '/about',
+  contact: '/contact',
+  projects: '/projects',
+  events: '/events',
+  'join-club': '/katil',
+  'thank-you': '/tesekkurler',
+  admin: '/yonetim',
+  blog: '/blog',
+};
+
+function normalizePath(pathname: string): string {
+  if (!pathname) return '/';
+  const trimmed = pathname.trim().toLowerCase().replace(/\/+$/, '');
+  return trimmed === '' ? '/' : trimmed;
+}
+
+function resolvePageFromPath(pathname: string): CurrentPage {
+  const normalized = normalizePath(pathname);
+
+  switch (normalized) {
+    case '/':
+      return 'home';
+    case '/about':
+    case '/hakkimizda':
+      return 'about';
+    case '/contact':
+    case '/iletisim':
+      return 'contact';
+    case '/projects':
+    case '/projeler':
+      return 'projects';
+    case '/events':
+    case '/etkinlikler':
+      return 'events';
+    case '/katil':
+    case '/join':
+      return 'join-club';
+    case '/tesekkurler':
+    case '/thank-you':
+      return 'thank-you';
+    case '/yonetim':
+    case '/admin':
+      return 'admin';
+    case '/blog':
+      return 'blog';
+    default:
+      return 'home';
+  }
+}
+
 const SilifkeTeknoloji: React.FC = () => {
+  const { language, toggleLanguage } = useLanguage();
+  const isTR = language === 'tr';
+  const toggleButtonLabel = isTR ? 'EN' : 'TR';
+  const toggleAriaLabel = isTR ? 'İngilizce diline geç' : 'Türkçe diline geç';
+  const animatedWords = isTR ? ['Yenilik', 'İşbirliği', 'Gelecek', 'Değişim'] : ['Innovation', 'Collaboration', 'Future', 'Change'];
   const [isScrolled, setIsScrolled] = useState(false);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState<CurrentPage>('home');
@@ -60,23 +123,31 @@ const SilifkeTeknoloji: React.FC = () => {
 
   const heroHighlights = [
     {
-      title: "Yapay Zeka & Otomasyon",
-      description: "Projeleri GPT-asistanları ve özel otomasyonlarla hızlandırıyoruz.",
+      title: isTR ? "Yapay Zeka & Otomasyon" : "AI & Automation",
+      description: isTR
+        ? "Projeleri GPT-asistanları ve özel otomasyonlarla hızlandırıyoruz."
+        : "We accelerate projects with GPT assistants and tailored automations.",
       icon: Sparkles
     },
     {
-      title: "Ürünleştirme Mentorluğu",
-      description: "Fikirleri iş modeline dönüştürmek için haftalık mentorluk seansları.",
+      title: isTR ? "Ürünleştirme Mentorluğu" : "Productization Mentorship",
+      description: isTR
+        ? "Fikirleri iş modeline dönüştürmek için haftalık mentorluk seansları."
+        : "Weekly mentorship sessions to turn ideas into sustainable business models.",
       icon: HeartHandshake
     },
     {
-      title: "Teknoloji Atölyeleri",
-      description: "Modern stack'lerle kod kampı, veri bilimi ve tasarım oturumları.",
+      title: isTR ? "Teknoloji Atölyeleri" : "Technology Workshops",
+      description: isTR
+        ? "Modern stack'lerle kod kampı, veri bilimi ve tasarım oturumları."
+        : "Coding camps, data science, and design sessions built on modern stacks.",
       icon: Cpu
     },
     {
-      title: "Yerel Etki Programları",
-      description: "Silifke’de sosyal fayda yaratan girişimleri birlikte kuruyoruz.",
+      title: isTR ? "Yerel Etki Programları" : "Local Impact Programs",
+      description: isTR
+        ? "Silifke’de sosyal fayda yaratan girişimleri birlikte kuruyoruz."
+        : "We co-create initiatives that deliver social impact across Silifke.",
       icon: Globe2
     }
   ];
@@ -85,166 +156,496 @@ const SilifkeTeknoloji: React.FC = () => {
   const quickAccessVideoUrl = `https://www.youtube.com/embed/${quickAccessVideoId}?autoplay=1&rel=0&modestbranding=1`;
   const quickAccessThumbnail = `https://img.youtube.com/vi/${quickAccessVideoId}/hqdefault.jpg`;
 
-  const features = [
+  const featureData = [
     {
-      title: "Uygulama Geliştirme",
-      desc: "Web ve mobil için uygulamalar geliştiriyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "📱 Web ve mobil için uygulamalar geliştiriyoruz. Önce fikri birlikte planlıyor, sonra vibe coding (eş zamanlı ortak kodlama yaklaşımı) ile adım adım kodlayarak hayata geçiriyoruz.",
-      details: {
-        vision: "Silifke'nin teknoloji alanında öncü olmasını hedefleyerek, yerel işletmeler ve girişimciler için modern, ölçeklenebilir ve kullanıcı dostu uygulamalar geliştiriyoruz. Amacımız, teknolojinin gücünü kullanarak bölgemizin dijital dönüşümüne katkıda bulunmak.",
-        services: [
-          "Responsive Web Uygulamaları",
-          "Mobil Uygulama Geliştirme (iOS & Android)",
-          "E-ticaret Platformları",
-          "Kurumsal Web Siteleri",
-          "Progressive Web Apps (PWA)",
-          "API Geliştirme ve Entegrasyon"
-        ],
-        technologies: ["React", "Next.js", "Node.js", "TypeScript", "Flutter", "React Native", "PostgreSQL", "MongoDB", "Firebase", "AWS"],
-        examples: [
-          "Yerel restoran için online sipariş sistemi geliştirmek",
-          "Turizm acentesi için rezervasyon ve tur yönetim uygulaması",
-          "Tarım kooperatifi için ürün takip ve satış platformu",
-          "Belediye için vatandaş hizmet portalı"
-        ]
+      content: {
+        tr: {
+          title: "Uygulama Geliştirme",
+          desc: "Web ve mobil için uygulamalar geliştiriyoruz.",
+          detailedContent:
+            "📱 Web ve mobil için uygulamalar geliştiriyoruz. Önce fikri birlikte planlıyor, sonra vibe coding (eş zamanlı ortak kodlama yaklaşımı) ile adım adım kodlayarak hayata geçiriyoruz.",
+          details: {
+            vision:
+              "Silifke'nin teknoloji alanında öncü olmasını hedefleyerek, yerel işletmeler ve girişimciler için modern, ölçeklenebilir ve kullanıcı dostu uygulamalar geliştiriyoruz. Amacımız, teknolojinin gücünü kullanarak bölgemizin dijital dönüşümüne katkıda bulunmak.",
+            services: [
+              "Responsive Web Uygulamaları",
+              "Mobil Uygulama Geliştirme (iOS & Android)",
+              "E-ticaret Platformları",
+              "Kurumsal Web Siteleri",
+              "Progressive Web Apps (PWA)",
+              "API Geliştirme ve Entegrasyon"
+            ],
+            technologies: [
+              "React",
+              "Next.js",
+              "Node.js",
+              "TypeScript",
+              "Flutter",
+              "React Native",
+              "PostgreSQL",
+              "MongoDB",
+              "Firebase",
+              "AWS"
+            ],
+            examples: [
+              "Yerel restoran için online sipariş sistemi geliştirmek",
+              "Turizm acentesi için rezervasyon ve tur yönetim uygulaması",
+              "Tarım kooperatifi için ürün takip ve satış platformu",
+              "Belediye için vatandaş hizmet portalı"
+            ]
+          }
+        },
+        en: {
+          title: "Application Development",
+          desc: "We build applications for web and mobile.",
+          detailedContent:
+            "📱 We build applications for web and mobile. We start by planning the idea together, then bring it to life step by step with vibe coding—our synchronous co-coding approach.",
+          details: {
+            vision:
+              "We aim to position Silifke as a technology pioneer by creating modern, scalable, and user-friendly applications for local businesses and entrepreneurs. Our goal is to contribute to the region's digital transformation by harnessing technology.",
+            services: [
+              "Responsive Web Applications",
+              "Mobile App Development (iOS & Android)",
+              "E-commerce Platforms",
+              "Corporate Websites",
+              "Progressive Web Apps (PWA)",
+              "API Development & Integration"
+            ],
+            technologies: [
+              "React",
+              "Next.js",
+              "Node.js",
+              "TypeScript",
+              "Flutter",
+              "React Native",
+              "PostgreSQL",
+              "MongoDB",
+              "Firebase",
+              "AWS"
+            ],
+            examples: [
+              "Building an online ordering system for a local restaurant",
+              "Reservation and tour management app for a travel agency",
+              "Product tracking and sales platform for an agricultural cooperative",
+              "Citizen services portal for the municipality"
+            ]
+          }
+        }
       }
     },
     {
-      title: "UI/UX & Tasarım",
-      desc: "Kullanıcı dostu ve estetik arayüzler tasarlıyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "🎨 Kullanıcı dostu ve estetik arayüzler tasarlıyoruz. Önce ihtiyacı anlamaya çalışıyor, sonra basit ve şık çözümlerle ekranları hayata geçiriyoruz.",
-      details: {
-        vision: "Her dijital deneyimin arkasında güçlü bir tasarım felsefesi olduğuna inanıyoruz. Kullanıcıların ihtiyaçlarını anlayarak, hem estetik hem fonksiyonel tasarımlar yaratıyoruz. Hedefimiz, teknoloji ile insan arasındaki köprüyü güçlendirmek.",
-        services: [
-          "Kullanıcı Araştırması ve Analizi",
-          "Wireframe ve Prototipleme",
-          "Visual Identity Tasarımı",
-          "Responsive Tasarım",
-          "Usability Testing",
-          "Design System Oluşturma"
-        ],
-        technologies: ["Figma", "Adobe XD", "Sketch", "Principle", "InVision", "Miro", "Photoshop", "Illustrator"],
-        examples: [
-          "Yerel e-ticaret sitesi için kullanıcı deneyimi optimizasyonu",
-          "Mobil bankacılık uygulaması arayüz tasarımı",
-          "Eğitim platformu için interaktif öğrenme deneyimi",
-          "Sağlık uygulaması için erişilebilir tasarım çözümleri"
-        ]
+      content: {
+        tr: {
+          title: "UI/UX & Tasarım",
+          desc: "Kullanıcı dostu ve estetik arayüzler tasarlıyoruz.",
+          detailedContent:
+            "🎨 Kullanıcı dostu ve estetik arayüzler tasarlıyoruz. Önce ihtiyacı anlamaya çalışıyor, sonra basit ve şık çözümlerle ekranları hayata geçiriyoruz.",
+          details: {
+            vision:
+              "Her dijital deneyimin arkasında güçlü bir tasarım felsefesi olduğuna inanıyoruz. Kullanıcıların ihtiyaçlarını anlayarak, hem estetik hem fonksiyonel tasarımlar yaratıyoruz. Hedefimiz, teknoloji ile insan arasındaki köprüyü güçlendirmek.",
+            services: [
+              "Kullanıcı Araştırması ve Analizi",
+              "Wireframe ve Prototipleme",
+              "Visual Identity Tasarımı",
+              "Responsive Tasarım",
+              "Usability Testing",
+              "Design System Oluşturma"
+            ],
+            technologies: [
+              "Figma",
+              "Adobe XD",
+              "Sketch",
+              "Principle",
+              "InVision",
+              "Miro",
+              "Photoshop",
+              "Illustrator"
+            ],
+            examples: [
+              "Yerel e-ticaret sitesi için kullanıcı deneyimi optimizasyonu",
+              "Mobil bankacılık uygulaması arayüz tasarımı",
+              "Eğitim platformu için interaktif öğrenme deneyimi",
+              "Sağlık uygulaması için erişilebilir tasarım çözümleri"
+            ]
+          }
+        },
+        en: {
+          title: "UI/UX & Design",
+          desc: "We design user-friendly and aesthetic interfaces.",
+          detailedContent:
+            "🎨 We design user-friendly and aesthetic interfaces. We first seek to understand the need, then bring screens to life with simple and elegant solutions.",
+          details: {
+            vision:
+              "We believe every digital experience stands on a strong design philosophy. By understanding users' needs, we craft designs that are both aesthetic and functional. Our goal is to strengthen the bridge between people and technology.",
+            services: [
+              "User Research & Analysis",
+              "Wireframing & Prototyping",
+              "Visual Identity Design",
+              "Responsive Design",
+              "Usability Testing",
+              "Design System Creation"
+            ],
+            technologies: [
+              "Figma",
+              "Adobe XD",
+              "Sketch",
+              "Principle",
+              "InVision",
+              "Miro",
+              "Photoshop",
+              "Illustrator"
+            ],
+            examples: [
+              "User experience optimisation for a local e-commerce site",
+              "Interface design for a mobile banking app",
+              "Interactive learning experience for an education platform",
+              "Accessible design solutions for a health application"
+            ]
+          }
+        }
       }
     },
     {
-      title: "Yapay Zeka Entegrasyonu",
-      desc: "Projelerinize yapay zeka ekliyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "🤖 Projelerinize yapay zeka ekliyoruz. Tekrar eden işleri otomatikleştiriyor, verilerinizi daha akıllı kullanmanızı sağlıyoruz.",
-      details: {
-        vision: "Yapay zeka teknolojilerini günlük hayatın her alanına entegre ederek, verimliliği artıran ve hayatı kolaylaştıran çözümler üretiyoruz. Amacımız, AI'ın gücünü herkesin erişebileceği şekilde demokratikleştirmek.",
-        services: [
-          "Chatbot ve Sanal Asistan Geliştirme",
-          "Veri Analizi ve Tahmin Modelleri",
-          "Görüntü İşleme ve Tanıma Sistemleri",
-          "Doğal Dil İşleme Uygulamaları",
-          "Otomasyon Sistemleri",
-          "Makine Öğrenmesi Danışmanlığı"
-        ],
-        technologies: ["Python", "TensorFlow", "PyTorch", "OpenAI API", "Hugging Face", "Scikit-learn", "OpenCV", "NLTK", "spaCy"],
-        examples: [
-          "Tarım arazileri için drone ile hasat analizi sistemi",
-          "Turizm rehberi için akıllı öneri motoru",
-          "Müşteri hizmetleri için Türkçe chatbot geliştirme",
-          "Sosyal medya içerik analizi ve sentiment analizi"
-        ]
+      content: {
+        tr: {
+          title: "Yapay Zeka Entegrasyonu",
+          desc: "Projelerinize yapay zeka ekliyoruz.",
+          detailedContent:
+            "🤖 Projelerinize yapay zeka ekliyoruz. Tekrar eden işleri otomatikleştiriyor, verilerinizi daha akıllı kullanmanızı sağlıyoruz.",
+          details: {
+            vision:
+              "Yapay zeka teknolojilerini günlük hayatın her alanına entegre ederek, verimliliği artıran ve hayatı kolaylaştıran çözümler üretiyoruz. Amacımız, AI'ın gücünü herkesin erişebileceği şekilde demokratikleştirmek.",
+            services: [
+              "Chatbot ve Sanal Asistan Geliştirme",
+              "Veri Analizi ve Tahmin Modelleri",
+              "Görüntü İşleme ve Tanıma Sistemleri",
+              "Doğal Dil İşleme Uygulamaları",
+              "Otomasyon Sistemleri",
+              "Makine Öğrenmesi Danışmanlığı"
+            ],
+            technologies: [
+              "Python",
+              "TensorFlow",
+              "PyTorch",
+              "OpenAI API",
+              "Hugging Face",
+              "Scikit-learn",
+              "OpenCV",
+              "NLTK",
+              "spaCy"
+            ],
+            examples: [
+              "Tarım arazileri için drone ile hasat analizi sistemi",
+              "Turizm rehberi için akıllı öneri motoru",
+              "Müşteri hizmetleri için Türkçe chatbot geliştirme",
+              "Sosyal medya içerik analizi ve sentiment analizi"
+            ]
+          }
+        },
+        en: {
+          title: "AI Integration",
+          desc: "We add artificial intelligence to your projects.",
+          detailedContent:
+            "🤖 We bring AI into your projects. We automate repetitive tasks and help you use your data more intelligently.",
+          details: {
+            vision:
+              "By integrating AI technologies into everyday life, we create solutions that increase efficiency and make life easier. Our goal is to democratise the power of AI so everyone can benefit from it.",
+            services: [
+              "Chatbot & Virtual Assistant Development",
+              "Data Analysis & Predictive Models",
+              "Computer Vision & Recognition Systems",
+              "Natural Language Processing Applications",
+              "Automation Systems",
+              "Machine Learning Consulting"
+            ],
+            technologies: [
+              "Python",
+              "TensorFlow",
+              "PyTorch",
+              "OpenAI API",
+              "Hugging Face",
+              "Scikit-learn",
+              "OpenCV",
+              "NLTK",
+              "spaCy"
+            ],
+            examples: [
+              "Harvest analysis system with drones for agricultural fields",
+              "Smart recommendation engine for a tourism guide",
+              "Developing a Turkish-language chatbot for customer service",
+              "Social media content analysis and sentiment measurement"
+            ]
+          }
+        }
       }
     },
     {
-      title: "Takım Çalışması & Proje Yönetimi",
-      desc: "Fikirleri birlikte şekillendiriyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "👥 Fikirleri birlikte şekillendiriyoruz. Görevleri paylaşıyor, birbirimize destek oluyor ve projeleri adım adım tamamlıyoruz.",
-      details: {
-        vision: "Başarılı projelerin arkasında güçlü takım çalışması ve etkili proje yönetimi olduğuna inanıyoruz. Modern metodolojileri kullanarak, hem bireysel hem de takım performansını en üst seviyeye çıkarıyoruz.",
-        services: [
-          "Agile/Scrum Koçluğu",
-          "Proje Planlama ve Yönetimi",
-          "Takım Oluşturma ve Geliştirme",
-          "Sprint Planning ve Review",
-          "Risk Yönetimi",
-          "Kalite Güvence Süreçleri"
-        ],
-        technologies: ["Jira", "Trello", "Asana", "Slack", "Microsoft Teams", "GitHub", "GitLab", "Confluence", "Notion"],
-        examples: [
-          "Yazılım geliştirme takımı için Scrum süreç implementasyonu",
-          "Uzaktan çalışan ekipler için iş birliği platformu kurulumu",
-          "Startup için MVP geliştirme süreç yönetimi",
-          "Büyük ölçekli proje için risk analizi ve mitigation planı"
-        ]
+      content: {
+        tr: {
+          title: "Takım Çalışması & Proje Yönetimi",
+          desc: "Fikirleri birlikte şekillendiriyoruz.",
+          detailedContent:
+            "👥 Fikirleri birlikte şekillendiriyoruz. Görevleri paylaşıyor, birbirimize destek oluyor ve projeleri adım adım tamamlıyoruz.",
+          details: {
+            vision:
+              "Başarılı projelerin arkasında güçlü takım çalışması ve etkili proje yönetimi olduğuna inanıyoruz. Modern metodolojileri kullanarak, hem bireysel hem de takım performansını en üst seviyeye çıkarıyoruz.",
+            services: [
+              "Agile/Scrum Koçluğu",
+              "Proje Planlama ve Yönetimi",
+              "Takım Oluşturma ve Geliştirme",
+              "Sprint Planning ve Review",
+              "Risk Yönetimi",
+              "Kalite Güvence Süreçleri"
+            ],
+            technologies: [
+              "Jira",
+              "Trello",
+              "Asana",
+              "Slack",
+              "Microsoft Teams",
+              "GitHub",
+              "GitLab",
+              "Confluence",
+              "Notion"
+            ],
+            examples: [
+              "Yazılım geliştirme takımı için Scrum süreç implementasyonu",
+              "Uzaktan çalışan ekipler için iş birliği platformu kurulumu",
+              "Startup için MVP geliştirme süreç yönetimi",
+              "Büyük ölçekli proje için risk analizi ve mitigation planı"
+            ]
+          }
+        },
+        en: {
+          title: "Teamwork & Project Management",
+          desc: "We shape ideas together.",
+          detailedContent:
+            "👥 We shape ideas together. We share tasks, support one another, and complete projects step by step.",
+          details: {
+            vision:
+              "We believe successful projects are built on strong teamwork and effective project management. By using modern methodologies, we maximise both individual and team performance.",
+            services: [
+              "Agile/Scrum Coaching",
+              "Project Planning & Management",
+              "Team Formation & Development",
+              "Sprint Planning & Review",
+              "Risk Management",
+              "Quality Assurance Processes"
+            ],
+            technologies: [
+              "Jira",
+              "Trello",
+              "Asana",
+              "Slack",
+              "Microsoft Teams",
+              "GitHub",
+              "GitLab",
+              "Confluence",
+              "Notion"
+            ],
+            examples: [
+              "Implementing Scrum processes for a software development team",
+              "Setting up a collaboration platform for remote teams",
+              "Managing MVP development processes for a startup",
+              "Risk analysis and mitigation planning for a large-scale project"
+            ]
+          }
+        }
       }
     },
     {
-      title: "Startup & Ürünleştirme",
-      desc: "Fikirleri sadece konuşmuyoruz, hayata geçiriyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "🚀 Fikirleri sadece konuşmuyoruz, hayata geçiriyoruz. Ortaya çıkan projeleri gerçek iş modellerine dönüştürüp sürdürülebilir hale getiriyoruz.",
-      details: {
-        vision: "Silifke'yi bir girişimcilik merkezi haline getirmeyi hedefliyoruz. Yerel girişimcilere mentorluk sağlayarak, teknoloji tabanlı iş fikirlerinin hayata geçirilmesinde köprü görevi üstleniyoruz.",
-        services: [
-          "İş Modeli Geliştirme",
-          "MVP (Minimum Viable Product) Oluşturma",
-          "Pazar Araştırması ve Analizi",
-          "Yatırımcı Sunumu Hazırlama",
-          "Girişimcilik Mentorluğu",
-          "Ürün Pazarlama Stratejileri"
-        ],
-        technologies: ["Lean Canvas", "Design Thinking", "A/B Testing", "Google Analytics", "Mixpanel", "Hotjar", "Mailchimp", "HubSpot"],
-        examples: [
-          "Yerel üretici pazarı için dijital platform geliştirme",
-          "Turizm startup'ı için rezervasyon sistemi MVP'si",
-          "EdTech girişimi için öğrenme platformu prototipi",
-          "AgriTech çözümü için çiftçi-tüketici bağlantı uygulaması"
-        ]
+      content: {
+        tr: {
+          title: "Startup & Ürünleştirme",
+          desc: "Fikirleri sadece konuşmuyoruz, hayata geçiriyoruz.",
+          detailedContent:
+            "🚀 Fikirleri sadece konuşmuyoruz, hayata geçiriyoruz. Ortaya çıkan projeleri gerçek iş modellerine dönüştürüp sürdürülebilir hale getiriyoruz.",
+          details: {
+            vision:
+              "Silifke'yi bir girişimcilik merkezi haline getirmeyi hedefliyoruz. Yerel girişimcilere mentorluk sağlayarak, teknoloji tabanlı iş fikirlerinin hayata geçirilmesinde köprü görevi üstleniyoruz.",
+            services: [
+              "İş Modeli Geliştirme",
+              "MVP (Minimum Viable Product) Oluşturma",
+              "Pazar Araştırması ve Analizi",
+              "Yatırımcı Sunumu Hazırlama",
+              "Girişimcilik Mentorluğu",
+              "Ürün Pazarlama Stratejileri"
+            ],
+            technologies: [
+              "Lean Canvas",
+              "Design Thinking",
+              "A/B Testing",
+              "Google Analytics",
+              "Mixpanel",
+              "Hotjar",
+              "Mailchimp",
+              "HubSpot"
+            ],
+            examples: [
+              "Yerel üretici pazarı için dijital platform geliştirme",
+              "Turizm startup'ı için rezervasyon sistemi MVP'si",
+              "EdTech girişimi için öğrenme platformu prototipi",
+              "AgriTech çözümü için çiftçi-tüketici bağlantı uygulaması"
+            ]
+          }
+        },
+        en: {
+          title: "Startup & Productization",
+          desc: "We don't just talk about ideas—we ship them.",
+          detailedContent:
+            "🚀 We don't just talk about ideas; we launch them. We transform emerging projects into real business models and make them sustainable.",
+          details: {
+            vision:
+              "We aim to turn Silifke into a hub for entrepreneurship. By mentoring local founders, we act as a bridge that helps technology-based ideas come to life.",
+            services: [
+              "Business Model Development",
+              "MVP (Minimum Viable Product) Creation",
+              "Market Research & Analysis",
+              "Investor Pitch Preparation",
+              "Entrepreneurship Mentoring",
+              "Product Marketing Strategies"
+            ],
+            technologies: [
+              "Lean Canvas",
+              "Design Thinking",
+              "A/B Testing",
+              "Google Analytics",
+              "Mixpanel",
+              "Hotjar",
+              "Mailchimp",
+              "HubSpot"
+            ],
+            examples: [
+              "Developing a digital platform for local producer markets",
+              "Reservation system MVP for a tourism startup",
+              "Learning platform prototype for an EdTech venture",
+              "Farmer-to-consumer connection app for an AgriTech solution"
+            ]
+          }
+        }
       }
     },
     {
-      title: "Sosyal Etki & Topluluk",
-      desc: "Yerelde gördüğümüz sorunlara teknolojiyle çözümler üretiyoruz.",
       imageUrl: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80",
-      detailedContent: "🌍 Yerelde gördüğümüz sorunlara teknolojiyle çözümler üretiyoruz. Bunu yaparken hem topluma fayda sağlıyor, birlikte değer üretiyoruz ve zamanla ciddi gelirler elde ediyoruz.",
-      details: {
-        vision: "Teknolojinin toplumsal fayda için kullanılması gerektiğine inanıyoruz. Silifke ve çevresindeki toplumsal sorunları tespit ederek, sürdürülebilir ve etkili teknolojik çözümler geliştiriyoruz.",
-        services: [
-          "Sosyal Etki Analizi",
-          "Toplum Temelli Çözüm Geliştirme",
-          "Gönüllü Yönetim Sistemleri",
-          "Eğitim ve Farkındalık Platformları",
-          "Çevre Koruma Uygulamaları",
-          "Dijital Kapsayıcılık Projeleri"
-        ],
-        technologies: ["Open Source", "Progressive Web Apps", "Offline-First", "Accessibility Standards", "Multi-language Support"],
-        examples: [
-          "Yaşlılar için dijital okuryazarlık eğitim platformu",
-          "Çevre gönüllüleri için koordinasyon uygulaması",
-          "Yerel kültür ve tarih arşivleme projesi",
-          "Engelli bireylerin erişilebilirliği için akıllı şehir çözümleri"
-        ]
+      content: {
+        tr: {
+          title: "Sosyal Etki & Topluluk",
+          desc: "Yerelde gördüğümüz sorunlara teknolojiyle çözümler üretiyoruz.",
+          detailedContent:
+            "🌍 Yerelde gördüğümüz sorunlara teknolojiyle çözümler üretiyoruz. Bunu yaparken hem topluma fayda sağlıyor, birlikte değer üretiyoruz ve zamanla ciddi gelirler elde ediyoruz.",
+          details: {
+            vision:
+              "Teknolojinin toplumsal fayda için kullanılması gerektiğine inanıyoruz. Silifke ve çevresindeki toplumsal sorunları tespit ederek, sürdürülebilir ve etkili teknolojik çözümler geliştiriyoruz.",
+            services: [
+              "Sosyal Etki Analizi",
+              "Toplum Temelli Çözüm Geliştirme",
+              "Gönüllü Yönetim Sistemleri",
+              "Eğitim ve Farkındalık Platformları",
+              "Çevre Koruma Uygulamaları",
+              "Dijital Kapsayıcılık Projeleri"
+            ],
+            technologies: [
+              "Open Source",
+              "Progressive Web Apps",
+              "Offline-First",
+              "Accessibility Standards",
+              "Multi-language Support"
+            ],
+            examples: [
+              "Yaşlılar için dijital okuryazarlık eğitim platformu",
+              "Çevre gönüllüleri için koordinasyon uygulaması",
+              "Yerel kültür ve tarih arşivleme projesi",
+              "Engelli bireylerin erişilebilirliği için akıllı şehir çözümleri"
+            ]
+          }
+        },
+        en: {
+          title: "Social Impact & Community",
+          desc: "We solve local challenges with technology.",
+          detailedContent:
+            "🌍 We tackle the challenges we observe locally with technology. By doing so we create value together, deliver social benefit, and also build sustainable revenue over time.",
+          details: {
+            vision:
+              "We believe technology should be used for social good. We identify the societal challenges around Silifke and develop sustainable, high-impact technological solutions.",
+            services: [
+              "Social Impact Analysis",
+              "Community-led Solution Development",
+              "Volunteer Management Systems",
+              "Education & Awareness Platforms",
+              "Environmental Protection Applications",
+              "Digital Inclusion Projects"
+            ],
+            technologies: [
+              "Open Source",
+              "Progressive Web Apps",
+              "Offline-First",
+              "Accessibility Standards",
+              "Multi-language Support"
+            ],
+            examples: [
+              "Digital literacy training platform for seniors",
+              "Coordination app for environmental volunteers",
+              "Local culture and history archiving project",
+              "Smart city solutions that improve accessibility for people with disabilities"
+            ]
+          }
+        }
       }
     }
-  ];
+  ] as const;
+
+  const features = featureData.map((feature) => {
+    const localized = feature.content[language];
+    return {
+      title: localized.title,
+      desc: localized.desc,
+      imageUrl: feature.imageUrl,
+      detailedContent: localized.detailedContent,
+      details: {
+        vision: localized.details.vision,
+        services: Array.from(localized.details.services),
+        technologies: Array.from(localized.details.technologies),
+        examples: Array.from(localized.details.examples)
+      }
+    };
+  });
 
   // Preload all images for better performance
   const imageUrls = features.map(feature => feature.imageUrl);
-  useImagePreload(imageUrls, { priority: true });
+  useImagePreload(imageUrls, { priority: true, highPriorityCount: 2 });
 
   // Handle page navigation
   const handlePageChange = (page: CurrentPage) => {
     setCurrentPage(page);
-    setIsMobileMenuOpen(false); // Close mobile menu when navigating
+    setIsMobileMenuOpen(false);
+
+    if (typeof window !== 'undefined') {
+      const targetPath = pagePathMap[page] || '/';
+      const search = window.location.search;
+      const nextUrl = `${targetPath}${search}`;
+
+      if (window.location.pathname !== targetPath) {
+        window.history.pushState({ page }, '', nextUrl);
+      }
+    }
   };
 
   const handleBackToHome = () => {
     setCurrentPage('home');
     setIsMobileMenuOpen(false);
+
+    if (typeof window !== 'undefined') {
+      const search = window.location.search;
+      if (window.location.pathname !== '/') {
+        const nextUrl = search ? `/${search}` : '/';
+        window.history.pushState({ page: 'home' }, '', nextUrl);
+      }
+    }
   };
 
   const handleAdminLoginSuccess = () => {
@@ -253,10 +654,11 @@ const SilifkeTeknoloji: React.FC = () => {
   };
 
   const handleAdminLogout = () => {
+    const session = getStoredAdminSession();
     setIsAdminAuthorized(false);
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem(ADMIN_STORAGE_KEY);
-    }
+    logoutAdminSession(session?.token).finally(() => {
+      clearAdminSession();
+    });
     setIsMobileMenuOpen(false);
   };
 
@@ -272,32 +674,48 @@ const SilifkeTeknoloji: React.FC = () => {
 
   // Handle URL-based routing
   useEffect(() => {
-    const path = window.location.pathname;
-    switch (path) {
-      case '/tesekkurler':
-        setCurrentPage('thank-you');
-        break;
-      case '/yonetim':
-        setCurrentPage('admin');
-        break;
-      case '/katil':
-        setCurrentPage('join-club');
-        break;
-      case '/blog':
-        setCurrentPage('blog');
-        break;
-      default:
-        setCurrentPage('home');
-        break;
-    }
+    if (typeof window === 'undefined') return;
+
+    const handleRoute = () => {
+      const nextPage = resolvePageFromPath(window.location.pathname);
+      setCurrentPage(nextPage);
+      setIsMobileMenuOpen(false);
+    };
+
+    handleRoute();
+    window.addEventListener('popstate', handleRoute);
+
+    return () => {
+      window.removeEventListener('popstate', handleRoute);
+    };
   }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const storedToken = window.localStorage.getItem(ADMIN_STORAGE_KEY);
-    if (storedToken && storedToken === getAdminAuthorizationToken()) {
-      setIsAdminAuthorized(true);
+    let cancelled = false;
+    const session = getStoredAdminSession();
+
+    if (!session) {
+      clearAdminSession();
+      return;
     }
+
+    const runValidation = async () => {
+      const isValid = await validateAdminSession(session);
+      if (!cancelled) {
+        if (isValid) {
+          setIsAdminAuthorized(true);
+        } else {
+          clearAdminSession();
+          setIsAdminAuthorized(false);
+        }
+      }
+    };
+
+    runValidation();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   // Render current page
@@ -360,21 +778,21 @@ const SilifkeTeknoloji: React.FC = () => {
               onClick={() => handlePageChange('about')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
-              Hakkımızda
+              {isTR ? 'Hakkımızda' : 'About'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('contact')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
-              İletişim
+              {isTR ? 'İletişim' : 'Contact'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('blog')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
-              Blog
+              {isTR ? 'Blog' : 'Blog'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
           </motion.div>
@@ -401,7 +819,7 @@ const SilifkeTeknoloji: React.FC = () => {
               
               <img 
                 src="/logo-512.png" 
-                alt="Silifke Teknoloji Kulübü - Ana Sayfaya Dön" 
+                alt={isTR ? "Silifke Teknoloji Kulübü - Ana Sayfaya Dön" : "Silifke Technology Club - Back to Home"}
                 className="relative h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
                          scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
                          transition-all duration-500 cursor-pointer group-hover:drop-shadow-[0_0_45px_rgba(255,215,0,0.8)]"
@@ -410,7 +828,7 @@ const SilifkeTeknoloji: React.FC = () => {
                 width="512"
                 height="400"
                 onError={(e) => {
-                  console.error('Logo yüklenemedi:', e);
+                  console.error(isTR ? 'Logo yüklenemedi:' : 'Failed to load logo:', e);
                   (e.target as HTMLImageElement).src = '/logo-256.png';
                 }}
               />
@@ -428,15 +846,22 @@ const SilifkeTeknoloji: React.FC = () => {
               onClick={() => handlePageChange('projects')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
-              Projeler
+              {isTR ? 'Projeler' : 'Projects'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
             <button 
               onClick={() => handlePageChange('events')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
-              Etkinlikler
+              {isTR ? 'Etkinlikler' : 'Events'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </button>
+            <button
+              onClick={toggleLanguage}
+              className="px-4 py-2 rounded-full border border-yellow-400/40 text-yellow-200 hover:text-black hover:bg-yellow-400 transition-all duration-300 font-semibold text-sm"
+              aria-label={toggleAriaLabel}
+            >
+              {toggleButtonLabel}
             </button>
           </motion.div>
 
@@ -452,7 +877,7 @@ const SilifkeTeknoloji: React.FC = () => {
               className="relative w-10 h-10 bg-black/20 backdrop-blur-sm rounded-lg flex items-center justify-center
                        border border-yellow-400/20 hover:border-yellow-400/40 transition-all duration-300
                        focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
-              aria-label="Mobil menü"
+              aria-label={isTR ? 'Mobil menü' : 'Mobile menu'}
             >
               <div className="w-5 h-5 relative">
                 <span className={`absolute block w-5 h-0.5 bg-white transition-all duration-300
@@ -493,7 +918,7 @@ const SilifkeTeknoloji: React.FC = () => {
             >
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between p-6 border-b border-yellow-400/20">
-                <h2 className="text-xl font-bold text-white">Menü</h2>
+                <h2 className="text-xl font-bold text-white">{isTR ? 'Menü' : 'Menu'}</h2>
                 <button
                   onClick={closeMobileMenu}
                   className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-white
@@ -521,7 +946,7 @@ const SilifkeTeknoloji: React.FC = () => {
                   >
                     <img
                       src="/logo-128.png"
-                      alt="Silifke Teknoloji Kulübü - Ana Sayfaya Dön"
+                      alt={isTR ? "Silifke Teknoloji Kulübü - Ana Sayfaya Dön" : "Silifke Technology Club - Back to Home"}
                       className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]
                                group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,0.7)] transition-all duration-300"
                       loading="eager"
@@ -529,7 +954,7 @@ const SilifkeTeknoloji: React.FC = () => {
                       width="128"
                       height="100"
                       onError={(e) => {
-                        console.error('Mobile logo yüklenemedi:', e);
+                        console.error(isTR ? 'Mobil logo yüklenemedi:' : 'Failed to load mobile logo:', e);
                         (e.target as HTMLImageElement).src = '/logo-64.png';
                       }}
                     />
@@ -545,7 +970,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">🏠</span>
-                    <span>Ana Sayfa</span>
+                    <span>{isTR ? 'Ana Sayfa' : 'Home'}</span>
                   </button>
 
                   <button
@@ -554,7 +979,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">ℹ️</span>
-                    <span>Hakkımızda</span>
+                    <span>{isTR ? 'Hakkımızda' : 'About'}</span>
                   </button>
 
                   <button
@@ -563,7 +988,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">📞</span>
-                    <span>İletişim</span>
+                    <span>{isTR ? 'İletişim' : 'Contact'}</span>
                   </button>
 
                   <button
@@ -572,7 +997,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">🚀</span>
-                    <span>Projeler</span>
+                    <span>{isTR ? 'Projeler' : 'Projects'}</span>
                   </button>
 
                   <button
@@ -581,7 +1006,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">📅</span>
-                    <span>Etkinlikler</span>
+                    <span>{isTR ? 'Etkinlikler' : 'Events'}</span>
                   </button>
 
                   <button
@@ -591,7 +1016,7 @@ const SilifkeTeknoloji: React.FC = () => {
                              flex items-center space-x-4 shadow-lg shadow-yellow-500/30 text-lg"
                   >
                     <span className="text-xl">🤝</span>
-                    <span>Kulübe Katıl</span>
+                    <span>{isTR ? 'Kulübe Katıl' : 'Join the Club'}</span>
                   </button>
 
                   <button
@@ -600,13 +1025,26 @@ const SilifkeTeknoloji: React.FC = () => {
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
                   >
                     <span className="text-xl">📝</span>
-                    <span>Blog</span>
+                    <span>{isTR ? 'Blog' : 'Blog'}</span>
                   </button>
                 </nav>
 
+                <div className="mt-6 flex justify-center">
+                  <button
+                    onClick={() => {
+                      toggleLanguage();
+                      closeMobileMenu();
+                    }}
+                    className="px-6 py-2 rounded-full border border-yellow-400/40 text-yellow-200 hover:text-black hover:bg-yellow-400 transition-all duration-300 font-semibold"
+                    aria-label={toggleAriaLabel}
+                  >
+                    {isTR ? 'İngilizceye Geç' : 'Switch to Turkish'}
+                  </button>
+                </div>
+
                 {/* Contact Info */}
                 <div className="mt-8 pt-6 border-t border-gray-700">
-                  <h3 className="text-lg font-semibold text-white mb-4">İletişim</h3>
+                  <h3 className="text-lg font-semibold text-white mb-4">{isTR ? 'İletişim' : 'Contact'}</h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center space-x-3 text-gray-300">
                       <span>📧</span>
@@ -625,7 +1063,7 @@ const SilifkeTeknoloji: React.FC = () => {
 
                 {/* Social Links */}
                 <div className="mt-6 pt-6 border-t border-gray-700">
-                  <h3 className="text-lg font-semibold text-white mb-4">Bizi Takip Edin</h3>
+                  <h3 className="text-lg font-semibold text-white mb-4">{isTR ? 'Bizi Takip Edin' : 'Follow Us'}</h3>
                   <div className="flex space-x-4">
                     {[
                       { name: 'Instagram', icon: '📸', color: 'hover:text-pink-400' },
@@ -666,14 +1104,14 @@ const SilifkeTeknoloji: React.FC = () => {
             >
               <h1 className="text-display text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-none tracking-tighter">
                 <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent font-extrabold">
-                  Silifke Teknoloji Kulübü
+                  {isTR ? 'Silifke Teknoloji Kulübü' : 'Silifke Technology Club'}
                 </span>
                 <br />
                 <span className="bg-gradient-to-r from-gray-200 via-white to-gray-200 bg-clip-text text-transparent 
-                               font-light text-3xl md:text-4xl lg:text-5xl opacity-90">ile</span>{" "}
-                <Suspense fallback={<span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent font-display font-black">Yenilik</span>}>
+                               font-light text-3xl md:text-4xl lg:text-5xl opacity-90">{isTR ? 'ile' : 'with'}</span>{" "}
+                <Suspense fallback={<span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent font-display font-black">{isTR ? 'Yenilik' : 'Innovation'}</span>}>
                   <AnimatedTextCycle
-                    words={["Yenilik", "İşbirliği", "Gelecek", "Değişim"]}
+                    words={animatedWords}
                     className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-300 bg-clip-text text-transparent font-display font-black"
                   />
                 </Suspense>
@@ -689,17 +1127,26 @@ const SilifkeTeknoloji: React.FC = () => {
               className="text-xl md:text-2xl lg:text-3xl max-w-5xl mx-auto leading-relaxed font-medium tracking-wide
                          bg-gradient-to-r from-gray-100 via-white to-gray-100 bg-clip-text text-transparent"
             >
-              Yerelden başlayarak insanların sorunlarına{" "}
-              <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent 
-                             font-bold">
-                teknolojiyle çözümler
-              </span>{" "}
-              üreten, faydayı motivasyona ve motivasyonu{" "}
-              <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent 
-                             font-bold">
-                kazanca dönüştüren
-              </span>{" "}
-              bir kulüp.
+              {isTR
+                ? (
+                  <>
+                    Yerelden başlayarak insanların sorunlarına{" "}
+                    <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent font-bold">
+                      teknolojiyle çözümler
+                    </span>{" "}
+                    üreten, faydayı motivasyona ve motivasyonu{" "}
+                    <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent font-bold">
+                      kazanca dönüştüren
+                    </span>{" "}
+                    bir kulüp.
+                  </>
+                ) : (
+                  <>
+                    We start locally and craft <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent font-bold">technology-powered solutions</span>{" "}
+                    for real problems, turning the value we create into motivation and that motivation into{" "}
+                    <span className="bg-gradient-to-r from-yellow-300 via-yellow-100 to-yellow-200 bg-clip-text text-transparent font-bold">sustainable income</span>. A community built to make technology meaningful.
+                  </>
+                )}
             </motion.p>
 
             {/* CTA Button */}
@@ -733,7 +1180,7 @@ const SilifkeTeknoloji: React.FC = () => {
                 {/* Content */}
                 <div className="relative flex items-center space-x-4">
                   <span className="transition-transform duration-300 group-hover:translate-x-1 tracking-wide">
-                    KLÜBE KATIL
+                    {isTR ? 'KLÜBE KATIL' : 'JOIN THE CLUB'}
                   </span>
                   <ChevronRight className="w-7 h-7 transition-transform duration-300 
                                          group-hover:translate-x-2 group-hover:scale-125" />
@@ -937,7 +1384,7 @@ const SilifkeTeknoloji: React.FC = () => {
                 className="absolute top-20 left-10 w-32 h-32 rounded-full border border-white/25 shadow-lg shadow-white/15 [box-shadow:_0_0_50px_rgba(255,215,0,0.15)]
                            pointer-events-auto bg-black/40 backdrop-blur-sm flex items-center justify-center group focus:outline-none
                            focus:ring-2 focus:ring-yellow-300/70 focus:ring-offset-2 focus:ring-offset-black"
-                aria-label="Blog sayfasını aç"
+                aria-label={isTR ? 'Blog sayfasını aç' : 'Open the blog page'}
               >
                 <span className="absolute inset-0 rounded-full bg-gradient-to-br from-yellow-400/0 via-yellow-400/10 to-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <span className="text-xs tracking-[0.55em] text-yellow-200/80 group-hover:text-yellow-100 font-semibold relative">
@@ -976,19 +1423,21 @@ const SilifkeTeknoloji: React.FC = () => {
       >
         <div className="glass-panel glass-border-accent p-6 w-72 shadow-yellow-500/15">
           <div className="mb-5">
-            <span className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">Hızlı Erişim</span>
-            <h3 className="mt-2 text-lg font-semibold text-white">Tanıtım Videomuz</h3>
+            <span className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">{isTR ? 'Hızlı Erişim' : 'Quick Access'}</span>
+            <h3 className="mt-2 text-lg font-semibold text-white">{isTR ? 'Tanıtım Videomuz' : 'Our Intro Video'}</h3>
             <p className="text-sm text-gray-300">
-              Baloncuğa tıkladığında tanıtım videomuz oynatılmaya başlar.
+              {isTR
+                ? 'Baloncuğa tıkladığında tanıtım videomuz oynatılmaya başlar.'
+                : 'Tap the bubble to start playing our intro video.'}
             </p>
           </div>
           <div className="space-y-3">
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-              {isQuickVideoPlaying ? (
+                {isQuickVideoPlaying ? (
                 <iframe
                   className="h-44 w-full"
                   src={quickAccessVideoUrl}
-                  title="Silifke Teknoloji tanıtım videosu"
+                  title={isTR ? 'Silifke Teknoloji tanıtım videosu' : 'Silifke Technology Club intro video'}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                 />
@@ -1000,7 +1449,7 @@ const SilifkeTeknoloji: React.FC = () => {
                 >
                   <img
                     src={quickAccessThumbnail}
-                    alt="Silifke Teknoloji YouTube videosu"
+                    alt={isTR ? 'Silifke Teknoloji YouTube videosu' : 'Silifke Technology Club YouTube video'}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -1009,7 +1458,7 @@ const SilifkeTeknoloji: React.FC = () => {
                     <span className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-400/90 text-black transition-transform duration-300 group-hover:scale-110">
                       <Play className="h-7 w-7" />
                     </span>
-                    <span className="text-sm font-medium text-white/90">Videoyu Başlat</span>
+                    <span className="text-sm font-medium text-white/90">{isTR ? 'Videoyu Başlat' : 'Play Video'}</span>
                   </div>
                 </button>
               )}
