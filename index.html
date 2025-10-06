@@ -9,18 +9,19 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), speaker=()" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src 'self' fonts.gstatic.com; img-src 'self' data: images.unsplash.com https://i.ytimg.com https://img.youtube.com; connect-src 'self' https://*.supabase.co; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
     <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload" />
     
     <!-- Favicon and PWA -->
     <link rel="icon" type="image/png" sizes="32x32" href="/logo-64.png" />
     <link rel="apple-touch-icon" href="/logo-128.png" />
     <link rel="manifest" href="/manifest.json" />
+    <link rel="canonical" href="https://silifketeknoloji.com/" />
     
     <!-- Viewport and Basic Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="description" content="Silifke Teknoloji Kulübü - Yerelden başlayarak insanların sorunlarına teknolojiyle çözümler üreten, faydayı motivasyona ve motivasyonu kazanca dönüştüren bir kulüp." />
-    <meta name="keywords" content="Silifke, teknoloji, kulüp, yazılım, geliştirme, AI, startup, React, Node.js, mobil uygulama, Mersin, yazılım geliştirme, teknoloji topluluğu" />
+    <meta name="description" content="Silifke Teknoloji Kulübü'nün 29 Kasım 2025 Cumartesi 20:00-22:00 ilk buluşmasına katılın; 2025-2026 teknoloji ve girişimcilik yol haritamızı keşfedin." />
+    <meta name="keywords" content="Silifke Teknoloji Kulübü, teknoloji buluşması, Silifke etkinlik, Mersin teknoloji, yazılım kulübü, girişimcilik, 29 Kasım 2025, 2025-2026 yol haritası, networking, hackathon" />
     <meta name="author" content="Silifke Teknoloji Kulübü" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="language" content="Turkish" />
@@ -47,7 +48,7 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="Silifke Teknoloji Kulübü - Yenilik, İşbirliği, Gelecek" />
-    <meta property="og:description" content="Yerelden başlayarak insanların sorunlarına teknolojiyle çözümler üreten, faydayı motivasyona ve motivasyonu kazanca dönüştüren bir kulüp." />
+    <meta property="og:description" content="29 Kasım 2025 Cumartesi 20:00-22:00 gerçekleşecek Silifke Teknoloji Kulübü ilk buluşmasına davetlisiniz. 2025-2026 teknoloji ve girişimcilik fırsatlarını birlikte planlayalım." />
     <meta property="og:image" content="https://silifketeknoloji.com/logo-512.png" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
@@ -56,12 +57,12 @@
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:site_name" content="Silifke Teknoloji Kulübü" />
-    <meta property="og:updated_time" content="2024-12-28T00:00:00+03:00" />
+    <meta property="og:updated_time" content="2025-11-29T22:00:00+03:00" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Silifke Teknoloji Kulübü" />
-    <meta name="twitter:description" content="Yerelden başlayarak insanların sorunlarına teknolojiyle çözümler üreten kulüp" />
+    <meta name="twitter:description" content="Silifke Teknoloji Kulübü 29 Kasım 2025 Cumartesi 20:00-22:00 ilk buluşmasıyla 2025-2026 teknoloji ve girişimcilik yol haritamızı başlatıyoruz." />
     <meta name="twitter:image" content="/logo-512.png" />
 
     <!-- Structured Data -->
@@ -78,6 +79,43 @@
         "https://github.com/silifketeknoloji",
         "https://instagram.com/silifketeknoloji"
       ],
+      "event": {
+        "@type": "Event",
+        "name": "Silifke Teknoloji Kulübü İlk Buluşması",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "startDate": "2025-11-29T20:00:00+03:00",
+        "endDate": "2025-11-29T22:00:00+03:00",
+        "description": "Silifke Teknoloji Kulübü'nün 29 Kasım 2025 Cumartesi 20:00-22:00 gerçekleşecek tanışma buluşması ve 2025-2026 yol haritası paylaşımı.",
+        "image": [
+          "https://silifketeknoloji.com/logo-512.png"
+        ],
+        "location": {
+          "@type": "Place",
+          "name": "Silifke Belediyesi Kültür Merkezi - Konferans Salonu",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Atatürk Mahallesi 307. Sokak",
+            "addressLocality": "Silifke",
+            "addressRegion": "Mersin",
+            "postalCode": "33950",
+            "addressCountry": "TR"
+          }
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "Silifke Teknoloji Kulübü",
+          "url": "https://silifketeknoloji.com"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://silifketeknoloji.com",
+          "price": "0",
+          "priceCurrency": "TRY",
+          "availability": "https://schema.org/InStock",
+          "validFrom": "2025-06-01T09:00:00+03:00"
+        }
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+90-324-123-4567",

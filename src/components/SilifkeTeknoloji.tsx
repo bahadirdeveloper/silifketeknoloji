@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
-import { ChevronRight, Sparkles, Cpu, Globe2, HeartHandshake, MessageCircle, Mail } from "lucide-react";
+import { ChevronRight, Sparkles, Cpu, Globe2, HeartHandshake, Play } from "lucide-react";
 import ModernFlipCard from "./ModernFlipCard";
 import DetailModal from "./DetailModal";
 import NostalgicCounter from "./NostalgicCounter";
@@ -29,6 +29,7 @@ const SilifkeTeknoloji: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<CurrentPage>('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAdminAuthorized, setIsAdminAuthorized] = useState(false);
+  const [isQuickVideoPlaying, setIsQuickVideoPlaying] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -79,20 +80,9 @@ const SilifkeTeknoloji: React.FC = () => {
     }
   ];
 
-  const quickActions = [
-    {
-      label: "Discord Topluluğu",
-      sublabel: "Güncel etkinlik akışı",
-      href: "https://discord.gg/silifketeknoloji",
-      icon: MessageCircle
-    },
-    {
-      label: "E-posta ile İletişim",
-      sublabel: "silifketeknoloji@gmail.com",
-      href: "mailto:silifketeknoloji@gmail.com",
-      icon: Mail
-    }
-  ];
+  const quickAccessVideoId = "fjBeQzlykyY";
+  const quickAccessVideoUrl = `https://www.youtube.com/embed/${quickAccessVideoId}?autoplay=1&rel=0&modestbranding=1`;
+  const quickAccessThumbnail = `https://img.youtube.com/vi/${quickAccessVideoId}/hqdefault.jpg`;
 
   const features = [
     {
@@ -955,35 +945,43 @@ const SilifkeTeknoloji: React.FC = () => {
         <div className="glass-panel glass-border-accent p-6 w-72 shadow-yellow-500/15">
           <div className="mb-5">
             <span className="text-xs uppercase tracking-[0.35em] text-yellow-300/80">Hızlı Erişim</span>
-            <h3 className="mt-2 text-lg font-semibold text-white">Soruların mı var?</h3>
+            <h3 className="mt-2 text-lg font-semibold text-white">Tanıtım Videomuz</h3>
             <p className="text-sm text-gray-300">
-              Topluluğa katıl veya ekiple hemen iletişime geç.
+              Baloncuğa tıkladığında tanıtım videomuz oynatılmaya başlar.
             </p>
           </div>
           <div className="space-y-3">
-            {quickActions.map(action => {
-              const Icon = action.icon;
-              return (
-                <a
-                  key={action.label}
-                  href={action.href}
-                  className="group flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white transition-all duration-300 hover:border-yellow-400/40 hover:bg-yellow-500/10"
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+              {isQuickVideoPlaying ? (
+                <iframe
+                  className="h-44 w-full"
+                  src={quickAccessVideoUrl}
+                  title="Silifke Teknoloji tanıtım videosu"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsQuickVideoPlaying(true)}
+                  className="group relative block h-44 w-full overflow-hidden bg-transparent text-left"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-yellow-500/15 text-yellow-200 group-hover:bg-yellow-500/25">
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <div className="text-left">
-                      <div className="font-medium leading-none">{action.label}</div>
-                      <div className="mt-1 text-xs text-gray-300">{action.sublabel}</div>
-                    </div>
+                  <img
+                    src={quickAccessThumbnail}
+                    alt="Silifke Teknoloji YouTube videosu"
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <span className="flex h-16 w-16 items-center justify-center rounded-full bg-yellow-400/90 text-black transition-transform duration-300 group-hover:scale-110">
+                      <Play className="h-7 w-7" />
+                    </span>
+                    <span className="text-sm font-medium text-white/90">Videoyu Başlat</span>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-yellow-200 transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
-              );
-            })}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </motion.aside>
