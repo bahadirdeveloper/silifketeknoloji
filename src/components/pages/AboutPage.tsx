@@ -7,6 +7,14 @@ import { useLanguage } from "../../i18n/LanguageContext";
 const MatrixRain = lazy(() => import("../MatrixRain"));
 const InteractiveDots = lazy(() => import("../InteractiveDots"));
 
+interface TeamMember {
+  name: string;
+  role: string;
+  expertise: string;
+  description: string;
+  image: string;
+}
+
 interface AboutPageProps {
   onBack?: () => void;
   onJoin?: () => void;
@@ -57,7 +65,7 @@ const aboutContent = {
     storyImageAlt: 'Silifke Teknoloji Takımı Çalışması',
     storyImageCaption: 'Takım Çalışması',
     teamTitle: 'Ekibimiz',
-    teamMembers: [],
+    teamMembers: [] as TeamMember[],
     placeholder: {
       title: 'Yeni Üye',
       subtitle: 'Sen Olabilirsin!',
@@ -459,7 +467,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                   </p>
                 </motion.div>
               ))}
-              
+
               {/* Boş alanlar - yeni üyeler için */}
               {Array.from({ length: 9 }).map((_, index) => (
                 <motion.div
