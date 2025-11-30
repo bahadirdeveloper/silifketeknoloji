@@ -1,47 +1,79 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getClubStatistics, subscribeToStatisticsUpdates, type ClubStatistics } from '../lib/supabaseClient';
+import { useLanguage } from '../i18n/LanguageContext';
+
+type TestStatisticsModule = typeof import('../utils/testStatistics');
+
+declare global {
+  interface Window {
+    testStatistics?: TestStatisticsModule['testStatistics'];
+    testStatisticsWithMockData?: TestStatisticsModule['testStatisticsWithMockData'];
+  }
+}
 
 // Import test utilities in development
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && typeof window !== 'undefined') {
   import('../utils/testStatistics').then(({ testStatistics, testStatisticsWithMockData }) => {
-    (window as any).testStatistics = testStatistics;
-    (window as any).testStatisticsWithMockData = testStatisticsWithMockData;
+    window.testStatistics = testStatistics;
+    window.testStatisticsWithMockData = testStatisticsWithMockData;
   });
 }
 
-interface CounterData {
-  value: number;
-  label: string;
-  description: string;
-  color: string;
-  glowColor: string;
-}
-
 const NostalgicCounter: React.FC = () => {
-  const [counters, setCounters] = useState<CounterData[]>([
-    {
-      value: 0,
-      label: "Kulüp Üye Sayısı",
-      description: "Aktif teknoloji meraklısı üye sayısı",
-      color: "from-yellow-400 to-yellow-600",
-      glowColor: "rgba(255, 215, 0, 0.4)"
+  const { language } = useLanguage();
+  const translations = useMemo(() => ({
+    tr: {
+      title: 'Topluluk İstatistikleri',
+      subtitle: "Silifke Teknoloji Kulübü'nün büyüyen topluluğunun canlı istatistikleri",
+      loading: 'İstatistikler yükleniyor...',
+      empty: 'Canlı istatistikleriniz burada görünecek. Henüz kayıt bulunmuyorsa bile, başvurular geldikçe bu alan otomatik güncellenecek.',
+      counters: [
+        {
+          label: 'Kulüp Üye Sayısı',
+          description: 'Aktif teknoloji meraklısı üye sayısı'
+        },
+        {
+          label: 'Toplam Başvuru Sayısı',
+          description: 'Bugüne kadar alınan toplam başvuru sayısı'
+        },
+        {
+          label: 'Bekleyen Başvuru Sayısı',
+          description: 'Değerlendirme aşamasındaki başvuru sayısı'
+        }
+      ]
     },
-    {
-      value: 0,
-      label: "Toplam Başvuru Sayısı",
-      description: "Bugüne kadar alınan toplam başvuru sayısı",
-      color: "from-yellow-500 to-yellow-600",
-      glowColor: "rgba(255, 215, 0, 0.4)"
-    },
-    {
-      value: 0,
-      label: "Bekleyen Başvuru Sayısı",
-      description: "Değerlendirme aşamasındaki başvuru sayısı",
-      color: "from-yellow-300 to-yellow-500",
-      glowColor: "rgba(255, 215, 0, 0.4)"
+    en: {
+      title: 'Community Statistics',
+      subtitle: 'Live metrics from the ever-growing Silifke Technology Club community',
+      loading: 'Loading statistics…',
+      empty: 'Your live statistics will appear here. Even if no records exist yet, this area will update automatically as applications arrive.',
+      counters: [
+        {
+          label: 'Club Member Count',
+          description: 'Number of active technology enthusiasts'
+        },
+        {
+          label: 'Total Applications',
+          description: 'Total number of applications received to date'
+        },
+        {
+          label: 'Pending Applications',
+          description: 'Applications currently under review'
+        }
+      ]
     }
-  ]);
+  }), []);
+
+  const t = translations[language];
+
+  const counterVisuals = useMemo(() => ([
+    { color: 'from-yellow-400 to-yellow-600', glowColor: 'rgba(255, 215, 0, 0.4)' },
+    { color: 'from-yellow-500 to-yellow-600', glowColor: 'rgba(255, 215, 0, 0.4)' },
+    { color: 'from-yellow-300 to-yellow-500', glowColor: 'rgba(255, 215, 0, 0.4)' }
+  ] as const), []);
+
+  const [counterValues, setCounterValues] = useState([0, 0, 0]);
 
   const [statistics, setStatistics] = useState<ClubStatistics>({
     totalMembers: 0,
@@ -99,18 +131,12 @@ const NostalgicCounter: React.FC = () => {
         const progress = currentStep / steps;
         const easeOutQuart = 1 - Math.pow(1 - progress, 4);
 
-        setCounters(prev => prev.map((counter, index) => ({
-          ...counter,
-          value: Math.floor(finalValues[index] * easeOutQuart)
-        })));
+        setCounterValues(prev => prev.map((_, index) => Math.floor(finalValues[index] * easeOutQuart)));
 
         if (currentStep >= steps) {
           clearInterval(timer);
           // Son değerleri kesin olarak ayarla
-          setCounters(prev => prev.map((counter, index) => ({
-            ...counter,
-            value: finalValues[index]
-          })));
+          setCounterValues(finalValues);
         }
       }, interval);
 
@@ -138,11 +164,11 @@ const NostalgicCounter: React.FC = () => {
       >
         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 font-display">
           <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
-            Topluluk İstatistikleri
+            {t.title}
           </span>
         </h2>
         <p className="text-white text-lg max-w-2xl mx-auto">
-          Silifke Teknoloji Kulübü'nün büyüyen topluluğunun canlı istatistikleri
+          {t.subtitle}
         </p>
         
         {/* Loading indicator */}
@@ -154,7 +180,7 @@ const NostalgicCounter: React.FC = () => {
           >
             <div className="flex items-center space-x-2 text-yellow-400">
               <div className="w-4 h-4 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-sm">İstatistikler yükleniyor...</span>
+              <span className="text-sm">{t.loading}</span>
             </div>
           </motion.div>
         )}
@@ -166,7 +192,7 @@ const NostalgicCounter: React.FC = () => {
             className="mt-4 flex justify-center"
           >
             <div className="rounded-2xl border border-yellow-500/40 bg-yellow-500/15 px-4 py-3 text-sm text-yellow-200">
-              Canlı istatistikleriniz burada görünecek. Henüz kayıt bulunmuyorsa bile, başvurular geldikçe bu alan otomatik güncellenecek.
+              {t.empty}
             </div>
           </motion.div>
         )}
@@ -174,7 +200,7 @@ const NostalgicCounter: React.FC = () => {
 
       {/* Sayaç Kartları */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {counters.map((counter, index) => (
+        {t.counters.map((counter, index) => (
           <motion.div
             key={counter.label}
             initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -192,7 +218,7 @@ const NostalgicCounter: React.FC = () => {
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
-                  background: `radial-gradient(circle at 50% 30%, ${counter.glowColor} 0%, transparent 65%)`
+                  background: `radial-gradient(circle at 50% 30%, ${counterVisuals[index].glowColor} 0%, transparent 65%)`
                 }}
               />
 
@@ -201,16 +227,16 @@ const NostalgicCounter: React.FC = () => {
                 <div className="relative">
                   <div className="bg-black/80 rounded-xl p-6 border border-white/20 shadow-inner">
                     <motion.div
-                      className={`text-5xl md:text-6xl font-mono font-black bg-gradient-to-r ${counter.color} bg-clip-text text-transparent`}
+                      className={`text-5xl md:text-6xl font-mono font-black bg-gradient-to-r ${counterVisuals[index].color} bg-clip-text text-transparent`}
                       style={{
-                        textShadow: `0 0 20px ${counter.glowColor}, 0 0 40px ${counter.glowColor}`,
+                        textShadow: `0 0 20px ${counterVisuals[index].glowColor}, 0 0 40px ${counterVisuals[index].glowColor}`,
                         filter: 'drop-shadow(0 0 10px rgba(0,0,0,0.8))'
                       }}
                       animate={{
                         textShadow: [
-                          `0 0 20px ${counter.glowColor}, 0 0 40px ${counter.glowColor}`,
-                          `0 0 30px ${counter.glowColor}, 0 0 60px ${counter.glowColor}`,
-                          `0 0 20px ${counter.glowColor}, 0 0 40px ${counter.glowColor}`
+                          `0 0 20px ${counterVisuals[index].glowColor}, 0 0 40px ${counterVisuals[index].glowColor}`,
+                          `0 0 30px ${counterVisuals[index].glowColor}, 0 0 60px ${counterVisuals[index].glowColor}`,
+                          `0 0 20px ${counterVisuals[index].glowColor}, 0 0 40px ${counterVisuals[index].glowColor}`
                         ]
                       }}
                       transition={{
@@ -219,7 +245,7 @@ const NostalgicCounter: React.FC = () => {
                         ease: "easeInOut"
                       }}
                     >
-                      {counter.value.toLocaleString()}
+                      {counterValues[index].toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')}
                     </motion.div>
                     
                     {/* Nostaljik Işık Efektleri */}
@@ -242,9 +268,9 @@ const NostalgicCounter: React.FC = () => {
 
                 {/* Alt Dekoratif Çizgi */}
                 <div className="flex justify-center">
-                  <div className={`h-1 w-20 rounded-full bg-gradient-to-r ${counter.color} 
+                  <div className={`h-1 w-20 rounded-full bg-gradient-to-r ${counterVisuals[index].color} 
                                  shadow-lg group-hover:w-32 transition-all duration-500`}
-                       style={{ boxShadow: `0 0 20px ${counter.glowColor}` }} />
+                       style={{ boxShadow: `0 0 20px ${counterVisuals[index].glowColor}` }} />
                 </div>
               </div>
             </div>

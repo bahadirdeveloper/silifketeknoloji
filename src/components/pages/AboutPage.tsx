@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Users, Target, Heart, Lightbulb, Code, Globe, ArrowLeft, ChevronRight } from "lucide-react";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 // Lazy load background components
 const MatrixRain = lazy(() => import("../MatrixRain"));
@@ -11,7 +12,122 @@ interface AboutPageProps {
   onJoin?: () => void;
 }
 
+const aboutContent = {
+  tr: {
+    back: 'Ana Sayfaya Dön',
+    heroPill: 'Silifke Teknoloji Kulübü',
+    heroTitle: 'Hakkımızda',
+    heroSubtitle: {
+      line1: 'Silifke Teknoloji Kulübü, teknolojinin gücünü toplumsal fayda için kullanan,',
+      highlight: 'yenilikçi çözümler üreten',
+      line2: 've yerel kalkınmaya katkıda bulunan bir topluluktur.'
+    },
+    heroHighlights: [
+      'Gündüzleri üretim, geceleri ideathon',
+      'Yerelden globale uzanan teknoloji hikâyeleri',
+      'Topluluk temelli paylaşım ve büyüme kültürü'
+    ],
+    whyTitle: 'Neden Biz?',
+    values: [
+      {
+        title: 'Misyon',
+        description: 'Silifke ve çevresindeki toplumsal sorunlara teknoloji ile çözüm üretmek, yerel girişimcileri desteklemek ve dijital dönüşüme öncülük etmek.'
+      },
+      {
+        title: 'Vizyon',
+        description: "Silifke'yi Akdeniz'in teknoloji merkezi haline getirmek, sürdürülebilir ve kapsayıcı bir dijital ekosistem oluşturmak."
+      },
+      {
+        title: 'Değerler',
+        description: 'İnovasyon, işbirliği, şeffaflık, sürdürülebilirlik ve toplumsal fayda odaklı çalışma prensiplerimizdir.'
+      }
+    ],
+    achievements: [
+      { number: '1', label: 'Tamamlanan Proje' },
+      { number: '3', label: 'Aktif Üye' },
+      { number: '3', label: 'Teknoloji Ortağı' },
+      { number: '2', label: 'Yaklaşan Etkinlik' }
+    ],
+    storyTitle: 'Hikayemiz',
+    storyParagraphs: [
+      "2025 yılında Silifke'nin gençlerine ilham vermek, yerel sorunlara teknolojiyle çözümler üretmek ve geleceğin dijital ekosistemini kurmak için yola çıktık.",
+      'Bugün sadece birkaç kişi olsak da, arkamızda katılmayı bekleyen ve hayallerini teknolojiyle gerçekleştirmek isteyen koca bir Silifke gençliği var.',
+      'Bizim için bu yolculuk sadece kod yazmak değil; birlikte öğrenmek, üretmek, paylaşmak ve zamanla hem topluma fayda sağlayacak hem de gençlere gelir yaratacak bir teknoloji hareketi inşa etmek.'
+    ],
+    storyImageAlt: 'Silifke Teknoloji Takımı Çalışması',
+    storyImageCaption: 'Takım Çalışması',
+    teamTitle: 'Ekibimiz',
+    teamMembers: [],
+    placeholder: {
+      title: 'Yeni Üye',
+      subtitle: 'Sen Olabilirsin!',
+      description: 'Kulübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!'
+    },
+    placeholderAria: 'Yeni ekip üyesi için boş alan',
+    ctaTitle: 'Bizimle Yolculuğa Çık',
+    ctaDescription: "Silifke'nin teknoloji geleceğini birlikte şekillendirmek için aramıza katıl!",
+    ctaButton: 'Hemen Katıl'
+  },
+  en: {
+    back: 'Back to Home',
+    heroPill: 'Silifke Technology Club',
+    heroTitle: 'About Us',
+    heroSubtitle: {
+      line1: 'Silifke Technology Club is a community that harnesses the power of technology for social good,',
+      highlight: 'creates innovative solutions',
+      line2: 'and contributes to local development.'
+    },
+    heroHighlights: [
+      'Building by day, ideathons by night',
+      'Technology stories that grow from local to global',
+      'A community culture of sharing and collective growth'
+    ],
+    whyTitle: 'Why Us?',
+    values: [
+      {
+        title: 'Mission',
+        description: 'We solve social challenges in Silifke and the surrounding region through technology, support local entrepreneurs, and lead the digital transformation.'
+      },
+      {
+        title: 'Vision',
+        description: 'We aim to make Silifke the technology hub of the Mediterranean by building a sustainable and inclusive digital ecosystem.'
+      },
+      {
+        title: 'Values',
+        description: 'Innovation, collaboration, transparency, sustainability, and a focus on social impact define how we work.'
+      }
+    ],
+    achievements: [
+      { number: '1', label: 'Completed Project' },
+      { number: '3', label: 'Active Members' },
+      { number: '3', label: 'Technology Partners' },
+      { number: '2', label: 'Upcoming Events' }
+    ],
+    storyTitle: 'Our Story',
+    storyParagraphs: [
+      'In 2025 we set out to inspire the youth of Silifke, solve local challenges with technology, and build the digital ecosystem of the future.',
+      'We may be a small team today, but a large community of young people in Silifke is ready to join us and bring their dreams to life through technology.',
+      'For us this journey is more than writing code; it is about learning, creating, and sharing together while building a technology movement that benefits society and creates income opportunities for young people.'
+    ],
+    storyImageAlt: 'Silifke Technology team collaborating',
+    storyImageCaption: 'Teamwork',
+    teamTitle: 'Our Team',
+    teamMembers: [],
+    placeholder: {
+      title: 'New Member',
+      subtitle: 'It Could Be You!',
+      description: "Join the club and fill this space. Let's grow together!"
+    },
+    placeholderAria: 'Open slot for a new team member',
+    ctaTitle: 'Start the Journey with Us',
+    ctaDescription: 'Join us to shape the technology future of Silifke together!',
+    ctaButton: 'Join Now'
+  }
+} as const;
+
 const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
+  const { language } = useLanguage();
+  const t = aboutContent[language];
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 }
@@ -27,61 +143,34 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
     }
   };
 
-  const teamMembers = [
-    {
-      name: "Vadi Karal",
-      role: "Grafik Tasarım UI/UX Uzmanı",
-      expertise: "User Experience, Visual Design",
-      image: "/vadikaral.png",
-      description: "Kullanıcı odaklı tasarım anlayışıyla dijital deneyimleri şekillendiriyor."
-    },
-    {
-      name: "Bahadır Gemalmaz",
-      role: "Kurucu & Teknik Lider",
-      expertise: "Full-Stack Development, AI/ML",
-      image: "/bahadirgemalmaz.png",
-      description: "10+ yıllık yazılım geliştirme deneyimi ile teknoloji dünyasında öncü projeler geliştiriyor."
-    },
-    {
-      name: "Nida Gemalmaz",
-      role: "Metin Yazarı & Plan ve Proje",
-      expertise: "Content Strategy, Project Planning",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face&auto=format&q=80",
-      description: "İçerik stratejisi ve proje planlamasında uzman, başarılı projelerin mimarı."
-    }
-  ];
-
-  // Boş alanlar için placeholder'lar
-  const emptySlots = [
-    { id: 1, isPlaceholder: true },
-    { id: 2, isPlaceholder: true },
-    { id: 3, isPlaceholder: true }
-  ];
+  const teamMembers = t.teamMembers;
 
   const values = [
     {
       icon: <Target className="w-8 h-8" />,
-      title: "Misyon",
-      description: "Silifke ve çevresindeki toplumsal sorunlara teknoloji ile çözüm üretmek, yerel girişimcileri desteklemek ve dijital dönüşüme öncülük etmek."
+      ...t.values[0]
     },
     {
       icon: <Heart className="w-8 h-8" />,
-      title: "Vizyon",
-      description: "Silifke'yi Akdeniz'in teknoloji merkezi haline getirmek, sürdürülebilir ve kapsayıcı bir dijital ekosistem oluşturmak."
+      ...t.values[1]
     },
     {
       icon: <Lightbulb className="w-8 h-8" />,
-      title: "Değerler",
-      description: "İnovasyon, işbirliği, şeffaflık, sürdürülebilirlik ve toplumsal fayda odaklı çalışma prensiplerimizdir."
+      ...t.values[2]
     }
   ];
 
-  const achievements = [
-    { number: "1", label: "Tamamlanan Proje", icon: <Code className="w-6 h-6" /> },
-    { number: "3", label: "Aktif Üye", icon: <Users className="w-6 h-6" /> },
-    { number: "3", label: "Teknoloji Ortağı", icon: <Globe className="w-6 h-6" /> },
-    { number: "2", label: "Yaklaşan Etkinlik", icon: <Heart className="w-6 h-6" /> }
+  const achievementIcons = [
+    <Code className="w-6 h-6" />,
+    <Users className="w-6 h-6" />,
+    <Globe className="w-6 h-6" />,
+    <Heart className="w-6 h-6" />
   ];
+
+  const achievements = t.achievements.map((achievement, index) => ({
+    ...achievement,
+    icon: achievementIcons[index]
+  }));
 
   return (
     <div className="relative bg-background text-foreground min-h-screen overflow-hidden">
@@ -108,7 +197,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Ana Sayfaya Dön</span>
+              <span>{t.back}</span>
             </motion.button>
           )}
           {/* Hero Section */}
@@ -121,7 +210,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
           >
             <div className="flex justify-center mb-6">
               <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">
-                Silifke Teknoloji Kulübü
+                {t.heroPill}
               </span>
             </div>
             <motion.h1
@@ -132,7 +221,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Hakkımızda
+              {t.heroTitle}
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl lg:text-3xl text-gray-200/90 max-w-4xl mx-auto leading-relaxed
@@ -141,18 +230,15 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Silifke Teknoloji Kulübü, teknolojinin gücünü toplumsal fayda için kullanan,
+              {t.heroSubtitle.line1}
               <br className="hidden md:block" />
               <span className="bg-gradient-to-r from-yellow-200 via-white to-yellow-200 bg-clip-text text-transparent font-medium">
-                yenilikçi çözümler üreten
-              </span> ve yerel kalkınmaya katkıda bulunan bir topluluktur.
+                {t.heroSubtitle.highlight}
+              </span>{' '}
+              {t.heroSubtitle.line2}
             </motion.p>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-              {[
-                'Gündüzleri üretim, geceleri ideathon',
-                'Yerelden globale uzanan teknoloji hikâyeleri',
-                'Topluluk temelli paylaşım ve büyüme kültürü',
-              ].map((highlight) => (
+              {t.heroHighlights.map((highlight) => (
                 <motion.div
                   key={highlight}
                   initial={{ opacity: 0, y: 15 }}
@@ -179,7 +265,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                          bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent
                          leading-tight tracking-tight"
             >
-              Neden Biz?
+              {t.whyTitle}
             </motion.h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
               {/* Connection Lines for Desktop */}
@@ -282,7 +368,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                Hikayemiz
+                {t.storyTitle}
               </motion.h2>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <motion.div
@@ -291,15 +377,11 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.8 }}
                 >
-                  <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-light">
-                    2025 yılında Silifke'nin gençlerine ilham vermek, yerel sorunlara teknolojiyle çözümler üretmek ve geleceğin dijital ekosistemini kurmak için yola çıktık.
-                  </p>
-                  <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-light">
-                    Bugün sadece birkaç kişi olsak da, arkamızda katılmayı bekleyen ve hayallerini teknolojiyle gerçekleştirmek isteyen koca bir Silifke gençliği var.
-                  </p>
-                  <p className="text-gray-300 text-lg md:text-xl leading-relaxed font-light">
-                    Bizim için bu yolculuk sadece kod yazmak değil; birlikte öğrenmek, üretmek, paylaşmak ve zamanla hem topluma fayda sağlayacak hem de gençlere gelir yaratacak bir teknoloji hareketi inşa etmek.
-                  </p>
+                  {t.storyParagraphs.map((paragraph) => (
+                    <p key={paragraph} className="text-gray-300 text-lg md:text-xl leading-relaxed font-light">
+                      {paragraph}
+                    </p>
+                  ))}
                 </motion.div>
                 <motion.div
                   className="relative group"
@@ -309,7 +391,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 >
                   <img
                     src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop&auto=format&q=80"
-                    alt="Silifke Teknoloji Takımı Çalışması"
+                    alt={t.storyImageAlt}
                     className="rounded-2xl shadow-2xl border border-yellow-400/20 w-full
                              group-hover:shadow-yellow-500/20 transition-all duration-300
                              group-hover:scale-105"
@@ -318,7 +400,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-2xl
                                 group-hover:from-black/40 transition-all duration-300"></div>
                   <div className="absolute bottom-4 left-4 text-white">
-                    <p className="text-sm font-medium opacity-90">Takım Çalışması</p>
+                    <p className="text-sm font-medium opacity-90">{t.storyImageCaption}</p>
                   </div>
                 </motion.div>
               </div>
@@ -336,7 +418,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               variants={fadeInUp}
               className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent"
             >
-              Ekibimiz
+              {t.teamTitle}
             </motion.h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
               {/* Mevcut ekip üyeleri */}
@@ -379,15 +461,15 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
               ))}
               
               {/* Boş alanlar - yeni üyeler için */}
-              {emptySlots.map((slot) => (
+              {Array.from({ length: 9 }).map((_, index) => (
                 <motion.div
-                  key={slot.id}
+                  key={`slot-${index}`}
                   variants={fadeInUp}
                   className="group glass-panel border-2 border-dashed border-yellow-400/40 hover:border-yellow-300/60
                            transition-all duration-300 hover:-translate-y-2 text-center
                            min-h-[300px] flex flex-col items-center justify-center"
                   role="article"
-                  aria-label="Yeni ekip üyesi için boş alan"
+                  aria-label={t.placeholderAria}
                 >
                   <div className="relative mb-6">
                     <div className="w-24 h-24 rounded-full mx-auto border-4 border-dashed border-yellow-400/40 
@@ -399,13 +481,13 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-gray-400 mb-2 group-hover:text-gray-300 transition-colors duration-300">
-                    Yeni Üye
+                    {t.placeholder.title}
                   </h3>
                   <p className="text-yellow-400/70 font-semibold mb-2 group-hover:text-yellow-400/90 transition-colors duration-300">
-                    Sen Olabilirsin!
+                    {t.placeholder.subtitle}
                   </p>
                   <p className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-400 transition-colors duration-300">
-                    Kulübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!
+                    {t.placeholder.description}
                   </p>
                 </motion.div>
               ))}
@@ -427,7 +509,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                Bizimle Yolculuğa Çık
+                {t.ctaTitle}
               </motion.h2>
               <motion.p
                 className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto font-light leading-relaxed"
@@ -435,7 +517,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.0 }}
               >
-                Silifke'nin teknoloji geleceğini birlikte şekillendirmek için aramıza katıl!
+                {t.ctaDescription}
               </motion.p>
               <motion.button
                 onClick={onJoin}
@@ -453,7 +535,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
 
                 {/* Content */}
                 <div className="relative flex items-center space-x-3">
-                  <span className="tracking-wide">Hemen Katıl</span>
+                  <span className="tracking-wide">{t.ctaButton}</span>
                   <ChevronRight className="w-6 h-6 transition-transform duration-300
                                          group-hover:translate-x-1" />
                 </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface DetailModalProps {
   isOpen: boolean;
@@ -15,6 +16,23 @@ interface DetailModalProps {
 }
 
 const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, content }) => {
+  const { language } = useLanguage();
+  const t = language === 'tr'
+    ? {
+        vision: 'Vizyonumuz',
+        services: 'Hizmetlerimiz',
+        technologies: 'Teknolojiler',
+        examples: 'Örnek Projeler',
+        close: 'Kapat'
+      }
+    : {
+        vision: 'Our Vision',
+        services: 'Our Services',
+        technologies: 'Technologies',
+        examples: 'Sample Projects',
+        close: 'Close'
+      };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -54,7 +72,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, conte
               {/* Vision */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-yellow-300 tracking-wide font-['Space_Grotesk',_'Inter',_system-ui] drop-shadow-lg [text-shadow:_0_1px_4px_rgba(0,0,0,0.6),_0_0_15px_rgba(255,215,0,0.3)]">
-                  Vizyonumuz
+                  {t.vision}
                 </h3>
                 <p className="text-white text-lg leading-relaxed font-medium">
                   {content.vision}
@@ -64,7 +82,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, conte
               {/* Services */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-yellow-300 tracking-wide font-['Space_Grotesk',_'Inter',_system-ui] drop-shadow-lg [text-shadow:_0_1px_4px_rgba(0,0,0,0.6),_0_0_15px_rgba(255,215,0,0.3)]">
-                  Hizmetlerimiz
+                  {t.services}
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {content.services.map((service, index) => (
@@ -84,7 +102,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, conte
               {/* Technologies */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-yellow-300 tracking-wide font-['Space_Grotesk',_'Inter',_system-ui] drop-shadow-lg [text-shadow:_0_1px_4px_rgba(0,0,0,0.6),_0_0_15px_rgba(255,215,0,0.3)]">
-                  Teknolojiler
+                  {t.technologies}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {content.technologies.map((tech, index) => (
@@ -104,7 +122,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, conte
               {/* Examples */}
               <div className="space-y-4">
                 <h3 className="text-xl font-bold text-yellow-300 tracking-wide font-['Space_Grotesk',_'Inter',_system-ui] drop-shadow-lg [text-shadow:_0_1px_4px_rgba(0,0,0,0.6),_0_0_15px_rgba(255,215,0,0.3)]">
-                  Örnek Projeler
+                  {t.examples}
                 </h3>
                 <div className="space-y-3">
                   {content.examples.map((example, index) => (
@@ -129,7 +147,7 @@ const DetailModal: React.FC<DetailModalProps> = ({ isOpen, onClose, title, conte
                   onClick={onClose}
                   className="px-8 py-3 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-black font-bold rounded-lg shadow-lg shadow-yellow-400/40 hover:shadow-yellow-400/60 hover:shadow-xl transition-all duration-300"
                 >
-                  Kapat
+                  {t.close}
                 </button>
               </div>
             </div>

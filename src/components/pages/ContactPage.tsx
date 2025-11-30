@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   MessageSquare
 } from "lucide-react";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 // Lazy load background components
 const MatrixRain = lazy(() => import("../MatrixRain"));
@@ -20,6 +21,8 @@ interface ContactPageProps {
 }
 
 const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
+  const { language } = useLanguage();
+  const isTR = language === 'tr';
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -54,20 +57,20 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
   const contactInfo = [
     {
       icon: <Mail className="w-6 h-6" />,
-      title: "E-posta",
-      content: "silifketeknoloji@gmail.com",
-      link: "mailto:silifketeknoloji@gmail.com"
+      title: isTR ? 'E-posta' : 'Email',
+      content: 'silifketeknoloji@gmail.com',
+      link: 'mailto:silifketeknoloji@gmail.com'
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: "Telefon",
-      content: "+90 501 168 3259",
-      link: "tel:+905011683259"
+      title: isTR ? 'Telefon' : 'Phone',
+      content: '+90 501 168 3259',
+      link: 'tel:+905011683259'
     },
     {
       icon: <Clock className="w-6 h-6" />,
-      title: "Çalışma Saatleri",
-      content: "7/24",
+      title: isTR ? 'Çalışma Saatleri' : 'Working Hours',
+      content: isTR ? '7/24' : '24/7',
       link: null
     }
   ];
@@ -75,33 +78,33 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
   const socialMedia = [
     {
       icon: <Instagram className="w-6 h-6" />,
-      name: "Instagram",
-      link: "https://www.instagram.com/silifketechnology/",
-      color: "hover:text-pink-400"
+      name: 'Instagram',
+      link: 'https://www.instagram.com/silifketechnology/',
+      color: 'hover:text-pink-400'
     },
     {
       icon: <Twitter className="w-6 h-6" />,
-      name: "Twitter",
-      link: "https://x.com/SilifkeTeknoloji",
-      color: "hover:text-blue-400"
+      name: isTR ? 'Twitter' : 'X (Twitter)',
+      link: 'https://x.com/SilifkeTeknoloji',
+      color: 'hover:text-blue-400'
     },
     {
       icon: <YouTubeIcon className="w-6 h-6" />,
-      name: "YouTube",
-      link: "https://www.youtube.com/@SilifkeTeknoloji",
-      color: "hover:text-red-500"
+      name: 'YouTube',
+      link: 'https://www.youtube.com/@SilifkeTeknoloji',
+      color: 'hover:text-red-500'
     },
     {
       icon: <Github className="w-6 h-6" />,
-      name: "GitHub",
-      link: "https://github.com/silifketeknoloji",
-      color: "hover:text-gray-400"
+      name: 'GitHub',
+      link: 'https://github.com/silifketeknoloji',
+      color: 'hover:text-gray-400'
     },
     {
       icon: <TikTokIcon className="w-6 h-6" />,
-      name: "TikTok",
-      link: "https://www.tiktok.com/@silifketeknoloji7",
-      color: "hover:text-pink-500"
+      name: 'TikTok',
+      link: 'https://www.tiktok.com/@silifketeknoloji7',
+      color: 'hover:text-pink-500'
     }
   ];
 
@@ -131,7 +134,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Ana Sayfaya Dön</span>
+              <span>{isTR ? 'Ana Sayfaya Dön' : 'Back to Home'}</span>
             </motion.button>
           )}
           {/* Hero Section */}
@@ -143,16 +146,18 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             className="glass-panel glass-border-accent px-6 sm:px-12 py-12 md:py-16 text-center mb-20"
           >
             <div className="flex justify-center mb-6">
-              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">Bağlantıda Kal</span>
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">{isTR ? 'Bağlantıda Kal' : 'Stay Connected'}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
-              İletişim
+              {isTR ? 'İletişim' : 'Contact'}
             </h1>
             <p className="text-xl md:text-2xl text-gray-200/90 max-w-3xl mx-auto leading-relaxed">
-              Sorularınızı yanıtlamak, projelerinize ortak olmak ve Silifke'de teknoloji hikâyeleri yazmak için buradayız.
+              {isTR
+                ? "Sorularınızı yanıtlamak, projelerinize ortak olmak ve Silifke'de teknoloji hikâyeleri yazmak için buradayız."
+                : 'We are here to answer your questions, collaborate on your projects, and co-create technology stories in Silifke.'}
             </p>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {['7/24 yanıt', '1 iş günü içinde geri dönüş', 'Topluluk tabanlı destek'].map((item, index) => (
+              {[isTR ? '7/24 yanıt' : '24/7 response', isTR ? '1 iş günü içinde geri dönüş' : 'Reply within one business day', isTR ? 'Topluluk tabanlı destek' : 'Community-driven support'].map((item, index) => (
                 <motion.div
                   key={item}
                   initial={{ opacity: 0, y: 12 }}
@@ -178,7 +183,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
               className="glass-panel glass-border-accent p-8"
             >
               <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent text-center">
-                Sosyal Medya Hesaplarımız
+                {isTR ? 'Sosyal Medya Hesaplarımız' : 'Our Social Media'}
               </h2>
               
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
@@ -218,11 +223,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                       <MessageSquare className="w-10 h-10 text-white" />
                     </div>
                     <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent">
-                      WhatsApp ile İletişim
+                      {isTR ? 'WhatsApp ile İletişim' : 'Reach Us on WhatsApp'}
                     </h2>
                     <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                      Sorularınızı, önerilerinizi veya işbirliği tekliflerinizi WhatsApp üzerinden 
-                      doğrudan bizimle paylaşabilirsiniz. En kısa sürede size dönüş yapacağız.
+                      {isTR
+                        ? 'Sorularınızı, önerilerinizi veya işbirliği tekliflerinizi WhatsApp üzerinden doğrudan bizimle paylaşabilirsiniz. En kısa sürede size dönüş yapacağız.'
+                        : 'Share your questions, ideas, or partnership requests with us directly on WhatsApp. We will get back to you as soon as possible.'}
                     </p>
                   </div>
                   
@@ -237,12 +243,12 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                              hover:shadow-green-500/50 transition-all duration-300"
                   >
                     <MessageSquare className="w-6 h-6" />
-                    <span>WhatsApp'ta Mesaj Gönder</span>
+                    <span>{isTR ? "WhatsApp'ta Mesaj Gönder" : 'Send a WhatsApp Message'}</span>
                   </motion.a>
                   
                   <div className="mt-6 text-sm text-gray-400">
                     <p>📱 +90 501 168 3259</p>
-                    <p className="mt-1">⏰ 7/24 Destek</p>
+                    <p className="mt-1">{isTR ? '⏰ 7/24 Destek' : '⏰ 24/7 Support'}</p>
                   </div>
                 </div>
               </div>
@@ -257,7 +263,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
             >
               <div className="glass-panel glass-border-accent p-8">
                 <h2 className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent">
-                  İletişim Bilgileri
+                  {isTR ? 'İletişim Bilgileri' : 'Contact Details'}
                 </h2>
                 
                 <div className="space-y-6">
@@ -286,7 +292,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                 <div className="mt-8 glass-panel border-white/15 p-6">
                   <h3 className="text-white font-semibold mb-3 flex items-center">
                     <Clock className="w-5 h-5 mr-2 text-yellow-400" />
-                    Adres
+                    {isTR ? 'Adres' : 'Address'}
                   </h3>
                   <p className="text-gray-300 leading-relaxed">
                     Pazarkaşı Mah. Karallar Atölye<br />

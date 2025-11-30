@@ -68,8 +68,15 @@ export function testStatisticsWithMockData(): void {
   console.log('✅ Mock statistics test completed!');
 }
 
+declare global {
+  interface Window {
+    testStatistics?: typeof testStatistics;
+    testStatisticsWithMockData?: typeof testStatisticsWithMockData;
+  }
+}
+
 // Export for use in browser console
 if (typeof window !== 'undefined') {
-  (window as any).testStatistics = testStatistics;
-  (window as any).testStatisticsWithMockData = testStatisticsWithMockData;
+  window.testStatistics = testStatistics;
+  window.testStatisticsWithMockData = testStatisticsWithMockData;
 }

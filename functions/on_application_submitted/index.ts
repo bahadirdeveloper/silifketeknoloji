@@ -4,6 +4,7 @@ import { createClient } from 'jsr:@supabase/supabase-js@2';
 interface ApplicationData {
   id: string;
   full_name: string;
+  age: number;
   email: string;
   phone: string;
   school_work: string;
@@ -195,6 +196,11 @@ async function sendDiscordNotification(
         {
           name: "📧 E-posta",
           value: maskEmail(application.email),
+          inline: true
+        },
+        {
+          name: "🎂 Yaş",
+          value: Number.isFinite(application.age) ? `${application.age}` : 'Belirtilmemiş',
           inline: true
         },
         {

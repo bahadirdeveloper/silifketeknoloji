@@ -1,6 +1,7 @@
-import React, { lazy, Suspense, useMemo, useState } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, Clock, User, Languages } from "lucide-react";
+import { useLanguage, type SupportedLanguage } from "../../i18n/LanguageContext";
 
 const MatrixRain = lazy(() => import("../MatrixRain"));
 const InteractiveDots = lazy(() => import("../InteractiveDots"));
@@ -8,8 +9,6 @@ const InteractiveDots = lazy(() => import("../InteractiveDots"));
 interface BlogPageProps {
   onBack?: () => void;
 }
-
-type Language = "tr" | "en";
 
 type BlogSection = {
   heading: string;
@@ -43,7 +42,7 @@ type BlogContent = {
   latestLabel: string;
 };
 
-const blogDictionary: Record<Language, BlogContent> = {
+const blogDictionary: Record<SupportedLanguage, BlogContent> = {
   tr: {
     heroTitle: "Blog",
     heroSubtitle: "Yerelden yükselen teknoloji hikâyeleri, öğrenimler ve ilham verici proje günlükleri.",
@@ -52,6 +51,167 @@ const blogDictionary: Record<Language, BlogContent> = {
     languageLabel: "Dil",
     latestLabel: "Güncel Yazı",
     posts: [
+      {
+        title: "🌿 Silifke Teknoloji: Kodla, Üret, Ama İz Bırakma",
+        description:
+          "Projelerimizde karbon ayak izini azaltmak için teknolojiyle denge kuruyoruz.",
+        metadata: {
+          author: "Silifke Teknoloji Ekibi",
+          date: "14 Şubat 2025",
+          readingTime: "8 dk okuma"
+        },
+        tags: ["Sürdürülebilirlik", "Enerji Verimliliği", "Silifke Modeli"],
+        sections: [
+          {
+            heading: "Doğa ile Teknolojiyi Buluşturmak",
+            paragraphs: [
+              "Dijital çağın hızla genişleyen enerjisi beraberinde görünmez bir yük de getiriyor: karbon salınımı.",
+              "Her yazdığımız kod, her çalıştırdığımız sunucu ve her prototipin arkasında belirli bir enerji tüketimi var. Silifke Teknoloji olarak daha temiz ve sürdürülebilir bir gelecek kurmayı seçiyoruz."
+            ]
+          },
+          {
+            heading: "⚙️ Sıfırdan Başlayan Bilinç: \"Her Satır Kodun Bir Bedeli Var\"",
+            paragraphs: [
+              "Yapay zekâ, otomasyon ve yazılım sistemleri üretirken enerjinin sadece fiziksel dünyada değil dijital süreçlerde de tükendiğinin farkındayız.",
+              "Sunucu altyapılarımızdan veri depolamaya, render süreçlerinden sensör sistemlerine kadar her aşamada karbon ayak izimizi ölçüp minimize edebilmek için sistematik bir yaklaşım benimsedik."
+            ]
+          },
+          {
+            heading: "🔋 Akıllı Proje Geliştirme Döngüsü",
+            paragraphs: [
+              "Silifke Teknoloji'de geliştirdiğimiz her proje enerji verimliliği kriterlerine göre tasarlanıyor ve biz bu yaklaşımı \"Akıllı Döngü Modeli\" olarak adlandırıyoruz."
+            ],
+            bullets: [
+              "Analiz: Altyapıların enerji tüketim profillerini baştan hesaplıyoruz.",
+              "Optimize: Gereksiz işlem yükünü, veri transferini ve kaynak kullanımını azaltıyoruz.",
+              "Otomatize: Sensör verileriyle anlık enerji tüketimini izleyip optimize ediyoruz.",
+              "Raporla: Karbon etkisini şeffaf biçimde belgelerken öğrenimlerimizi paylaşıyoruz."
+            ]
+          },
+          {
+            heading: "🌍 Yerelden Küresele: Silifke Modeli’nin Yeşil Vizyonu",
+            paragraphs: [
+              "Yerelin üretim kültürünü korurken küresel standartlarda sürdürülebilir teknoloji üretmek için Silifke Modeli'nin yeşil vizyonunu takip ediyoruz."
+            ],
+            bullets: [
+              "Donanım seçimlerimizde düşük güç tüketimli cihazlara öncelik veriyoruz.",
+              "Sunucu altyapımız için yenilenebilir enerjiyle çalışan servisleri tercih ediyoruz.",
+              "Tekrar kullanılabilir kod ve bileşen mantığını tasarım döngülerinin merkezine yerleştiriyoruz.",
+              "Yoğun hesaplama gerektiren işlemlerde optimize GPU ve kaynak tahsisi uyguluyoruz."
+            ]
+          },
+          {
+            heading: "🌱 Karbon Ayak İzine Karşı Dijital Denge",
+            paragraphs: [
+              "Sürdürülebilirlik bizim için bir pazarlama başlığı değil, tasarım ilkesi.",
+              "\"Bu sistem çalışırken doğaya ne kadar yük bindiriyor ve bunu nasıl azaltabiliriz?\" sorusunu her projede soruyoruz.",
+              "Yapay zekâ destekli izleme altyapılarımız, karbon salınımını gerçek zamanlı ölçüp raporlayarak küçük işletmeler ve bireysel üreticiler için de erişilebilir çözümler sunacak."
+            ]
+          },
+          {
+            heading: "🔭 Geleceğe Bakış: Sıfır Emisyonlu Teknoloji",
+            paragraphs: [
+              "2025 vizyonumuz Silifke Teknoloji'yi kendi karbon salınımını dengeleyen ilk yerel teknoloji girişimi yapmak."
+            ],
+            bullets: [
+              "Proje altyapılarımızda yenilenebilir enerji kaynaklarına geçiş planlıyoruz.",
+              "Karbon dengeleme algoritmaları ve ölçüm araçları geliştiriyoruz.",
+              "Veri merkezleri için yeşil enerji anlaşmaları üzerinde çalışıyoruz."
+            ]
+          },
+          {
+            heading: "💬 Son Söz",
+            paragraphs: [
+              "Teknoloji üretmek güç ister; o gücü doğayı tüketmeden kullanmak ise gerçek mühendislik gerektirir.",
+              "Silifke Teknoloji olarak vizyonumuz net: daha akıllı sistemler ve daha temiz bir dünya. Her proje, her satır kod ve her sensör bu vizyonun bir parçası."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Sürdürülebilirlik Yolculuğuna Katıl",
+          href: "/projeler"
+        }
+      },
+      {
+        title: "🦀 Silifke Modeli: Garajdan Kurumlaşmaya Giden Yol",
+        description:
+          "Silifke Modeli manifestosuyla garajdan başlayıp kurumsallaşmaya uzanan kapsayıcı üretim kültürünü keşfedin.",
+        metadata: {
+          author: "Silifke Teknoloji Manifesto Ekibi",
+          date: "22 Ocak 2025",
+          readingTime: "7 dk okuma"
+        },
+        tags: ["Silifke Modeli", "Topluluk", "Kurumsallaşma"],
+        sections: [
+          {
+            heading: "Manifesto",
+            paragraphs: [
+              "“Kapsayıcı kurumlar sadece devlet düzeyinde değil, Silifke’de bir garajda da kurulabilir.” — Silifke Modeli Manifestosu",
+              "Garaj, cesaret ve kolektif bilinçle birleştiğinde bir kentin geleceğini şekillendirebilir. Silifke Modeli tam olarak bu potansiyeli manifestoya dönüştürüyor."
+            ]
+          },
+          {
+            heading: "1. Başlangıç Fikri",
+            paragraphs: [
+              "Her büyük dönüşüm bir küçük laboratuvarda başlar. Silifke Teknoloji Kulübü sadece bir topluluk değil; yerelden evrensele uzanan kapsayıcı bir yönetim deneyidir.",
+              "Kulübün amacı, üretmek kadar paylaşmak, liderlik kadar katılımı yaygınlaştırmak, teknoloji kadar insanı güçlendirmektir."
+            ]
+          },
+          {
+            heading: "2. Temel İlkeler",
+            paragraphs: [
+              "Silifke Modeli sürdürülebilir bir topluluk inşası için dört temel ilkeye dayanır."
+            ],
+            bullets: [
+              "Katılımcılık: Her birey fikir sunabilir, karar alabilir, katkı sağlayabilir.",
+              "Şeffaflık: Gelir, gider, proje ve sponsorluk süreçleri açık biçimde paylaşılır.",
+              "Eşitlik: Deneyim veya yaş farkı gözetilmeksizin herkes üretim sürecine dahil edilir.",
+              "Yerel Güçlenme: Teknoloji, Silifke halkının refahını artıran somut araçlara dönüştürülür."
+            ]
+          },
+          {
+            heading: "3. Mikro Düzeyde Kapsayıcı Kurum",
+            paragraphs: [
+              "Silifke Modeli, devletlerin devasa yapılarında aranan “katılımcı kurum” ruhunu, bir garajda çalışan üç kişilik bir ekipte yaşatır.",
+              "Topluluk temelli karar alma mekanizması kurumsal bilinci tabana yayar, proje üretimini yerel ihtiyaçlara göre şekillendirir ve teknolojiyi toplumun ortak aklına dönüştürür."
+            ]
+          },
+          {
+            heading: "4. Teknolojiyle Kurumsallaşma",
+            paragraphs: [
+              "Modelin dijital temeli, şeffaf veri paylaşımından adil gelir dağılımına kadar teknolojinin tüm imkanlarını Silifke için seferber eder."
+            ],
+            bullets: [
+              "Supabase ve açık kaynak teknolojilerle şeffaf veri yönetimi.",
+              "Prompt Engineer GPT, Web Designer GPT gibi ajanlarla eşit üretkenlik.",
+              "Topluluk puanlama sistemiyle adil gelir paylaşımı.",
+              "Silifke Cloud sayesinde kolektif bilginin ortak depolanması."
+            ]
+          },
+          {
+            heading: "5. Garajdan Kamuya",
+            paragraphs: [
+              "Garaj, fikirlerin doğduğu yerdir. Silifke Teknoloji, bu fikirleri yapıya, disipline ve ekosisteme dönüştürür."
+            ],
+            bullets: [
+              "Topluluk Evresi: Fikir ve enerji üretimi.",
+              "Kurum Evresi: Şeffaf yönetim, görev dağılımı, sürdürülebilir finansman.",
+              "Kalkınma Evresi: Projelerin Silifke’nin eğitimine, ekonomisine ve kültürüne etkisi."
+            ]
+          },
+          {
+            heading: "6. Geleceğe Yönelik Çağrı",
+            paragraphs: [
+              "Silifke Modeli, bir kulübün ötesinde yeni bir yönetim felsefesinin prototipidir.",
+              "Hedef, bir kasabadan çıkan teknoloji fikri değil; kasabanın geleceğini birlikte inşa eden bilinçli bir toplumdur. Teknoloji araçtır, kurumlar ruhtur; Silifke bu ruhu teknolojiyle birleştiren ilk yerel örnek olmayı hedefliyor."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Silifke Modeline Katıl",
+          href: "/katil"
+        }
+      },
       {
         title: "Değer Üretiyoruz! Yapay Zeka ve İnsan",
         description:
@@ -112,6 +272,167 @@ const blogDictionary: Record<Language, BlogContent> = {
     latestLabel: "Latest Post",
     posts: [
       {
+        title: "🌿 Silifke Technology: Code, Create, Leave No Trace",
+        description:
+          "We balance technology with sustainability to shrink the carbon footprint behind every project.",
+        metadata: {
+          author: "Silifke Technology Team",
+          date: "14 February 2025",
+          readingTime: "8 min read"
+        },
+        tags: ["Sustainability", "Energy Efficiency", "Silifke Model"],
+        sections: [
+          {
+            heading: "Bridging Nature and Technology",
+            paragraphs: [
+              "The expanding energy of the digital era comes with an invisible burden: carbon emissions.",
+              "Every line of code we ship, every server we run, and every prototype we iterate consumes energy. At Silifke Technology we choose to build a cleaner, more sustainable future."
+            ]
+          },
+          {
+            heading: "⚙️ Conscious from the Start: \"Every Line of Code Has a Cost\"",
+            paragraphs: [
+              "While we develop AI, automation, and software systems, we remain aware that energy diminishes in digital processes just as it does in the physical world.",
+              "From server infrastructure and storage to rendering pipelines and sensor networks, we follow a systematic approach to measure and minimise our carbon footprint."
+            ]
+          },
+          {
+            heading: "🔋 Smart Project Development Cycle",
+            paragraphs: [
+              "Every project at Silifke Technology is designed around energy efficiency criteria—a method we call the \"Smart Cycle Model.\""
+            ],
+            bullets: [
+              "Analyse: we map the energy profile of each infrastructure component up front.",
+              "Optimise: we trim unnecessary processing, data transfer, and resource usage.",
+              "Automate: we monitor live energy consumption with sensors and tune it automatically.",
+              "Report: we document the carbon impact transparently and share what we learn."
+            ]
+          },
+          {
+            heading: "🌍 From Local to Global: The Green Vision of the Silifke Model",
+            paragraphs: [
+              "We protect the local production culture while meeting global standards for sustainable technology through the green vision of the Silifke Model."
+            ],
+            bullets: [
+              "We prioritise low-power hardware components in devices we build.",
+              "We prefer infrastructure partners that operate on renewable energy.",
+              "We place reusable code and component design at the heart of our build cycles.",
+              "We apply optimised GPU and resource allocation to reduce heavy compute loads."
+            ]
+          },
+          {
+            heading: "🌱 Digital Balance Against the Carbon Footprint",
+            paragraphs: [
+              "Sustainability is not a marketing slogan for us; it is a design principle.",
+              "We ask in every project: \"How much pressure does this system place on nature, and how do we reduce it?\"",
+              "Our AI-assisted monitoring stack will soon measure and report carbon emissions in real time, making actionable insights accessible to small businesses and individual makers alike."
+            ]
+          },
+          {
+            heading: "🔭 Looking Ahead: Toward Zero-Emission Tech",
+            paragraphs: [
+              "Our 2025 vision is to make Silifke Technology the first local tech initiative that balances its own carbon emissions."
+            ],
+            bullets: [
+              "We are planning transitions to renewable energy across project infrastructure.",
+              "We are developing carbon balancing algorithms and measurement tools.",
+              "We are negotiating green energy agreements for our data infrastructure."
+            ]
+          },
+          {
+            heading: "💬 Final Word",
+            paragraphs: [
+              "Technology requires power; using that power without exhausting nature is where real engineering begins.",
+              "Our vision is clear: smarter systems and a cleaner planet. Every project, every line of code, and every sensor feeds that vision."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Join the Sustainability Journey",
+          href: "/projects"
+        }
+      },
+      {
+        title: "🦀 The Silifke Model: From Garage to Institution",
+        description:
+          "Discover the Silifke Model manifesto, a journey that turns a community garage into a fully fledged inclusive organisation.",
+        metadata: {
+          author: "Silifke Technology Manifesto Team",
+          date: "22 January 2025",
+          readingTime: "7 min read"
+        },
+        tags: ["Silifke Model", "Community", "Institution Building"],
+        sections: [
+          {
+            heading: "Manifesto",
+            paragraphs: [
+              "“Inclusive institutions are not just built by states; they can bloom in a garage in Silifke.” — Silifke Model Manifesto",
+              "When courage meets collective consciousness, a garage can reshape the future of a town. The Silifke Model turns that potential into a manifesto everyone can act on."
+            ]
+          },
+          {
+            heading: "1. The Spark",
+            paragraphs: [
+              "Every major transformation starts in a small lab. Silifke Technology Club is more than a community; it is an inclusive governance experiment stretching from local to global.",
+              "Our aim is as much about sharing as it is about building, spreading participation as much as leadership, and empowering people as much as technology."
+            ]
+          },
+          {
+            heading: "2. Core Principles",
+            paragraphs: [
+              "The Silifke Model rests on four principles that sustain a resilient, long-term community."
+            ],
+            bullets: [
+              "Participation: anyone can pitch ideas, take decisions, and contribute.",
+              "Transparency: income, spending, projects, and sponsorships stay open to the community.",
+              "Equity: age or seniority never blocks people from joining production cycles.",
+              "Local Empowerment: technology becomes a tangible tool that improves daily life in Silifke."
+            ]
+          },
+          {
+            heading: "3. Inclusive Institutions at Micro Scale",
+            paragraphs: [
+              "The Silifke Model keeps the “participatory institution” spirit alive inside a three-person garage team, a spirit usually sought in large state structures.",
+              "Community-driven decision making spreads institutional awareness, aligns production with local needs, and turns technology into shared intelligence."
+            ]
+          },
+          {
+            heading: "4. Institutionalising with Technology",
+            paragraphs: [
+              "The digital backbone of the model mobilises technology to deliver transparent data, fair income sharing, and community-owned infrastructure."
+            ],
+            bullets: [
+              "Transparent data management through Supabase and open-source tooling.",
+              "Equal productivity via agents like Prompt Engineer GPT and Web Designer GPT.",
+              "Fair revenue distribution thanks to a community-driven scoring system.",
+              "Collective memory hosted on Silifke Cloud to preserve shared knowledge."
+            ]
+          },
+          {
+            heading: "5. From Garage to Public Impact",
+            paragraphs: [
+              "Garages incubate ideas. Silifke Technology turns those ideas into structure, discipline, and ecosystems."
+            ],
+            bullets: [
+              "Community Phase: generating ideas and momentum.",
+              "Institution Phase: transparent management, clear roles, sustainable funding.",
+              "Development Phase: measurable impact on Silifke’s education, economy, and culture."
+            ]
+          },
+          {
+            heading: "6. A Call for the Future",
+            paragraphs: [
+              "The Silifke Model is not just a club initiative; it prototypes a new governance mindset.",
+              "The goal is not a technology story emerging from a small town, but a conscious society co-building its future. Technology is the tool, institutions are the spirit—and Silifke is ready to be the first local example that fuses the two."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Join the Silifke Model",
+          href: "/katil"
+        }
+      },
+      {
         title: "Creating Value! Artificial Intelligence and People",
         description:
           "How we blend artificial intelligence with human-centered projects, keeping a global mindset while producing value for Silifke.",
@@ -165,7 +486,7 @@ const blogDictionary: Record<Language, BlogContent> = {
 };
 
 const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
-  const [language, setLanguage] = useState<Language>("tr");
+  const { language, setLanguage } = useLanguage();
   const content = blogDictionary[language];
 
   const fadeInUp = useMemo(

@@ -1,63 +1,282 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowLeft, Send, User, Code, Palette, Brain, Users, FileText, Clock, Monitor, Printer, Camera, Mic, Cpu, MonitorSpeaker, AlertCircle } from 'lucide-react';
 import { submitApplication, type ApplicationFormData } from '../../lib/supabaseClient';
+import { useLanguage, type SupportedLanguage } from '../../i18n/LanguageContext';
 
 interface JoinClubPageProps {
   onBack: () => void;
 }
 
-// Form validation schema
-const joinClubSchema = z.object({
-  // Kişisel Bilgiler
-  fullName: z.string()
-    .min(2, "Ad soyad en az 2 karakter olmalıdır")
-    .max(50, "Ad soyad en fazla 50 karakter olabilir"),
-  email: z.string()
-    .email("Geçerli bir e-posta adresi giriniz"),
-  phone: z.string()
-    .regex(/^[\+]?[0-9\s\-\(\)]{10,15}$/, "Geçerli bir telefon numarası giriniz"),
-  schoolWork: z.string()
-    .min(5, "Okul/iş bilgisi en az 5 karakter olmalıdır")
-    .max(100, "Okul/iş bilgisi en fazla 100 karakter olabilir"),
+const joinFormContent = {
+  tr: {
+    back: 'Ana Sayfaya Dön',
+    title: 'Kulübe Katıl',
+    subtitle: "Silifke Teknoloji Kulübü'ne katılmak için aşağıdaki formu doldur. Her adım seni daha yakından tanımamızı sağlayacak.",
+    sections: [
+      { title: 'Kişisel Bilgiler', description: 'Seni tanıyalım' },
+      { title: 'İlgi Alanı', description: 'Hangi alanda katkı sağlamak istersin?' },
+      { title: 'Küçük Görev', description: 'Yetkinliğini göster' },
+      { title: 'Motivasyon', description: 'Neden katılmak istiyorsun?' },
+      { title: 'Donanım', description: 'Teknik altyapın' }
+    ],
+    fields: {
+      fullNameLabel: 'Ad Soyad *',
+      fullNamePlaceholder: 'Adınız ve soyadınız',
+      emailLabel: 'E-posta *',
+      emailPlaceholder: 'ornek@email.com',
+      phoneLabel: 'Telefon *',
+      phonePlaceholder: '0555 123 45 67',
+      ageLabel: 'Yaş *',
+      agePlaceholder: 'Örn: 24',
+      schoolLabel: 'Okul / Bölüm / Meslek *',
+      schoolPlaceholder: 'Üniversite/Lise/Meslek bilginiz',
+      interestsLabel: 'Hangi alanda katkı sağlamak istersin? *',
+      sampleLabel: 'İlgi alanına göre küçük bir örnek paylaş *',
+      samplePlaceholder: 'Yetkinliğini gösteren bir örnek paylaş...',
+      motivationLabel: "Silifke Teknoloji Kulübü'ne katılmak isteme sebebin nedir? *",
+      motivationPlaceholder: 'Motivasyonunu ve hedeflerini paylaş...',
+      weeklyHoursLabel: 'Haftada kaç saat ayırabilirsin? *',
+      weeklyHoursPlaceholder: 'Örn: 10-15 saat',
+      meetingLabel: 'Haftalık toplantılara katılabilir misin? *',
+      computerLabel: 'Bilgisayarın var mı? *',
+      hardwareLabel: 'Kulübe katkı sağlayacak ek donanımın var mı? *',
+      sharingLabel: 'Donanımını kulüpte kullanıma açabilir misin? *',
+      kvkkConsent: ' okudum ve kişisel verilerimin işlenmesine onay veriyorum *',
+      kvkkNote: 'Ad, soyad, e-posta, telefon numarası ve diğer form verileriniz üyelik süreci için işlenecektir.'
+    },
+    sample: {
+      examplesTitle: 'Örnekler:',
+      examples: [
+        { title: 'Kodlama:', description: ' GitHub linki / ekran görüntüsü' },
+        { title: 'Tasarım:', description: ' Canva/Figma görsel linki' },
+        { title: 'Yazarlık:', description: ' 2–3 repliklik kısa bir diyalog' },
+        { title: 'Yönetim:', description: ' Daha önce görev aldığın bir proje/organizasyon' }
+      ]
+    },
+    interestOptions: [
+      { id: 'coding', label: 'Yazılım / Kodlama' },
+      { id: 'design', label: 'Tasarım / Görsel içerik' },
+      { id: 'ai', label: 'Yapay zekâ / Chatbot / Sesli Asistan' },
+      { id: 'management', label: 'Proje yönetimi / Organizasyon' },
+      { id: 'content', label: 'İçerik yazarlığı / Sosyal medya' }
+    ],
+    computerOptions: [
+      { id: 'windows', label: 'Evet – Windows' },
+      { id: 'macos', label: 'Evet – macOS' },
+      { id: 'linux', label: 'Evet – Linux' },
+      { id: 'none', label: 'Hayır' }
+    ],
+    hardwareOptions: [
+      { id: '3d-printer', label: '3D Yazıcı' },
+      { id: 'camera', label: 'Profesyonel kamera / drone' },
+      { id: 'audio', label: 'Stüdyo mikrofonu / ses ekipmanı' },
+      { id: 'maker', label: 'Raspberry Pi / Arduino / maker donanımları' },
+      { id: 'monitor', label: 'Harici monitör / projeksiyon' },
+      { id: 'none', label: 'Yok' }
+    ],
+    meetingOptions: [
+      { id: 'yes', label: 'Evet' },
+      { id: 'no', label: 'Hayır' },
+      { id: 'online', label: 'Online tercih ederim' }
+    ],
+    sharingOptions: [
+      { id: 'no', label: 'Hayır, sadece kendim için' },
+      { id: 'sometimes', label: 'Bazen, randevuyla paylaşabilirim' },
+      { id: 'yes', label: 'Evet, kulüp etkinliklerinde kullanılabilir' }
+    ],
+    buttons: {
+      previous: 'Önceki',
+      next: 'Sonraki',
+      submit: 'Başvuruyu Gönder',
+      submitting: 'Gönderiliyor...'
+    },
+    errors: {
+      submissionFailed: 'Başvuru gönderilirken bir hata oluştu',
+      unexpected: 'Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.'
+    },
+    kvkk: {
+      prefix: '',
+      linkText: "KVKK Aydınlatma Metni'ni",
+      suffix: " okudum ve kişisel verilerimin işlenmesine onay veriyorum *",
+      note: 'Ad, soyad, e-posta, telefon numarası ve diğer form verileriniz üyelik süreci için işlenecektir.'
+    },
+    validation: {
+      fullNameMin: 'Ad soyad en az 2 karakter olmalıdır',
+      fullNameMax: 'Ad soyad en fazla 50 karakter olabilir',
+      email: 'Geçerli bir e-posta adresi giriniz',
+      phone: 'Geçerli bir telefon numarası giriniz',
+      ageRequired: 'Yaş bilgisi zorunludur',
+      ageInteger: 'Yaş tam sayı olmalıdır',
+      ageMin: 'Yaş en az 18 olmalıdır',
+      ageMax: 'Yaş en fazla 38 olabilir',
+      schoolMin: 'Okul/iş bilgisi en az 5 karakter olmalıdır',
+      schoolMax: 'Okul/iş bilgisi en fazla 100 karakter olabilir',
+      interestsMin: 'En az bir ilgi alanı seçmelisiniz',
+      interestsMax: 'En fazla 5 ilgi alanı seçebilirsiniz',
+      portfolioMin: 'Örnek çalışma en az 20 karakter olmalıdır',
+      portfolioMax: 'Örnek çalışma en fazla 500 karakter olabilir',
+      motivationMin: 'Motivasyon açıklaması en az 50 karakter olmalıdır',
+      motivationMax: 'Motivasyon açıklaması en fazla 1000 karakter olabilir',
+      weeklyHours: 'Haftalık saat belirtmelisiniz',
+      meetingPreference: 'Toplantı tercihini belirtmelisiniz',
+      computerType: 'Bilgisayar durumunu belirtmelisiniz',
+      hardwareSharing: 'Donanım paylaşım tercihini belirtmelisiniz',
+      consent: 'KVKK onayı zorunludur'
+    }
+  },
+  en: {
+    back: 'Back to Home',
+    title: 'Join the Club',
+    subtitle: 'Fill out the form below to join Silifke Technology Club. Each step helps us get to know you better.',
+    sections: [
+      { title: 'Personal Details', description: 'Tell us about yourself' },
+      { title: 'Interest Area', description: 'Where would you like to contribute?' },
+      { title: 'Showcase', description: 'Share a sample of your skills' },
+      { title: 'Motivation', description: 'Why would you like to join?' },
+      { title: 'Hardware', description: 'Your technical setup' }
+    ],
+    fields: {
+      fullNameLabel: 'Full Name *',
+      fullNamePlaceholder: 'Your first and last name',
+      emailLabel: 'Email *',
+      emailPlaceholder: 'you@example.com',
+      phoneLabel: 'Phone *',
+      phonePlaceholder: '+90 555 123 45 67',
+      ageLabel: 'Age *',
+      agePlaceholder: 'e.g., 24',
+      schoolLabel: 'School / Department / Profession *',
+      schoolPlaceholder: 'Your school, major, or profession',
+      interestsLabel: 'Which areas would you like to support? *',
+      sampleLabel: 'Share a small sample based on your interest *',
+      samplePlaceholder: 'Share a sample that showcases your skills...',
+      motivationLabel: 'Why do you want to join Silifke Technology Club? *',
+      motivationPlaceholder: 'Tell us about your motivation and goals...',
+      weeklyHoursLabel: 'How many hours per week can you dedicate? *',
+      weeklyHoursPlaceholder: 'E.g., 10-15 hours',
+      meetingLabel: 'Can you attend weekly meetings? *',
+      computerLabel: 'Do you currently have a computer? *',
+      hardwareLabel: 'Do you have additional hardware the club can use? *',
+      sharingLabel: 'Can you make your hardware available for club use? *',
+      kvkkConsent: ' I have read and consent to the processing of my personal data *',
+      kvkkNote: 'Your name, email, phone number, and other form data will be processed for the membership evaluation.'
+    },
+    sample: {
+      examplesTitle: 'Examples:',
+      examples: [
+        { title: 'Coding:', description: ' GitHub link or screenshot' },
+        { title: 'Design:', description: ' Canva/Figma visual link' },
+        { title: 'Writing:', description: ' A short 2–3 line dialogue' },
+        { title: 'Management:', description: ' A project or organisation you have supported' }
+      ]
+    },
+    interestOptions: [
+      { id: 'coding', label: 'Software / Coding' },
+      { id: 'design', label: 'Design / Visual content' },
+      { id: 'ai', label: 'AI / Chatbot / Voice assistant' },
+      { id: 'management', label: 'Project management / Organisation' },
+      { id: 'content', label: 'Content writing / Social media' }
+    ],
+    computerOptions: [
+      { id: 'windows', label: 'Yes – Windows' },
+      { id: 'macos', label: 'Yes – macOS' },
+      { id: 'linux', label: 'Yes – Linux' },
+      { id: 'none', label: 'No' }
+    ],
+    hardwareOptions: [
+      { id: '3d-printer', label: '3D Printer' },
+      { id: 'camera', label: 'Professional camera / drone' },
+      { id: 'audio', label: 'Studio microphone / audio gear' },
+      { id: 'maker', label: 'Raspberry Pi / Arduino / maker gear' },
+      { id: 'monitor', label: 'External monitor / projector' },
+      { id: 'none', label: 'None' }
+    ],
+    meetingOptions: [
+      { id: 'yes', label: 'Yes' },
+      { id: 'no', label: 'No' },
+      { id: 'online', label: 'I prefer online' }
+    ],
+    sharingOptions: [
+      { id: 'no', label: 'No, only for myself' },
+      { id: 'sometimes', label: 'Sometimes, with an appointment' },
+      { id: 'yes', label: 'Yes, available for club activities' }
+    ],
+    buttons: {
+      previous: 'Previous',
+      next: 'Next',
+      submit: 'Submit Application',
+      submitting: 'Submitting...'
+    },
+    errors: {
+      submissionFailed: 'Something went wrong while sending your application',
+      unexpected: 'An unexpected error occurred. Please try again.'
+    },
+    kvkk: {
+      prefix: 'I have read the ',
+      linkText: 'KVKK Disclosure Statement',
+      suffix: ' and consent to the processing of my personal data *',
+      note: 'Your name, email, phone number, and other form data will be processed for the membership evaluation.'
+    },
+    validation: {
+      fullNameMin: 'Full name must be at least 2 characters',
+      fullNameMax: 'Full name can be at most 50 characters',
+      email: 'Please enter a valid email address',
+      phone: 'Please enter a valid phone number',
+      ageRequired: 'Age is required',
+      ageInteger: 'Age must be a whole number',
+      ageMin: 'You must be at least 18 years old',
+      ageMax: 'You must be 38 or younger',
+      schoolMin: 'School/work information must be at least 5 characters',
+      schoolMax: 'School/work information can be at most 100 characters',
+      interestsMin: 'Select at least one interest area',
+      interestsMax: 'You can select at most 5 interest areas',
+      portfolioMin: 'Sample must be at least 20 characters',
+      portfolioMax: 'Sample can be at most 500 characters',
+      motivationMin: 'Motivation must be at least 50 characters',
+      motivationMax: 'Motivation can be at most 1000 characters',
+      weeklyHours: 'Please specify your weekly availability',
+      meetingPreference: 'Please select your meeting preference',
+      computerType: 'Please tell us about your computer access',
+      hardwareSharing: 'Please choose your hardware sharing preference',
+      consent: 'KVKK consent is required'
+    }
+  }
+} as const;
 
-  // İlgi Alanı
-  interests: z.array(z.string())
-    .min(1, "En az bir ilgi alanı seçmelisiniz")
-    .max(5, "En fazla 5 ilgi alanı seçebilirsiniz"),
+type JoinFormContent = typeof joinFormContent[SupportedLanguage];
+type JoinValidationMessages = JoinFormContent['validation'];
 
-  // Küçük Görev/Örnek
-  portfolioExample: z.string()
-    .min(20, "Örnek çalışma en az 20 karakter olmalıdır")
-    .max(500, "Örnek çalışma en fazla 500 karakter olabilir"),
-
-  // Motivasyon
-  motivation: z.string()
-    .min(50, "Motivasyon açıklaması en az 50 karakter olmalıdır")
-    .max(1000, "Motivasyon açıklaması en fazla 1000 karakter olabilir"),
-  weeklyHours: z.string()
-    .min(1, "Haftalık saat belirtmelisiniz"),
-  meetingPreference: z.string()
-    .min(1, "Toplantı tercihini belirtmelisiniz"),
-
-  // Donanım
-  computerType: z.string()
-    .min(1, "Bilgisayar durumunu belirtmelisiniz"),
+const createJoinClubSchema = (validation: JoinValidationMessages) => z.object({
+  fullName: z.string().min(2, validation.fullNameMin).max(50, validation.fullNameMax),
+  email: z.string().email(validation.email),
+  phone: z.string().regex(/^[+]?[0-9\s()-]{10,15}$/, validation.phone),
+  age: z.string()
+    .min(1, validation.ageRequired)
+    .regex(/^\d+$/, validation.ageInteger)
+    .refine((value) => Number(value) >= 18, { message: validation.ageMin })
+    .refine((value) => Number(value) <= 38, { message: validation.ageMax }),
+  schoolWork: z.string().min(5, validation.schoolMin).max(100, validation.schoolMax),
+  interests: z.array(z.string()).min(1, validation.interestsMin).max(5, validation.interestsMax),
+  portfolioExample: z.string().min(20, validation.portfolioMin).max(500, validation.portfolioMax),
+  motivation: z.string().min(50, validation.motivationMin).max(1000, validation.motivationMax),
+  weeklyHours: z.string().min(1, validation.weeklyHours),
+  meetingPreference: z.string().min(1, validation.meetingPreference),
+  computerType: z.string().min(1, validation.computerType),
   additionalHardware: z.array(z.string()),
-  hardwareSharing: z.string()
-    .min(1, "Donanım paylaşım tercihini belirtmelisiniz"),
-
-  // KVKK Consent
-  consentKvkk: z.boolean()
-    .refine(val => val === true, "KVKK onayı zorunludur")
+  hardwareSharing: z.string().min(1, validation.hardwareSharing),
+  consentKvkk: z.boolean().refine((val) => val === true, validation.consent)
 });
 
-type JoinClubFormData = z.infer<typeof joinClubSchema>;
+type JoinClubFormData = z.infer<ReturnType<typeof createJoinClubSchema>>;
 
 const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
+  const { language } = useLanguage();
+  const t = joinFormContent[language];
+  const joinClubSchema = useMemo(() => createJoinClubSchema(t.validation), [t]);
+
   const [currentSection, setCurrentSection] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -74,6 +293,10 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
     mode: 'onChange'
   });
 
+  React.useEffect(() => {
+    setSubmitError(null);
+  }, [language]);
+
   // Watch interests to handle checkbox array
   const watchedInterests = watch('interests') || [];
   const watchedHardware = watch('additionalHardware') || [];
@@ -83,69 +306,65 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
     visible: { opacity: 1, y: 0 }
   };
 
-  const sections = [
-    {
-      title: "Kişisel Bilgiler",
-      icon: <User className="w-6 h-6" />,
-      description: "Seni tanıyalım"
-    },
-    {
-      title: "İlgi Alanı",
-      icon: <Brain className="w-6 h-6" />,
-      description: "Hangi alanda katkı sağlamak istersin?"
-    },
-    {
-      title: "Küçük Görev",
-      icon: <FileText className="w-6 h-6" />,
-      description: "Yetkinliğini göster"
-    },
-    {
-      title: "Motivasyon",
-      icon: <Clock className="w-6 h-6" />,
-      description: "Neden katılmak istiyorsun?"
-    },
-    {
-      title: "Donanım",
-      icon: <Monitor className="w-6 h-6" />,
-      description: "Teknik altyapın"
-    }
-  ];
+  const sectionIcons = useMemo(
+    () => [
+      <User className="w-6 h-6" />, 
+      <Brain className="w-6 h-6" />, 
+      <FileText className="w-6 h-6" />, 
+      <Clock className="w-6 h-6" />, 
+      <Monitor className="w-6 h-6" />
+    ],
+    []
+  );
 
-  const interestOptions = [
-    { id: 'coding', label: 'Yazılım / Kodlama', icon: <Code className="w-5 h-5" /> },
-    { id: 'design', label: 'Tasarım / Görsel içerik', icon: <Palette className="w-5 h-5" /> },
-    { id: 'ai', label: 'Yapay zekâ / Chatbot / Sesli Asistan', icon: <Brain className="w-5 h-5" /> },
-    { id: 'management', label: 'Proje yönetimi / Organizasyon', icon: <Users className="w-5 h-5" /> },
-    { id: 'content', label: 'İçerik yazarlığı / Sosyal medya', icon: <FileText className="w-5 h-5" /> }
-  ];
+  const sections = useMemo(
+    () => t.sections.map((section, index) => ({ ...section, icon: sectionIcons[index] })),
+    [sectionIcons, t.sections]
+  );
 
-  const computerOptions = [
-    { id: 'windows', label: 'Evet – Windows' },
-    { id: 'macos', label: 'Evet – macOS' },
-    { id: 'linux', label: 'Evet – Linux' },
-    { id: 'none', label: 'Hayır' }
-  ];
+  const interestIconMap: Record<string, React.ReactNode> = useMemo(
+    () => ({
+      coding: <Code className="w-5 h-5" />,
+      design: <Palette className="w-5 h-5" />,
+      ai: <Brain className="w-5 h-5" />,
+      management: <Users className="w-5 h-5" />,
+      content: <FileText className="w-5 h-5" />
+    }),
+    []
+  );
 
-  const hardwareOptions = [
-    { id: '3d-printer', label: '3D Yazıcı', icon: <Printer className="w-5 h-5" /> },
-    { id: 'camera', label: 'Profesyonel kamera / drone', icon: <Camera className="w-5 h-5" /> },
-    { id: 'audio', label: 'Stüdyo mikrofonu / ses ekipmanı', icon: <Mic className="w-5 h-5" /> },
-    { id: 'maker', label: 'Raspberry Pi / Arduino / maker donanımları', icon: <Cpu className="w-5 h-5" /> },
-    { id: 'monitor', label: 'Harici monitör / projeksiyon', icon: <MonitorSpeaker className="w-5 h-5" /> },
-    { id: 'none', label: 'Yok', icon: null }
-  ];
+  const interestOptions = useMemo(
+    () => t.interestOptions.map((option) => ({
+      ...option,
+      icon: interestIconMap[option.id]
+    })),
+    [interestIconMap, t.interestOptions]
+  );
 
-  const meetingOptions = [
-    { id: 'yes', label: 'Evet' },
-    { id: 'no', label: 'Hayır' },
-    { id: 'online', label: 'Online tercih ederim' }
-  ];
+  const computerOptions = useMemo(() => t.computerOptions, [t.computerOptions]);
 
-  const sharingOptions = [
-    { id: 'no', label: 'Hayır, sadece kendim için' },
-    { id: 'sometimes', label: 'Bazen, randevuyla paylaşabilirim' },
-    { id: 'yes', label: 'Evet, kulüp etkinliklerinde kullanılabilir' }
-  ];
+  const hardwareIconMap: Record<string, React.ReactNode> = useMemo(
+    () => ({
+      '3d-printer': <Printer className="w-5 h-5" />,
+      camera: <Camera className="w-5 h-5" />,
+      audio: <Mic className="w-5 h-5" />,
+      maker: <Cpu className="w-5 h-5" />,
+      monitor: <MonitorSpeaker className="w-5 h-5" />,
+      none: null
+    }),
+    []
+  );
+
+  const hardwareOptions = useMemo(
+    () => t.hardwareOptions.map((option) => ({
+      ...option,
+      icon: hardwareIconMap[option.id]
+    })),
+    [hardwareIconMap, t.hardwareOptions]
+  );
+
+  const meetingOptions = useMemo(() => t.meetingOptions, [t.meetingOptions]);
+  const sharingOptions = useMemo(() => t.sharingOptions, [t.sharingOptions]);
 
   // Validate current section before proceeding
   const validateCurrentSection = async () => {
@@ -153,7 +372,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
     switch (currentSection) {
       case 0: // Kişisel Bilgiler
-        fieldsToValidate = ['fullName', 'email', 'phone', 'schoolWork'];
+        fieldsToValidate = ['fullName', 'email', 'phone', 'age', 'schoolWork'];
         break;
       case 1: // İlgi Alanı
         fieldsToValidate = ['interests'];
@@ -192,9 +411,12 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
     setSubmitError(null);
 
     try {
+      const numericAge = Number(data.age);
+
       // Transform data to match ApplicationFormData interface
       const applicationData: ApplicationFormData = {
         fullName: data.fullName,
+        age: numericAge,
         email: data.email,
         phone: data.phone,
         schoolWork: data.schoolWork,
@@ -215,11 +437,11 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
         // Redirect to thank you page with application ID
         window.location.href = `/tesekkurler?applicationId=${result.applicationId}`;
       } else {
-        setSubmitError(result.error || 'Başvuru gönderilirken bir hata oluştu');
+        setSubmitError(result.error || t.errors.submissionFailed);
       }
     } catch (error) {
       console.error('Form submission error:', error);
-      setSubmitError('Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.');
+      setSubmitError(t.errors.unexpected);
     } finally {
       setIsSubmitting(false);
     }
@@ -232,7 +454,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                Ad Soyad *
+                {t.fields.fullNameLabel}
               </label>
               <input
                 type="text"
@@ -240,7 +462,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
                   errors.fullName ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="Adınız ve soyadınız"
+                placeholder={t.fields.fullNamePlaceholder}
               />
               {errors.fullName && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -252,7 +474,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                E-posta *
+                {t.fields.emailLabel}
               </label>
               <input
                 type="email"
@@ -260,7 +482,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
                   errors.email ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="ornek@email.com"
+                placeholder={t.fields.emailPlaceholder}
               />
               {errors.email && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -272,7 +494,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                Telefon *
+                {t.fields.phoneLabel}
               </label>
               <input
                 type="tel"
@@ -280,7 +502,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
                   errors.phone ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="0555 123 45 67"
+                placeholder={t.fields.phonePlaceholder}
               />
               {errors.phone && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -292,7 +514,31 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                Okul / Bölüm / Meslek *
+                {t.fields.ageLabel}
+              </label>
+              <input
+                type="number"
+                min={18}
+                max={38}
+                step={1}
+                inputMode="numeric"
+                {...register('age')}
+                className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
+                  errors.age ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
+                }`}
+                placeholder={t.fields.agePlaceholder}
+              />
+              {errors.age && (
+                <p className="text-red-400 text-sm mt-1 flex items-center">
+                  <AlertCircle className="w-4 h-4 mr-1" />
+                  {errors.age.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-200 mb-2">
+                {t.fields.schoolLabel}
               </label>
               <input
                 type="text"
@@ -300,7 +546,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
                   errors.schoolWork ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="Üniversite/Lise/Meslek bilginiz"
+                placeholder={t.fields.schoolPlaceholder}
               />
               {errors.schoolWork && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -317,7 +563,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-4">
-                Hangi alanda katkı sağlamak istersin? *
+                {t.fields.interestsLabel}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {interestOptions.map((option) => (
@@ -360,15 +606,17 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                İlgi alanına göre küçük bir örnek paylaş *
+                {t.fields.sampleLabel}
               </label>
               <div className="text-sm text-gray-400 mb-4 p-4 bg-black/30 rounded-xl border border-gray-600">
-                <p className="mb-2"><strong>Örnekler:</strong></p>
+                <p className="mb-2"><strong>{t.sample.examplesTitle}</strong></p>
                 <ul className="list-disc list-inside space-y-1 text-xs">
-                  <li><strong>Kodlama:</strong> GitHub linki / ekran görüntüsü</li>
-                  <li><strong>Tasarım:</strong> Canva/Figma görsel linki</li>
-                  <li><strong>Yazarlık:</strong> 2–3 repliklik kısa bir diyalog</li>
-                  <li><strong>Yönetim:</strong> Daha önce görev aldığın bir proje/organizasyon</li>
+                  {t.sample.examples.map((example) => (
+                    <li key={example.title}>
+                      <strong>{example.title}</strong>
+                      {example.description}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <textarea
@@ -376,7 +624,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 min-h-[120px] resize-none ${
                   errors.portfolioExample ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="Yetkinliğini gösteren bir örnek paylaş..."
+                placeholder={t.fields.samplePlaceholder}
               />
               {errors.portfolioExample && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -393,14 +641,14 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                Silifke Teknoloji Kulübü'ne katılmak isteme sebebin nedir? *
+                {t.fields.motivationLabel}
               </label>
               <textarea
                 {...register('motivation')}
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 min-h-[100px] resize-none ${
                   errors.motivation ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="Motivasyonunu ve hedeflerini paylaş..."
+                placeholder={t.fields.motivationPlaceholder}
               />
               {errors.motivation && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -412,7 +660,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-2">
-                Haftada kaç saat ayırabilirsin? *
+                {t.fields.weeklyHoursLabel}
               </label>
               <input
                 type="text"
@@ -420,7 +668,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 className={`w-full px-4 py-3 bg-black/50 border rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-yellow-400/20 transition-all duration-300 ${
                   errors.weeklyHours ? 'border-red-400 focus:border-red-400' : 'border-gray-600 focus:border-yellow-400'
                 }`}
-                placeholder="Örn: 10-15 saat"
+                placeholder={t.fields.weeklyHoursPlaceholder}
               />
               {errors.weeklyHours && (
                 <p className="text-red-400 text-sm mt-1 flex items-center">
@@ -432,7 +680,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-4">
-                Haftalık toplantılara katılabilir misin? *
+                {t.fields.meetingLabel}
               </label>
               <div className="space-y-3">
                 {meetingOptions.map((option) => (
@@ -465,7 +713,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-4">
-                Bilgisayarın var mı? *
+                {t.fields.computerLabel}
               </label>
               <div className="space-y-3">
                 {computerOptions.map((option) => (
@@ -493,7 +741,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-4">
-                Kulübe katkı sağlayacak ek donanımın var mı? *
+                {t.fields.hardwareLabel}
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {hardwareOptions.map((option) => (
@@ -525,7 +773,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
 
             <div>
               <label className="block text-sm font-semibold text-gray-200 mb-4">
-                Donanımını kulüpte kullanıma açabilir misin? *
+                {t.fields.sharingLabel}
               </label>
               <div className="space-y-3">
                 {sharingOptions.map((option) => (
@@ -560,19 +808,18 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 />
                 <div className="ml-3">
                   <span className="text-white font-medium">
+                    {t.kvkk.prefix}
                     <a
                       href="/kvkk-aydinlatma.html"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="underline decoration-yellow-400/60 decoration-dotted underline-offset-4 hover:text-yellow-300 transition-colors"
                     >
-                      KVKK Aydınlatma Metni'ni
+                      {t.kvkk.linkText}
                     </a>
-                    {' '}okudum ve kişisel verilerimin işlenmesine onay veriyorum *
+                    {t.kvkk.suffix}
                   </span>
-                  <p className="text-sm text-gray-400 mt-1">
-                    Ad, soyad, e-posta, telefon numarası ve diğer form verileriniz üyelik süreci için işlenecektir.
-                  </p>
+                  <p className="text-sm text-gray-400 mt-1">{t.kvkk.note}</p>
                 </div>
               </label>
               {errors.consentKvkk && (
@@ -610,14 +857,14 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
               className="absolute top-0 left-0 flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Ana Sayfaya Dön</span>
+              <span>{t.back}</span>
             </button>
 
             <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent mb-4">
-              Kulübe Katıl
+              {t.title}
             </h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Silifke Teknoloji Kulübü'ne katılmak için aşağıdaki formu doldur. Her adım seni daha yakından tanımamızı sağlayacak.
+              {t.subtitle}
             </p>
           </motion.div>
 
@@ -711,7 +958,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
               disabled={currentSection === 0}
               className="px-6 py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white font-semibold rounded-xl transition-all duration-300 disabled:cursor-not-allowed"
             >
-              Önceki
+              {t.buttons.previous}
             </button>
 
             <span className="text-gray-400 text-sm">
@@ -727,12 +974,12 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-                    <span>Gönderiliyor...</span>
+                    <span>{t.buttons.submitting}</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-5 h-5" />
-                    <span>Başvuruyu Gönder</span>
+                    <span>{t.buttons.submit}</span>
                   </>
                 )}
               </button>
@@ -741,7 +988,7 @@ const JoinClubPage: React.FC<JoinClubPageProps> = ({ onBack }) => {
                 onClick={nextSection}
                 className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-black font-semibold rounded-xl transition-all duration-300"
               >
-                Sonraki
+                {t.buttons.next}
               </button>
             )}
           </motion.div>

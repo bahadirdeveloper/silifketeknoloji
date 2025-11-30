@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowLeft, Clock, Users, Star, Mail } from 'lucide-react';
 import { getApplicationStatus } from '../../lib/supabaseClient';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 interface ThankYouPageProps {
   onBack: () => void;
 }
 
 const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
+  const { language } = useLanguage();
+  const isTR = language === 'tr';
   const [applicationStatus, setApplicationStatus] = useState<{
     status?: string;
     level?: string;
@@ -37,17 +40,17 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
   };
 
   const getStatusMessage = () => {
-    if (isLoading) return 'Başvurunuz işleniyor...';
-    
+    if (isLoading) return isTR ? 'Başvurunuz işleniyor...' : 'Your application is being processed...';
+
     switch (applicationStatus.status) {
       case 'approved':
-        return 'Tebrikler! Başvurunuz onaylandı!';
+        return isTR ? 'Tebrikler! Başvurunuz onaylandı!' : 'Congratulations! Your application has been approved!';
       case 'under_review':
-        return 'Başvurunuz değerlendiriliyor...';
+        return isTR ? 'Başvurunuz değerlendiriliyor...' : 'Your application is under review...';
       case 'rejected':
-        return 'Başvurunuz reddedildi.';
+        return isTR ? 'Başvurunuz reddedildi.' : 'Your application was declined.';
       default:
-        return 'Başvurunuz alındı!';
+        return isTR ? 'Başvurunuz alındı!' : 'We received your application!';
     }
   };
 
@@ -68,20 +71,20 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
     switch (applicationStatus.level) {
       case 'community':
         return {
-          title: 'Topluluk Üyesi',
-          description: 'Açık topluluk etkinliklerine katılabilirsiniz',
+          title: isTR ? 'Topluluk Üyesi' : 'Community Member',
+          description: isTR ? 'Açık topluluk etkinliklerine katılabilirsiniz' : 'You can join open community events',
           icon: <Users className="w-6 h-6" />
         };
       case 'contributor':
         return {
-          title: 'Katkıcı Üye',
-          description: 'Projelere aktif katkı sağlayabilirsiniz',
+          title: isTR ? 'Katkıcı Üye' : 'Contributor Member',
+          description: isTR ? 'Projelere aktif katkı sağlayabilirsiniz' : 'You can actively contribute to projects',
           icon: <Star className="w-6 h-6" />
         };
       case 'core':
         return {
-          title: 'Çekirdek Üye',
-          description: 'Kulüp yönetiminde söz sahibisiniz',
+          title: isTR ? 'Çekirdek Üye' : 'Core Member',
+          description: isTR ? 'Kulüp yönetiminde söz sahibisiniz' : 'You have a voice in club leadership',
           icon: <Star className="w-6 h-6" />
         };
       default:
@@ -111,7 +114,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
               className="absolute top-0 left-0 flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Ana Sayfaya Dön</span>
+              <span>{isTR ? 'Ana Sayfaya Dön' : 'Back to Home'}</span>
             </button>
 
             <div className="flex justify-center mb-6">
@@ -121,10 +124,12 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-white via-green-200 to-white bg-clip-text text-transparent mb-4">
-              Başvurunuz Alındı!
+              {isTR ? 'Başvurunuz Alındı!' : 'Application Received!'}
             </h1>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Silifke Teknoloji Kulübü'ne başvurunuz başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz.
+              {isTR
+                ? "Silifke Teknoloji Kulübü'ne başvurunuz başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz."
+                : 'Your application has been submitted successfully. We will get in touch with you shortly.'}
             </p>
           </motion.div>
 
@@ -143,7 +148,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
               
               {applicationStatus.score && (
                 <div className="mb-6">
-                  <p className="text-gray-400 mb-2">Başvuru Puanınız</p>
+                  <p className="text-gray-400 mb-2">{isTR ? 'Başvuru Puanınız' : 'Your Application Score'}</p>
                   <div className="text-4xl font-bold text-yellow-400">
                     {applicationStatus.score}/100
                   </div>
@@ -164,19 +169,19 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
                 <div className="flex items-center space-x-3">
                   <Clock className="w-5 h-5 text-blue-400" />
                   <span className="text-gray-300">
-                    <strong>Değerlendirme Süreci:</strong> 1-3 iş günü
+                    <strong>{isTR ? 'Değerlendirme Süreci:' : 'Review Timeline:'}</strong> {isTR ? '1-3 iş günü' : '1-3 business days'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Mail className="w-5 h-5 text-blue-400" />
                   <span className="text-gray-300">
-                    <strong>İletişim:</strong> E-posta adresinize bilgi gönderilecek
+                    <strong>{isTR ? 'İletişim:' : 'Communication:'}</strong> {isTR ? 'E-posta adresinize bilgi gönderilecek' : 'We will email you an update'}
                   </span>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Users className="w-5 h-5 text-blue-400" />
                   <span className="text-gray-300">
-                    <strong>Sonraki Adım:</strong> Onay sonrası Discord sunucumuza davet
+                    <strong>{isTR ? 'Sonraki Adım:' : 'Next Step:'}</strong> {isTR ? 'Onay sonrası Discord sunucumuza davet' : 'Join our Discord after approval'}
                   </span>
                 </div>
               </div>
@@ -192,7 +197,7 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
             className="bg-black/40 backdrop-blur-md border border-gray-600 rounded-2xl p-8 mb-8"
           >
             <h3 className="text-xl font-bold text-white mb-6 text-center">
-              Sonraki Adımlar
+              {isTR ? 'Sonraki Adımlar' : 'What Happens Next'}
             </h3>
             
             <div className="grid md:grid-cols-3 gap-6">
@@ -200,9 +205,9 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
                 <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-blue-400 font-bold">1</span>
                 </div>
-                <h4 className="font-semibold text-white mb-2">Değerlendirme</h4>
+                <h4 className="font-semibold text-white mb-2">{isTR ? 'Değerlendirme' : 'Evaluation'}</h4>
                 <p className="text-sm text-gray-400">
-                  Başvurunuz puanlama sistemi ile değerlendirilecek
+                  {isTR ? 'Başvurunuz puanlama sistemi ile değerlendirilecek' : 'Your application will be reviewed with our scoring system'}
                 </p>
               </div>
               
@@ -210,9 +215,9 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
                 <div className="w-12 h-12 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-yellow-400 font-bold">2</span>
                 </div>
-                <h4 className="font-semibold text-white mb-2">İletişim</h4>
+                <h4 className="font-semibold text-white mb-2">{isTR ? 'İletişim' : 'Communication'}</h4>
                 <p className="text-sm text-gray-400">
-                  E-posta ile sonuç hakkında bilgilendirileceksiniz
+                  {isTR ? 'E-posta ile sonuç hakkında bilgilendirileceksiniz' : 'We will email you about the result'}
                 </p>
               </div>
               
@@ -220,9 +225,9 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
                 <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <span className="text-green-400 font-bold">3</span>
                 </div>
-                <h4 className="font-semibold text-white mb-2">Katılım</h4>
+                <h4 className="font-semibold text-white mb-2">{isTR ? 'Katılım' : 'Participation'}</h4>
                 <p className="text-sm text-gray-400">
-                  Onay sonrası topluluk etkinliklerine katılabilirsiniz
+                  {isTR ? 'Onay sonrası topluluk etkinliklerine katılabilirsiniz' : 'After approval you can join community activities'}
                 </p>
               </div>
             </div>
@@ -237,14 +242,14 @@ const ThankYouPage: React.FC<ThankYouPageProps> = ({ onBack }) => {
             className="text-center"
           >
             <p className="text-gray-400 mb-4">
-              Sorularınız için bizimle iletişime geçebilirsiniz
+              {isTR ? 'Sorularınız için bizimle iletişime geçebilirsiniz' : 'Reach out anytime if you have questions'}
             </p>
             <div className="flex justify-center space-x-6">
               <a
                 href="mailto:info@silifketeknoloji.com"
                 className="text-blue-400 hover:text-blue-300 transition-colors duration-300"
               >
-                E-posta
+                {isTR ? 'E-posta' : 'Email'}
               </a>
               <a
                 href="https://discord.gg/silifketeknoloji"

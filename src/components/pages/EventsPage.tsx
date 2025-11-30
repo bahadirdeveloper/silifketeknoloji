@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useMemo, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Calendar, 
@@ -17,6 +17,7 @@ import {
   Award,
   ArrowLeft
 } from "lucide-react";
+import { useLanguage } from "../../i18n/LanguageContext";
 
 // Lazy load background components
 const MatrixRain = lazy(() => import("../MatrixRain"));
@@ -38,6 +39,7 @@ interface Event {
   speaker?: string;
   speakerTitle?: string;
   speakerImage?: string;
+  pendingSpeakerMessage?: string;
   tags: string[];
   status: 'upcoming' | 'ongoing' | 'completed';
   featured: boolean;
@@ -48,6 +50,8 @@ interface EventsPageProps {
 }
 
 const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
+  const { language } = useLanguage();
+  const isTR = language === 'tr';
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
@@ -68,129 +72,280 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
     }
   };
 
-  const categories = [
-    { id: 'all', name: 'Tümü', icon: <Calendar className="w-4 h-4" /> },
-    { id: 'workshop', name: 'Atölye Çalışması', icon: <Code className="w-4 h-4" /> },
-    { id: 'seminar', name: 'Seminer', icon: <GraduationCap className="w-4 h-4" /> },
-    { id: 'meetup', name: 'Buluşma', icon: <Users2 className="w-4 h-4" /> },
-    { id: 'hackathon', name: 'Hackathon', icon: <Lightbulb className="w-4 h-4" /> },
-    { id: 'networking', name: 'Networking', icon: <Coffee className="w-4 h-4" /> },
-    { id: 'competition', name: 'Yarışma', icon: <Award className="w-4 h-4" /> }
-  ];
+  const categories = useMemo(
+    () => [
+      { id: 'all', name: isTR ? 'Tümü' : 'All', icon: <Calendar className="w-4 h-4" /> },
+      { id: 'workshop', name: isTR ? 'Atölye Çalışması' : 'Workshop', icon: <Code className="w-4 h-4" /> },
+      { id: 'seminar', name: isTR ? 'Seminer' : 'Seminar', icon: <GraduationCap className="w-4 h-4" /> },
+      { id: 'meetup', name: isTR ? 'Buluşma' : 'Meetup', icon: <Users2 className="w-4 h-4" /> },
+      { id: 'hackathon', name: 'Hackathon', icon: <Lightbulb className="w-4 h-4" /> },
+      { id: 'networking', name: isTR ? 'Networking' : 'Networking', icon: <Coffee className="w-4 h-4" /> },
+      { id: 'competition', name: isTR ? 'Yarışma' : 'Competition', icon: <Award className="w-4 h-4" /> }
+    ],
+    [isTR]
+  );
 
-  const events: Event[] = [
+  const eventsData = [
     {
       id: 1,
-      title: "Silifke Teknoloji Kulübü İlk Buluşması",
-      description: "Kulübümüzün kuruluş buluşması ve tanışma etkinliği",
-      longDescription: "Silifke Teknoloji Kulübü'nün ilk resmi buluşması! Tanışma oturumlarının ardından 2025 yol haritamızı paylaşacak, mentorluk programı ve projelerimizi duyuracağız. Etkinlik sonunda networking alanı ve küçük ikramlar olacak.",
       category: 'meetup',
-      date: '15 Şubat 2025',
-      time: '18:30 - 21:00',
-      location: 'Silifke Belediyesi Kültür Merkezi - Konferans Salonu',
-      capacity: 80,
-      registered: 42,
-      price: 0,
       image: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: 'Bahadır Gemalmaz',
-      speakerTitle: 'Kurucu & Teknik Lider',
+      capacity: 80,
+      registered: 0,
+      price: 0,
+      status: 'upcoming' as const,
+      featured: true,
       speakerImage: '/bahadirgemalmaz.png',
-      tags: ['Networking', 'Roadmap', 'Community'],
-      status: 'upcoming',
-      featured: true
+      translations: {
+        tr: {
+          title: 'Silifke Teknoloji Kulübü İlk Buluşması',
+          description: 'Kulübümüzün kuruluş buluşması ve tanışma etkinliği',
+          longDescription:
+            "Silifke Teknoloji Kulübü'nün ilk resmi buluşması! Tanışma oturumlarının ardından 2025-2026 yol haritamızı paylaşacak, mentorluk programı ve projelerimizi duyuracağız. Etkinlik sonunda networking alanı ve küçük ikramlar olacak.",
+          date: '29 Kasım 2025 Cumartesi',
+          time: '20:00 - 22:00',
+          location: 'Silifke Belediyesi Kültür Merkezi - Konferans Salonu',
+          speaker: 'Bahadır Gemalmaz',
+          speakerTitle: 'Kurucu & Teknik Lider',
+          pendingSpeakerMessage: undefined,
+          tags: ['Networking', 'Roadmap', 'Community']
+        },
+        en: {
+          title: 'Silifke Technology Club Kick-off Meetup',
+          description: 'Our founding gathering and networking event',
+          longDescription:
+            "The first official meetup of Silifke Technology Club! After welcome sessions we will share our 2025–2026 roadmap, announce the mentorship programme, and walk through upcoming projects. We close with a networking lounge and light refreshments.",
+          date: 'Saturday, 29 November 2025',
+          time: '20:00 – 22:00',
+          location: 'Silifke Municipality Cultural Center – Conference Hall',
+          speaker: 'Bahadır Gemalmaz',
+          speakerTitle: 'Founder & Technical Lead',
+          pendingSpeakerMessage: undefined,
+          tags: ['Networking', 'Roadmap', 'Community']
+        }
+      }
     },
     {
       id: 4,
-      title: "İlk Hackathon: Silifke'nin Geleceği",
-      description: "Silifke için teknolojik çözümler geliştirme yarışması",
-      longDescription: "Silifke'nin yerel sorunlarına teknolojik çözümler üreten ilk hackathonumuz. 48 saatlik maraton boyunca katılımcılar ekipler halinde çalışacak, mentor desteği alacak ve jüriye uygulanabilir ürünler sunacak.",
       category: 'hackathon',
-      date: '12-13 Nisan 2025',
-      time: '48 saatlik maraton',
-      location: 'Mersin Üniversitesi Silifke Meslek Yüksekokulu - Teknokent',
-      capacity: 120,
-      registered: 64,
-      price: 0,
       image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: 'Mentor Ekibi',
-      speakerTitle: 'Sektör Profesyonelleri',
+      capacity: 120,
+      registered: 0,
+      price: 0,
+      status: 'upcoming' as const,
+      featured: false,
       speakerImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80',
-      tags: ['Hackathon', 'Innovation', 'Local Solutions'],
-      status: 'upcoming',
-      featured: false
+      translations: {
+        tr: {
+          title: "İlk Hackathon: Silifke'nin Geleceği",
+          description: 'Silifke için teknolojik çözümler geliştirme yarışması',
+          longDescription:
+            'Silifke\'nin yerel sorunlarına teknolojik çözümler üreten ilk hackathonumuz. 48 saatlik maraton boyunca katılımcılar ekipler halinde çalışacak, mentor desteği alacak ve jüriye uygulanabilir ürünler sunacak.',
+          date: '12-13 Nisan 2025',
+          time: '48 saatlik maraton',
+          location: 'Mersin Üniversitesi Silifke Meslek Yüksekokulu - Teknokent',
+          speaker: 'Mentor Ekibi',
+          speakerTitle: 'Sektör Profesyonelleri',
+          pendingSpeakerMessage: undefined,
+          tags: ['Hackathon', 'Innovation', 'Local Solutions']
+        },
+        en: {
+          title: 'First Hackathon: Future of Silifke',
+          description: 'Competition to build tech solutions for Silifke',
+          longDescription:
+            'Our first hackathon focused on solving Silifke’s local challenges with technology. During the 48-hour marathon teams will collaborate, receive mentor support, and present viable products to the jury.',
+          date: '12–13 April 2025',
+          time: '48-hour marathon',
+          location: 'Mersin University Silifke Vocational School – Technopark',
+          speaker: 'Mentor Team',
+          speakerTitle: 'Industry Professionals',
+          pendingSpeakerMessage: undefined,
+          tags: ['Hackathon', 'Innovation', 'Local Solutions']
+        }
+      }
     },
     {
       id: 5,
-      title: "Girişimcilik ve Teknoloji Networking Gecesi",
-      description: "Girişimciler ve teknoloji meraklıları buluşması",
-      longDescription: "Silifke ve çevresindeki girişimcilerin, teknoloji meraklılarının ve mentorların bir araya geldiği networking etkinliği. Startup fikirleri, deneyim paylaşımı ve iş birliği fırsatları için ideal ortam.",
       category: 'networking',
-      date: '28 Mart 2025',
-      time: '19:00 - 22:00',
-      location: 'Silifke Tenis Kulübü - Açık Teras Alanı',
-      capacity: 90,
-      registered: 47,
-      price: 0,
       image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Startup', 'Networking', 'Business'],
-      status: 'upcoming',
-      featured: false
+      capacity: 90,
+      registered: 0,
+      price: 0,
+      status: 'upcoming' as const,
+      featured: false,
+      speakerImage: undefined,
+      translations: {
+        tr: {
+          title: 'Girişimcilik ve Teknoloji Networking Gecesi',
+          description: 'Girişimciler ve teknoloji meraklıları buluşması',
+          longDescription:
+            'Silifke ve çevresindeki girişimcilerin, teknoloji meraklılarının ve mentorların bir araya geldiği networking etkinliği. Startup fikirleri, deneyim paylaşımı ve iş birliği fırsatları için ideal ortam.',
+          date: '28 Mart 2025',
+          time: '19:00 - 22:00',
+          location: 'Silifke Tenis Kulübü - Açık Teras Alanı',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Startup', 'Networking', 'Business']
+        },
+        en: {
+          title: 'Entrepreneurship & Technology Networking Night',
+          description: 'A meetup for entrepreneurs and tech enthusiasts',
+          longDescription:
+            'A networking evening bringing together entrepreneurs, tech enthusiasts, and mentors from Silifke and the surrounding region. Perfect for startup ideas, knowledge sharing, and collaboration opportunities.',
+          date: '28 March 2025',
+          time: '19:00 – 22:00',
+          location: 'Silifke Tennis Club – Open Terrace Area',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Startup', 'Networking', 'Business']
+        }
+      }
     },
     {
       id: 6,
-      title: "Mobil Uygulama Geliştirme Yarışması",
-      description: "En yaratıcı mobil uygulama geliştirme yarışması",
-      longDescription: "Silifke'nin yerel sorunlarına çözüm üreten mobil uygulamalar geliştirme yarışması. Katılımcılar belirlenen süre içinde projelerini tamamlayarak jüri önünde sunum yapacak. Ödüller ve tanınma fırsatları!",
       category: 'competition',
-      date: '25 Mayıs 2025',
-      time: '10:00 - 18:00',
-      location: 'Silifke Atatürk Kültür Merkezi - Studio Lab',
-      capacity: 60,
-      registered: 18,
-      price: 50,
       image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Mobile', 'Competition', 'Innovation'],
-      status: 'upcoming',
-      featured: false
+      capacity: 60,
+      registered: 0,
+      price: 50,
+      status: 'upcoming' as const,
+      featured: false,
+      speakerImage: undefined,
+      translations: {
+        tr: {
+          title: 'Mobil Uygulama Geliştirme Yarışması',
+          description: 'En yaratıcı mobil uygulama geliştirme yarışması',
+          longDescription:
+            'Silifke\'nin yerel sorunlarına çözüm üreten mobil uygulamalar geliştirme yarışması. Katılımcılar belirlenen süre içinde projelerini tamamlayarak jüri önünde sunum yapacak. Ödüller ve tanınma fırsatları!',
+          date: '25 Mayıs 2025',
+          time: '10:00 - 18:00',
+          location: 'Silifke Atatürk Kültür Merkezi - Studio Lab',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Mobile', 'Competition', 'Innovation']
+        },
+        en: {
+          title: 'Mobile App Development Challenge',
+          description: 'A competition for the most creative mobile app',
+          longDescription:
+            'A competition to build mobile apps that solve local challenges in Silifke. Teams will complete their projects within the allotted time and pitch them to the jury. Prizes and recognition await!',
+          date: '25 May 2025',
+          time: '10:00 – 18:00',
+          location: 'Silifke Atatürk Cultural Center – Studio Lab',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Mobile', 'Competition', 'Innovation']
+        }
+      }
     },
     {
       id: 7,
-      title: "Python ve Veri Bilimi Atölyesi",
-      description: "Veri analizi ve görselleştirme teknikleri",
-      longDescription: "Python programlama dili kullanarak veri bilimi projelerinde nasıl çalışılacağını öğreneceksiniz. Pandas, NumPy, Matplotlib gibi kütüphanelerle uygulamalı eğitim. Başlangıç seviyesinden ileri seviyeye kadar herkes için uygun.",
       category: 'workshop',
-      date: '8 Mart 2025',
-      time: '11:00 - 16:00',
-      location: 'Silifke Belediyesi Dijital Dönüşüm Ofisi',
-      capacity: 55,
-      registered: 23,
-      price: 0,
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop&auto=format&q=80",
-      speaker: "Planlanıyor",
-      speakerTitle: "Planlanıyor",
+      capacity: 55,
+      registered: 0,
+      price: 0,
+      status: 'upcoming' as const,
+      featured: false,
       speakerImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format&q=80",
-      tags: ['Python', 'Data Science', 'Analytics'],
-      status: 'upcoming',
-      featured: false
+      translations: {
+        tr: {
+          title: 'Python ve Veri Bilimi Atölyesi',
+          description: 'Veri analizi ve görselleştirme teknikleri',
+          longDescription:
+            'Python programlama dili kullanarak veri bilimi projelerinde nasıl çalışılacağını öğreneceksiniz. Pandas, NumPy, Matplotlib gibi kütüphanelerle uygulamalı eğitim. Başlangıç seviyesinden ileri seviyeye kadar herkes için uygun.',
+          date: '8 Mart 2025',
+          time: '11:00 - 16:00',
+          location: 'Silifke Belediyesi Dijital Dönüşüm Ofisi',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: 'Konuşmacı bilgileri yakında açıklanacak.',
+          tags: ['Python', 'Data Science', 'Analytics']
+        },
+        en: {
+          title: 'Python & Data Science Workshop',
+          description: 'Data analysis and visualisation techniques',
+          longDescription:
+            'Learn how to work on data science projects using the Python programming language. Hands-on training with libraries such as Pandas, NumPy, and Matplotlib. Suitable for everyone from beginners to advanced learners.',
+          date: '8 March 2025',
+          time: '11:00 – 16:00',
+          location: 'Silifke Municipality Digital Transformation Office',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: 'Speaker details will be announced soon.',
+          tags: ['Python', 'Data Science', 'Analytics']
+        }
+      }
     },
     {
       id: 8,
-      title: "Dijital Pazarlama ve E-ticaret Semineri",
-      description: "Online satış stratejileri ve dijital pazarlama",
-      longDescription: "E-ticaret dünyasında başarılı olmak için gerekli dijital pazarlama stratejileri, SEO, sosyal medya pazarlama ve müşteri analizi konularında kapsamlı seminer. İşletmenizi dijital dünyaya taşıyın!",
       category: 'seminar',
-      date: '19 Nisan 2025',
-      time: '13:00 - 17:30',
-      location: 'Mersin Tarsus Girişimcilik Merkezi',
-      capacity: 80,
-      registered: 31,
-      price: 0,
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80",
-      tags: ['Marketing', 'E-commerce', 'Business'],
-      status: 'upcoming',
-      featured: false
+      capacity: 80,
+      registered: 0,
+      price: 0,
+      status: 'upcoming' as const,
+      featured: false,
+      speakerImage: undefined,
+      translations: {
+        tr: {
+          title: 'Dijital Pazarlama ve E-ticaret Semineri',
+          description: 'Online satış stratejileri ve dijital pazarlama',
+          longDescription:
+            'E-ticaret dünyasında başarılı olmak için gerekli dijital pazarlama stratejileri, SEO, sosyal medya pazarlama ve müşteri analizi konularında kapsamlı seminer. İşletmenizi dijital dünyaya taşıyın!',
+          date: '19 Nisan 2025',
+          time: '13:00 - 17:30',
+          location: 'Mersin Tarsus Girişimcilik Merkezi',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Marketing', 'E-commerce', 'Business']
+        },
+        en: {
+          title: 'Digital Marketing & E-commerce Seminar',
+          description: 'Online sales strategies and digital marketing',
+          longDescription:
+            'A comprehensive seminar covering the digital marketing strategies, SEO, social media marketing, and customer analytics required to succeed in e-commerce. Bring your business into the digital era!',
+          date: '19 April 2025',
+          time: '13:00 – 17:30',
+          location: 'Mersin Tarsus Entrepreneurship Center',
+          speaker: undefined,
+          speakerTitle: undefined,
+          pendingSpeakerMessage: undefined,
+          tags: ['Marketing', 'E-commerce', 'Business']
+        }
+      }
     }
-  ];
+  ] as const;
+
+  const events: Event[] = eventsData.map((event) => {
+    const translation = event.translations[language];
+    return {
+      id: event.id,
+      category: event.category,
+      date: translation.date,
+      time: translation.time,
+      location: translation.location,
+      capacity: event.capacity,
+      registered: event.registered,
+      price: event.price,
+      image: event.image,
+      title: translation.title,
+      description: translation.description,
+      longDescription: translation.longDescription,
+      speaker: translation.speaker,
+      speakerTitle: translation.speakerTitle,
+      speakerImage: event.speakerImage,
+      pendingSpeakerMessage: translation.pendingSpeakerMessage,
+      tags: Array.from(translation.tags),
+      status: event.status,
+      featured: event.featured
+    } satisfies Event;
+  });
 
   const filteredEvents = events.filter(event => {
     const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
@@ -212,27 +367,30 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
   };
 
   const getStatusText = (status: string) => {
+    if (isTR) {
+      switch (status) {
+        case 'upcoming': return 'Yaklaşan';
+        case 'ongoing': return 'Devam Ediyor';
+        case 'completed': return 'Tamamlandı';
+        default: return status;
+      }
+    }
+
     switch (status) {
-      case 'upcoming': return 'Yaklaşan';
-      case 'ongoing': return 'Devam Ediyor';
-      case 'completed': return 'Tamamlandı';
+      case 'upcoming': return 'Upcoming';
+      case 'ongoing': return 'Ongoing';
+      case 'completed': return 'Completed';
       default: return status;
     }
   };
 
   const formatDate = (dateString: string) => {
-    if (dateString === 'Planlanıyor') {
-      return 'Planlanıyor';
-    }
-    // Eğer tarih zaten Türkçe formatında ise direkt döndür
-    if (dateString.includes('Ekim') || dateString.includes('Ocak') || dateString.includes('Şubat') || 
-        dateString.includes('Mart') || dateString.includes('Nisan') || dateString.includes('Mayıs') || 
-        dateString.includes('Haziran') || dateString.includes('Temmuz') || dateString.includes('Ağustos') || 
-        dateString.includes('Eylül') || dateString.includes('Kasım') || dateString.includes('Aralık')) {
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
       return dateString;
     }
-    const date = new Date(dateString);
-    return date.toLocaleDateString('tr-TR', {
+
+    return date.toLocaleDateString(language === 'tr' ? 'tr-TR' : 'en-GB', {
       day: 'numeric',
       month: 'long',
       year: 'numeric'
@@ -268,7 +426,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
               className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300 mb-8"
             >
               <ArrowLeft className="w-5 h-5" />
-              <span>Ana Sayfaya Dön</span>
+              <span>{isTR ? 'Ana Sayfaya Dön' : 'Back to Home'}</span>
             </motion.button>
           )}
           {/* Hero Section */}
@@ -280,16 +438,18 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
             className="glass-panel glass-border-accent px-6 sm:px-12 py-12 text-center mb-12"
           >
             <div className="flex justify-center mb-6">
-              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">Silifke'de Teknoloji Buluşmaları</span>
+              <span className="glass-pill text-[0.65rem] sm:text-xs text-yellow-100">{isTR ? 'Silifke\'de Teknoloji Buluşmaları' : 'Technology Gatherings in Silifke'}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-white via-yellow-200 to-white bg-clip-text text-transparent">
-              Etkinlikler
+              {isTR ? 'Etkinlikler' : 'Events'}
             </h1>
             <p className="text-xl md:text-2xl text-gray-200/90 max-w-4xl mx-auto leading-relaxed">
-              Teknoloji gündemini takip edin, yeni beceriler kazanın ve toplulukla aynı cam masada buluşun. Etkinliklerin çoğu ücretsiz veya sembolik katkı payı ile.
+              {isTR
+                ? 'Teknoloji gündemini takip edin, yeni beceriler kazanın ve toplulukla aynı cam masada buluşun. Etkinliklerin çoğu ücretsiz veya sembolik katkı payı ile.'
+                : 'Stay close to the technology agenda, build new skills, and sit at the same glass table with the community. Most events are free or have symbolic contributions.'}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
-              {['Workshop', 'Networking', 'Hackathon', 'Sosyal Etki'].map((tag) => (
+              {(isTR ? ['Atölye', 'Networking', 'Hackathon', 'Sosyal Etki'] : ['Workshop', 'Networking', 'Hackathon', 'Social Impact']).map((tag) => (
                 <span key={tag} className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs tracking-[0.25em] uppercase text-gray-200 backdrop-blur-lg">
                   {tag}
                 </span>
@@ -309,7 +469,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
               className="text-3xl font-bold mb-8 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent flex items-center justify-center"
             >
               <Star className="w-8 h-8 text-yellow-400 mr-3" />
-              Öne Çıkan Etkinlikler
+              {isTR ? 'Öne Çıkan Etkinlikler' : 'Featured Events'}
             </motion.h2>
             
             <div className="flex justify-center">
@@ -331,12 +491,12 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     
                     {/* Featured Badge */}
                     <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
-                      ⭐ Öne Çıkan
+                      {isTR ? '⭐ Öne Çıkan' : '⭐ Featured'}
                     </div>
                     
                     {/* Price Badge */}
                     <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {event.price === 0 ? 'Ücretsiz' : `₺${event.price}`}
+                      {event.price === 0 ? (isTR ? 'Ücretsiz' : 'Free') : `₺${event.price}`}
                     </div>
                   </div>
 
@@ -359,15 +519,21 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       </div>
                       <div className="flex items-center text-gray-300">
                         <Users className="w-4 h-4 mr-3 text-yellow-400" />
-                        <span>{event.registered}/{event.capacity} katılımcı</span>
+                        <span>
+                          {isTR
+                            ? `${event.registered}/${event.capacity} katılımcı`
+                            : `${event.registered}/${event.capacity} attendees`}
+                        </span>
                         {event.registered === 0 && (
                           <span className="ml-2 text-green-400 text-sm font-semibold">
-                            (İlk katılımcı siz olun!)
+                            {isTR ? '(İlk katılımcı siz olun!)' : '(Be the very first attendee!)'}
                           </span>
                         )}
                         {getAvailableSpots(event) <= 5 && getAvailableSpots(event) > 0 && event.registered > 0 && (
                           <span className="ml-2 text-orange-400 text-sm font-semibold">
-                            (Sadece {getAvailableSpots(event)} yer kaldı!)
+                            {isTR
+                              ? `(Sadece ${getAvailableSpots(event)} yer kaldı!)`
+                              : `(Only ${getAvailableSpots(event)} spots left!)`}
                           </span>
                         )}
                       </div>
@@ -405,7 +571,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-200/80" />
                   <input
                     type="text"
-                    placeholder="Etkinlik ara..."
+                    placeholder={isTR ? 'Etkinlik ara...' : 'Search events...'}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-white/15 bg-white/5 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-300/60 focus:bg-white/10 transition-colors duration-300"
@@ -470,7 +636,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
 
                     {/* Price Badge */}
                     <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {event.price === 0 ? 'Ücretsiz' : `₺${event.price}`}
+                      {event.price === 0 ? (isTR ? 'Ücretsiz' : 'Free') : `₺${event.price}`}
                     </div>
                   </div>
 
@@ -502,7 +668,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     {/* Capacity Bar */}
                     <div className="mb-4">
                       <div className="flex justify-between text-sm text-gray-300 mb-2">
-                        <span>Katılımcı</span>
+                        <span>{isTR ? 'Katılımcı' : 'Attendees'}</span>
                         <span>{event.registered}/{event.capacity}</span>
                       </div>
                       <div className="w-full bg-white/10 rounded-full h-2">
@@ -513,7 +679,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       </div>
                       {event.registered === 0 && (
                         <div className="text-xs text-gray-400 mt-1">
-                          Henüz katılımcı yok - İlk siz olun!
+                          {isTR ? 'Henüz katılımcı yok - İlk siz olun!' : 'No attendees yet – be the first!'}
                         </div>
                       )}
                     </div>
@@ -549,8 +715,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
               className="text-center py-20"
             >
               <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-2">Etkinlik bulunamadı</h3>
-              <p className="text-gray-400">Arama kriterlerinizi değiştirip tekrar deneyin.</p>
+              <h3 className="text-2xl font-bold text-white mb-2">{isTR ? 'Etkinlik bulunamadı' : 'No events found'}</h3>
+              <p className="text-gray-400">{isTR ? 'Arama kriterlerinizi değiştirip tekrar deneyin.' : 'Try adjusting your filters and search again.'}</p>
             </motion.div>
           )}
         </div>
@@ -598,7 +764,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       {getStatusText(selectedEvent.status)}
                     </div>
                     <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {selectedEvent.price === 0 ? 'Ücretsiz' : `₺${selectedEvent.price}`}
+                      {selectedEvent.price === 0 ? (isTR ? 'Ücretsiz' : 'Free') : `₺${selectedEvent.price}`}
                     </div>
                   </div>
                 </div>
@@ -613,7 +779,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                 {/* Event Details */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-white mb-4">Etkinlik Detayları</h3>
+                    <h3 className="text-xl font-bold text-white mb-4">{isTR ? 'Etkinlik Detayları' : 'Event Details'}</h3>
                     <div className="flex items-center text-gray-300">
                       <Calendar className="w-5 h-5 mr-3 text-yellow-400" />
                       <span>{formatDate(selectedEvent.date)}</span>
@@ -628,19 +794,23 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     </div>
                     <div className="flex items-center text-gray-300">
                       <Users className="w-5 h-5 mr-3 text-yellow-400" />
-                      <span>{selectedEvent.registered}/{selectedEvent.capacity} katılımcı</span>
+                      <span>
+                        {isTR
+                          ? `${selectedEvent.registered}/${selectedEvent.capacity} katılımcı`
+                          : `${selectedEvent.registered}/${selectedEvent.capacity} attendees`}
+                      </span>
                       {selectedEvent.registered === 0 && (
                         <span className="ml-2 text-green-400 text-sm font-semibold">
-                          (İlk katılımcı siz olun!)
+                          {isTR ? '(İlk katılımcı siz olun!)' : '(Be the first attendee!)'}
                         </span>
                       )}
                     </div>
                   </div>
 
                   {/* Speaker Info */}
-                  {selectedEvent.speaker && selectedEvent.speaker !== 'Planlanıyor' && (
+                  {selectedEvent.speaker && (
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-4">Konuşmacı</h3>
+                      <h3 className="text-xl font-bold text-white mb-4">{isTR ? 'Konuşmacı' : 'Speaker'}</h3>
                       <div className="flex items-center space-x-4">
                         <img 
                           src={selectedEvent.speakerImage}
@@ -654,11 +824,11 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       </div>
                     </div>
                   )}
-                  {selectedEvent.speaker === 'Planlanıyor' && (
+                  {!selectedEvent.speaker && selectedEvent.pendingSpeakerMessage && (
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-4">Konuşmacı</h3>
+                      <h3 className="text-xl font-bold text-white mb-4">{isTR ? 'Konuşmacı' : 'Speaker'}</h3>
                       <div className="text-gray-400 italic">
-                        Konuşmacı bilgileri yakında açıklanacak
+                        {selectedEvent.pendingSpeakerMessage}
                       </div>
                     </div>
                   )}
@@ -666,7 +836,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
 
                 {/* Tags */}
                 <div className="mb-8">
-                  <h3 className="text-xl font-bold text-white mb-4">Etiketler</h3>
+                  <h3 className="text-xl font-bold text-white mb-4">{isTR ? 'Etiketler' : 'Tags'}</h3>
                   <div className="flex flex-wrap gap-3">
                     {selectedEvent.tags.map((tag, index) => (
                       <span
@@ -685,13 +855,13 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     <button className="flex items-center justify-center space-x-3 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700 
                                      text-black font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform duration-300">
                       <Ticket className="w-5 h-5" />
-                      <span>Katılım Sağla</span>
+                      <span>{isTR ? 'Katılım Sağla' : 'Join Event'}</span>
                     </button>
                   ) : (
                     <button className="flex items-center justify-center space-x-3 bg-gray-600 
                                      text-gray-300 font-bold px-8 py-4 rounded-xl cursor-not-allowed">
                       <Ticket className="w-5 h-5" />
-                      <span>Kontenjan Doldu</span>
+                      <span>{isTR ? 'Kontenjan Doldu' : 'Fully Booked'}</span>
                     </button>
                   )}
                   
@@ -699,7 +869,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                                    text-white font-semibold px-8 py-4 rounded-xl hover:border-yellow-400/50 hover:text-yellow-400
                                    transition-all duration-300">
                     <Share2 className="w-5 h-5" />
-                    <span>Paylaş</span>
+                    <span>{isTR ? 'Paylaş' : 'Share'}</span>
                   </button>
                 </div>
               </div>

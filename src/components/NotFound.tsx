@@ -1,8 +1,48 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, Search, ArrowLeft } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
+
+const notFoundCopy = {
+  tr: {
+    title: 'Sayfa Bulunamadı',
+    description: "Aradığınız sayfa mevcut değil veya taşınmış olabilir. Lütfen doğru URL'yi kontrol edin veya ana sayfaya dönün.",
+    back: 'Geri Dön',
+    home: 'Ana Sayfa',
+    searchTitle: 'Arama Yapın',
+    searchPlaceholder: 'Sayfa ara...',
+    popularTitle: 'Popüler Sayfalar',
+    contactTitle: 'Yardım mı Lazım?',
+    contactDescription: 'Herhangi bir sorunuz varsa bizimle iletişime geçebilirsiniz.',
+    contactButton: 'İletişim',
+    pages: [
+      { title: 'Hakkımızda', path: '/about', description: 'Kulübümüz hakkında detaylı bilgi' },
+      { title: 'Projeler', path: '/projects', description: 'Tamamlanan ve devam eden projeler' },
+      { title: 'Etkinlikler', path: '/events', description: 'Yaklaşan ve geçmiş etkinlikler' }
+    ]
+  },
+  en: {
+    title: 'Page Not Found',
+    description: 'The page you are looking for might be missing or has moved. Check the URL or head back to the homepage.',
+    back: 'Go Back',
+    home: 'Home',
+    searchTitle: 'Search the Site',
+    searchPlaceholder: 'Search pages...',
+    popularTitle: 'Popular Pages',
+    contactTitle: 'Need Assistance?',
+    contactDescription: 'If you have any questions feel free to reach out.',
+    contactButton: 'Contact',
+    pages: [
+      { title: 'About', path: '/about', description: 'Learn more about our club' },
+      { title: 'Projects', path: '/projects', description: 'View active and completed projects' },
+      { title: 'Events', path: '/events', description: 'See upcoming and past events' }
+    ]
+  }
+} as const;
 
 const NotFound: React.FC = () => {
+  const { language } = useLanguage();
+  const copy = notFoundCopy[language];
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 }
@@ -50,11 +90,10 @@ const NotFound: React.FC = () => {
               className="mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Sayfa Bulunamadı
+                {copy.title}
               </h2>
               <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                Aradığınız sayfa mevcut değil veya taşınmış olabilir.
-                Lütfen doğru URL'yi kontrol edin veya ana sayfaya dönün.
+                {copy.description}
               </p>
             </motion.div>
 
@@ -72,7 +111,7 @@ const NotFound: React.FC = () => {
                          hover:text-yellow-400 transition-all duration-300"
               >
                 <ArrowLeft className="w-5 h-5" />
-                <span>Geri Dön</span>
+                <span>{copy.back}</span>
               </motion.button>
 
               <motion.button
@@ -84,7 +123,7 @@ const NotFound: React.FC = () => {
                          hover:shadow-yellow-500/50 transition-all duration-300"
               >
                 <Home className="w-5 h-5" />
-                <span>Ana Sayfa</span>
+                <span>{copy.home}</span>
               </motion.button>
             </motion.div>
 
@@ -97,12 +136,12 @@ const NotFound: React.FC = () => {
                             rounded-2xl p-8 border border-yellow-400/20 max-w-md mx-auto">
                 <h3 className="text-xl font-bold text-white mb-4 flex items-center justify-center space-x-2">
                   <Search className="w-5 h-5 text-yellow-400" />
-                  <span>Arama Yapın</span>
+                  <span>{copy.searchTitle}</span>
                 </h3>
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Sayfa ara..."
+                    placeholder={copy.searchPlaceholder}
                     className="w-full px-4 py-3 bg-black/50 border border-gray-600 rounded-lg
                              text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400
                              transition-colors duration-300"
@@ -123,13 +162,9 @@ const NotFound: React.FC = () => {
               variants={fadeInUp}
               className="mb-16"
             >
-              <h3 className="text-2xl font-bold text-white mb-8">Popüler Sayfalar</h3>
+              <h3 className="text-2xl font-bold text-white mb-8">{copy.popularTitle}</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-                {[
-                  { title: 'Hakkımızda', path: '/about', description: 'Kulübümüz hakkında detaylı bilgi' },
-                  { title: 'Projeler', path: '/projects', description: 'Tamamlanan ve devam eden projeler' },
-                  { title: 'Etkinlikler', path: '/events', description: 'Yaklaşan ve geçmiş etkinlikler' }
-                ].map((page, index) => (
+                {copy.pages.map((page, index) => (
                   <motion.a
                     key={index}
                     href={page.path}
@@ -158,17 +193,17 @@ const NotFound: React.FC = () => {
               <div className="bg-gradient-to-r from-yellow-500/10 via-yellow-400/5 to-yellow-500/10 backdrop-blur-sm
                             rounded-3xl p-8 border border-yellow-400/20 max-w-lg mx-auto">
                 <h3 className="text-xl font-bold text-white mb-4">
-                  Yardım mı Lazım?
+                  {copy.contactTitle}
                 </h3>
                 <p className="text-gray-300 mb-6">
-                  Herhangi bir sorunuz varsa bizimle iletişime geçebilirsiniz.
+                  {copy.contactDescription}
                 </p>
                 <a
                   href="/contact"
                   className="inline-flex items-center space-x-2 bg-gradient-to-r from-yellow-500 via-yellow-600 to-yellow-700
                            text-black font-bold px-6 py-3 rounded-xl hover:scale-105 transition-transform duration-300"
                 >
-                  <span>İletişim</span>
+                  <span>{copy.contactButton}</span>
                 </a>
               </div>
             </motion.div>

@@ -93,14 +93,9 @@ export default {
         'y-180': 'rotateY(180deg)',
       },
       animation: {
-        'scroll-left': 'scroll-left 45s linear infinite',
         'scroll': 'scroll 45s linear infinite',
       },
       keyframes: {
-        'scroll-left': {
-          '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-100%)' },
-        },
         'scroll': {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-100%)' },

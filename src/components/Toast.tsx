@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -41,6 +42,14 @@ interface ToastProviderProps {
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
+  const removeToast = useCallback((id: string) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  }, []);
+
+  const clearToasts = useCallback(() => {
+    setToasts([]);
+  }, []);
+
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
     const id = Date.now().toString();
     const newToast: Toast = {
@@ -53,19 +62,11 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
 
     // Auto remove after duration
     if (newToast.duration && newToast.duration > 0) {
-      setTimeout(() => {
+      window.setTimeout(() => {
         removeToast(id);
       }, newToast.duration);
     }
-  }, []);
-
-  const removeToast = useCallback((id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
-  }, []);
-
-  const clearToasts = useCallback(() => {
-    setToasts([]);
-  }, []);
+  }, [removeToast]);
 
   const getToastStyles = (type: ToastType) => {
     switch (type) {
@@ -169,23 +170,6 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       </div>
     </ToastContext.Provider>
   );
-};
-
-// Quick toast functions
-export const toast = {
-  success: (title: string, message?: string, options?: { duration?: number; action?: Toast['action'] }) => {
-    // This would normally use the context, but for now we'll just log
-    console.log('Success toast:', { title, message, ...options });
-  },
-  error: (title: string, message?: string, options?: { duration?: number; action?: Toast['action'] }) => {
-    console.log('Error toast:', { title, message, ...options });
-  },
-  warning: (title: string, message?: string, options?: { duration?: number; action?: Toast['action'] }) => {
-    console.log('Warning toast:', { title, message, ...options });
-  },
-  info: (title: string, message?: string, options?: { duration?: number; action?: Toast['action'] }) => {
-    console.log('Info toast:', { title, message, ...options });
-  }
 };
 
 export default ToastProvider;

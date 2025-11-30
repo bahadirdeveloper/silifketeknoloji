@@ -1,6 +1,33 @@
 import React, { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { LanguageContext, type SupportedLanguage } from '../i18n/LanguageContext';
+
+const errorCopy: Record<SupportedLanguage, {
+  title: string;
+  description: string;
+  retry: string;
+  home: string;
+  detailsTitle: string;
+  contactPrompt: string;
+}> = {
+  tr: {
+    title: 'Bir Hata Oluştu',
+    description: 'Üzgünüz, beklenmedik bir hata oluştu. Lütfen sayfayı yeniden yükleyin veya ana sayfaya dönün.',
+    retry: 'Yeniden Dene',
+    home: 'Ana Sayfa',
+    detailsTitle: 'Hata Detayları:',
+    contactPrompt: 'Sorun devam ederse bizimle iletişime geçin:'
+  },
+  en: {
+    title: 'Something Went Wrong',
+    description: 'Sorry, an unexpected error occurred. Try refreshing the page or head back to the homepage.',
+    retry: 'Try Again',
+    home: 'Home',
+    detailsTitle: 'Error details:',
+    contactPrompt: 'If the issue persists, contact us:'
+  }
+};
 
 interface Props {
   children: ReactNode;
@@ -14,10 +41,13 @@ interface State {
 }
 
 class ErrorBoundary extends Component<Props, State> {
+  declare context: React.ContextType<typeof LanguageContext>;
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
   }
+
+  static contextType = LanguageContext;
 
   static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
@@ -39,6 +69,9 @@ class ErrorBoundary extends Component<Props, State> {
   };
 
   render() {
+    const language = (this.context?.language ?? 'tr') as SupportedLanguage;
+    const copy = errorCopy[language];
+
     if (this.state.hasError) {
       if (this.props.fallback) {
         return this.props.fallback;
@@ -56,18 +89,17 @@ class ErrorBoundary extends Component<Props, State> {
               <div className="mb-8">
                 <AlertTriangle className="w-16 h-16 text-red-400 mx-auto mb-4" />
                 <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Bir Hata Oluştu
+                  {copy.title}
                 </h1>
                 <p className="text-gray-300 text-lg leading-relaxed mb-6">
-                  Üzgünüz, beklenmedik bir hata oluştu. Lütfen sayfayı yeniden yükleyin
-                  veya ana sayfaya dönün.
+                  {copy.description}
                 </p>
               </div>
 
               {/* Error Details (Development Only) */}
               {process.env.NODE_ENV === 'development' && this.state.error && (
                 <div className="bg-black/40 backdrop-blur-sm rounded-xl p-4 mb-6 text-left">
-                  <h3 className="text-red-400 font-semibold mb-2">Hata Detayları:</h3>
+                  <h3 className="text-red-400 font-semibold mb-2">{copy.detailsTitle}</h3>
                   <p className="text-gray-400 text-sm font-mono break-all">
                     {this.state.error.message}
                   </p>
@@ -83,7 +115,7 @@ class ErrorBoundary extends Component<Props, State> {
                            shadow-2xl shadow-yellow-500/30"
                 >
                   <RefreshCw className="w-5 h-5" />
-                  <span>Yeniden Dene</span>
+                  <span>{copy.retry}</span>
                 </button>
 
                 <button
@@ -93,14 +125,14 @@ class ErrorBoundary extends Component<Props, State> {
                            hover:text-yellow-400 transition-all duration-300"
                 >
                   <Home className="w-5 h-5" />
-                  <span>Ana Sayfa</span>
+                  <span>{copy.home}</span>
                 </button>
               </div>
 
               {/* Contact Info */}
               <div className="mt-8 text-center">
                 <p className="text-gray-400 text-sm">
-                  Sorun devam ederse bizimle iletişime geçin:
+                  {copy.contactPrompt}
                 </p>
                 <a
                   href="mailto:info@silifketeknoloji.com"
@@ -118,17 +150,5 @@ class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
-
-// Higher-order component for page-level error boundaries
-export const withErrorBoundary = <P extends object>(
-  Component: React.ComponentType<P>,
-  fallback?: ReactNode
-) => {
-  return (props: P) => (
-    <ErrorBoundary fallback={fallback}>
-      <Component {...props} />
-    </ErrorBoundary>
-  );
-};
 
 export default ErrorBoundary;

@@ -1,10 +1,11 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import React, { useState, useEffect, lazy, Suspense, useCallback } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 
 import { ChevronRight, Sparkles, Cpu, Globe2, HeartHandshake, Play } from "lucide-react";
 import ModernFlipCard from "./ModernFlipCard";
 import DetailModal from "./DetailModal";
 import NostalgicCounter from "./NostalgicCounter";
+import FaqSection from "./FaqSection";
 import useImagePreload from "../hooks/useImagePreload";
 import JoinClubPage from "./pages/JoinClubPage";
 import AboutPage from "./pages/AboutPage";
@@ -94,7 +95,18 @@ const SilifkeTeknoloji: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAdminAuthorized, setIsAdminAuthorized] = useState(false);
   const [isQuickVideoPlaying, setIsQuickVideoPlaying] = useState(false);
+  const [pendingScrollTarget, setPendingScrollTarget] = useState<'faq' | null>(null);
   const { scrollY } = useScroll();
+
+  const scrollToFaqImmediate = useCallback(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    const element = document.getElementById('sss');
+    if (!element) return;
+
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const basePath = `${window.location.pathname}${window.location.search}`;
+    window.history.replaceState(window.history.state, '', `${basePath}#sss`);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 10);
@@ -648,6 +660,18 @@ const SilifkeTeknoloji: React.FC = () => {
     }
   };
 
+  const handleScrollToFaq = () => {
+    setIsMobileMenuOpen(false);
+
+    if (currentPage !== 'home') {
+      setPendingScrollTarget('faq');
+      handlePageChange('home');
+      return;
+    }
+
+    scrollToFaqImmediate();
+  };
+
   const handleAdminLoginSuccess = () => {
     setIsAdminAuthorized(true);
     setIsMobileMenuOpen(false);
@@ -717,6 +741,19 @@ const SilifkeTeknoloji: React.FC = () => {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (pendingScrollTarget !== 'faq') return;
+    if (currentPage !== 'home') return;
+    if (typeof window === 'undefined') return;
+
+    const timer = window.setTimeout(() => {
+      scrollToFaqImmediate();
+      setPendingScrollTarget(null);
+    }, 300);
+
+    return () => window.clearTimeout(timer);
+  }, [pendingScrollTarget, currentPage, scrollToFaqImmediate]);
 
   // Render current page
   switch (currentPage) {
@@ -842,6 +879,13 @@ const SilifkeTeknoloji: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8 lg:space-x-12 flex-1 justify-end"
           >
+            <button
+              onClick={handleScrollToFaq}
+              className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
+            >
+              {isTR ? 'S.S.S' : 'FAQ'}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </button>
             <button 
               onClick={() => handlePageChange('projects')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
@@ -992,6 +1036,24 @@ const SilifkeTeknoloji: React.FC = () => {
                   </button>
 
                   <button
+                    onClick={() => handlePageChange('blog')}
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
+                  >
+                    <span className="text-xl">📝</span>
+                    <span>{isTR ? 'Blog' : 'Blog'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleScrollToFaq}
+                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
+                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
+                  >
+                    <span className="text-xl">❓</span>
+                    <span>{isTR ? 'S.S.S' : 'FAQ'}</span>
+                  </button>
+
+                  <button
                     onClick={() => handlePageChange('projects')}
                     className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
                              hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
@@ -1017,15 +1079,6 @@ const SilifkeTeknoloji: React.FC = () => {
                   >
                     <span className="text-xl">🤝</span>
                     <span>{isTR ? 'Kulübe Katıl' : 'Join the Club'}</span>
-                  </button>
-
-                  <button
-                    onClick={() => handlePageChange('blog')}
-                    className="w-full text-left px-6 py-4 rounded-xl text-gray-300 hover:text-white
-                             hover:bg-white/10 transition-all duration-300 flex items-center space-x-4 text-lg"
-                  >
-                    <span className="text-xl">📝</span>
-                    <span>{isTR ? 'Blog' : 'Blog'}</span>
                   </button>
                 </nav>
 
@@ -1372,6 +1425,8 @@ const SilifkeTeknoloji: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            <FaqSection isTR={isTR} />
 
             {/* Decorative Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">

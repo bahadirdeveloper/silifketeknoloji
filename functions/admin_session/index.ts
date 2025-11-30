@@ -57,9 +57,9 @@ Deno.serve(async (req) => {
 
   const secret = Deno.env.get('ADMIN_JWT_SECRET');
   const expectedUsername = Deno.env.get('ADMIN_USERNAME');
-  const expectedPasswordHash = Deno.env.get('ADMIN_PASSWORD_HASH');
+  const expectedPassword = Deno.env.get('ADMIN_PASSWORD');
 
-  if (!secret || !expectedUsername || !expectedPasswordHash) {
+  if (!secret || !expectedUsername || !expectedPassword) {
     console.error('Admin authentication environment variables are missing');
     return new Response(
       JSON.stringify({ success: false, error: 'Admin authentication is not configured' }),
@@ -69,7 +69,9 @@ Deno.serve(async (req) => {
 
   const normalizedUsername = expectedUsername.trim().toLowerCase();
   const usernameHashReference = await hashString(normalizedUsername);
-  const passwordHashReferenceBytes = hexToUint8(expectedPasswordHash);
+  const normalizedPassword = expectedPassword.trim();
+  const passwordHashReference = await hashString(normalizedPassword);
+  const passwordHashReferenceBytes = hexToUint8(passwordHashReference);
 
   switch (body.action) {
     case 'login': {

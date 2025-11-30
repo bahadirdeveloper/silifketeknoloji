@@ -23,6 +23,7 @@ export interface Application {
   id: string;
   created_at: string;
   updated_at: string;
+  age: number;
   full_name: string;
   email: string;
   phone: string;
@@ -84,13 +85,14 @@ export interface Activity {
   verified: boolean;
   verified_by: string | null;
   verified_at: string | null;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   status: 'active' | 'cancelled' | 'disputed';
 }
 
 // Application form data type (matches the form schema)
 export interface ApplicationFormData {
   fullName: string;
+  age: number;
   email: string;
   phone: string;
   schoolWork: string;
@@ -113,6 +115,15 @@ export async function submitApplication(data: ApplicationFormData): Promise<{ su
       return { success: false, error: 'KVKK onayı zorunludur' };
     }
 
+    // Validate age range
+    if (typeof data.age !== 'number' || Number.isNaN(data.age)) {
+      return { success: false, error: 'Yaş bilgisi geçerli değil' };
+    }
+
+    if (data.age < 18 || data.age > 38) {
+      return { success: false, error: 'Yaş 18 ile 38 arasında olmalıdır' };
+    }
+
     // Check if Supabase is properly configured
     if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
       // Development mode - simulate success
@@ -126,6 +137,7 @@ export async function submitApplication(data: ApplicationFormData): Promise<{ su
     // Transform form data to match database schema
     const applicationData = {
       full_name: data.fullName,
+      age: data.age,
       email: data.email,
       phone: data.phone,
       school_work: data.schoolWork,
