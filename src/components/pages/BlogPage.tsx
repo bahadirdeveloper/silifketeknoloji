@@ -52,6 +52,61 @@ const blogDictionary: Record<SupportedLanguage, BlogContent> = {
     latestLabel: "Güncel Yazı",
     posts: [
       {
+        title: "WE IS US: Birlikte Üreten Zihinlerin Yolculuğu",
+        description:
+          "Silifke Teknoloji Kulübü, yalnızca bir topluluk değil; aynı hedefe bakan insanların oluşturduğu kolektif bir akıl.",
+        metadata: {
+          author: "Silifke Teknoloji Ekibi",
+          date: "30 Kasım 2025",
+          readingTime: "5 dk okuma"
+        },
+        tags: ["Kolektif Akıl", "Üretim Kültürü", "WE IS US"],
+        sections: [
+          {
+            heading: "WE IS US",
+            paragraphs: [
+              "Bu cümle, İngilizce’nin gramerine meydan okuyan küçük bir başkaldırı gibi görünse de aslında çok daha derin bir anlam taşır. “Biz, biziz.” Ayrı ayrı parçalar değiliz; bir araya geldiğimizde ortaya çıkan yeni bir varlığız.",
+              "Bir kişinin vizyonu, diğerinin emeği, bir başkasının hayali… Hepsi birleştiğinde bambaşka bir güce dönüşür.",
+              "Kulübün amacı da tam olarak bu: Tek bir kişinin sınırlı kapasitesi yerine, kolektif üretimin sınırsız gücünü ortaya çıkarmak."
+            ]
+          },
+          {
+            heading: "Baltayı Keskinleştirmek: Üretmenin Sessiz Sanatı",
+            paragraphs: [
+              "Eski bir söz vardır: “Bir ağacı altı saatte kesmem gerekirse, dört saatimi baltamı bilemeye ayırırım.”",
+              "Bu cümle, Silifke Teknoloji Kulübü’nün çalışma kültürünü kusursuz biçimde özetliyor. Geliştirdiğimiz her proje, kurduğumuz her sistem, planladığımız her süreç bir hazırlık, bir keskinleştirme döneminden geçer.",
+              "Çünkü amacımız sadece hızlı hareket etmek değil; doğru hareket etmektir. Bizim için “baltayı keskinleştirmek”, çalışmaya başlamadan önce zihnimizi, ekibimizi ve vizyonumuzu hizalamaktır."
+            ],
+            bullets: [
+              "Doğru araçları seçmek",
+              "Doğru insanları bir araya getirmek",
+              "Sürece odaklanmak",
+              "Sürekli öğrenmek ve geliştirmek",
+              "Aceleden uzak durup kaliteye yönelmek"
+            ]
+          },
+          {
+            heading: "Neden WE IS US?",
+            paragraphs: [
+              "Çünkü bu kulübün gücü, bireylerden değil bireylerin uyumundan gelir. Burada herkes hem öğretir hem öğrenir.",
+              "Üretim, ancak birlikte olduğumuzda anlam kazanır. “Biz” dediğimiz şey, dışarıdan görüleni değil içeride üretilen enerjiyi temsil eder.",
+              "WE IS US; bir slogan değil, bir çalışma biçimidir. Birlikte düşünmenin, birlikte çözmenin ve birlikte büyümenin ifadesidir."
+            ]
+          },
+          {
+            heading: "Gelecek Birlikte İnşa Edilir",
+            paragraphs: [
+              "Silifke Teknoloji Kulübü’nde attığımız her adım, daha güçlü bir geleceğin yapı taşını oluşturuyor. Kimi zaman yeni bir teknoloji, kimi zaman bir mentorun tecrübesi, kimi zaman genç bir üyenin taze fikri… Hepsi bir araya geldiğinde kulübü ileriye taşıyan itici güce dönüşüyor.",
+              "Bizim yolculuğumuz, bir kişinin değil, biz olanın yolculuğu. Ve bu yolculukta baltamız her geçen gün daha da keskinleşiyor."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Birlikte Üretelim",
+          href: "/katil"
+        }
+      },
+      {
         title: "🌿 Silifke Teknoloji: Kodla, Üret, Ama İz Bırakma",
         description:
           "Projelerimizde karbon ayak izini azaltmak için teknolojiyle denge kuruyoruz.",
@@ -271,6 +326,61 @@ const blogDictionary: Record<SupportedLanguage, BlogContent> = {
     languageLabel: "Language",
     latestLabel: "Latest Post",
     posts: [
+      {
+        title: "WE IS US: The Journey of Minds Producing Together",
+        description:
+          "Silifke Technology Club is not just a community; it is a collective mind formed by people looking at the same goal.",
+        metadata: {
+          author: "Silifke Technology Team",
+          date: "30 November 2025",
+          readingTime: "5 min read"
+        },
+        tags: ["Collective Mind", "Production Culture", "WE IS US"],
+        sections: [
+          {
+            heading: "WE IS US",
+            paragraphs: [
+              "This phrase might seem like a small rebellion against English grammar, but it carries a much deeper meaning. “We are us.” We are not separate parts; we are a new entity that emerges when we come together.",
+              "One person's vision, another's labor, another's dream… When combined, they transform into a completely different power.",
+              "This is exactly the club's purpose: To reveal the limitless power of collective production instead of the limited capacity of a single person."
+            ]
+          },
+          {
+            heading: "Sharpening the Axe: The Silent Art of Production",
+            paragraphs: [
+              "There is an old saying: “If I had six hours to chop down a tree, I’d spend the first four sharpening the axe.”",
+              "This sentence perfectly summarizes the working culture of Silifke Technology Club. Every project we develop, every system we build, every process we plan goes through a preparation, a sharpening period.",
+              "Because our goal is not just to move fast; it is to move correctly. For us, “sharpening the axe” means aligning our minds, our team, and our vision before starting to work."
+            ],
+            bullets: [
+              "Choosing the right tools",
+              "Bringing the right people together",
+              "Focusing on the process",
+              "Continuous learning and improvement",
+              "Avoiding haste and focusing on quality"
+            ]
+          },
+          {
+            heading: "Why WE IS US?",
+            paragraphs: [
+              "Because the power of this club comes not from individuals but from the harmony of individuals. Here, everyone both teaches and learns.",
+              "Production only gains meaning when we are together. What we call “us” represents not what is seen from the outside, but the energy produced inside.",
+              "WE IS US is not a slogan, it is a way of working. It is the expression of thinking together, solving together, and growing together."
+            ]
+          },
+          {
+            heading: "The Future is Built Together",
+            paragraphs: [
+              "Every step we take at Silifke Technology Club forms the building block of a stronger future. Sometimes a new technology, sometimes a mentor's experience, sometimes a young member's fresh idea… When they all come together, they turn into the driving force that carries the club forward.",
+              "Our journey is not the journey of one person, but the journey of us. And on this journey, our axe gets sharper every day."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Let's Produce Together",
+          href: "/katil"
+        }
+      },
       {
         title: "🌿 Silifke Technology: Code, Create, Leave No Trace",
         description:
@@ -560,22 +670,20 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
                 <button
                   type="button"
                   onClick={() => setLanguage("tr")}
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    language === "tr"
+                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${language === "tr"
                       ? "bg-yellow-400 text-black shadow-lg shadow-yellow-400/40"
                       : "text-gray-300 hover:text-white"
-                  }`}
+                    }`}
                 >
                   Türkçe
                 </button>
                 <button
                   type="button"
                   onClick={() => setLanguage("en")}
-                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                    language === "en"
+                  className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-all duration-300 ${language === "en"
                       ? "bg-yellow-400 text-black shadow-lg shadow-yellow-400/40"
                       : "text-gray-300 hover:text-white"
-                  }`}
+                    }`}
                 >
                   English
                 </button>
