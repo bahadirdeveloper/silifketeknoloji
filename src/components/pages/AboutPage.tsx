@@ -9,10 +9,10 @@ const InteractiveDots = lazy(() => import("../InteractiveDots"));
 
 interface TeamMember {
   name: string;
+  age: number;
   role: string;
-  expertise: string;
   description: string;
-  image: string;
+  imageUrl: string;
 }
 
 interface AboutPageProps {
@@ -52,7 +52,7 @@ const aboutContent = {
     ],
     achievements: [
       { number: '1', label: 'Tamamlanan Proje' },
-      { number: '3', label: 'Aktif Üye' },
+      { number: '11', label: 'Aktif Üye' },
       { number: '3', label: 'Teknoloji Ortağı' },
       { number: '2', label: 'Yaklaşan Etkinlik' }
     ],
@@ -65,13 +65,85 @@ const aboutContent = {
     storyImageAlt: 'Silifke Teknoloji Takımı Çalışması',
     storyImageCaption: 'Takım Çalışması',
     teamTitle: 'Ekibimiz',
-    teamMembers: [] as TeamMember[],
-    placeholder: {
-      title: 'Yeni Üye',
-      subtitle: 'Sen Olabilirsin!',
-      description: 'Kulübümüze katıl ve bu alanı doldur. Birlikte büyüyelim!'
-    },
-    placeholderAria: 'Yeni ekip üyesi için boş alan',
+    teamMembers: [
+      {
+        name: "Bahadır Gemalmaz",
+        age: 31,
+        role: "Dijital Danışman • Media Buyer",
+        description: "İnsanları, fikirleri ve üretimi aynı masada buluşturan; yapıyı bir arada tutan birleştirici güç.",
+        imageUrl: "/images/team/bahadir-gemalmaz.webp",
+      },
+      {
+        name: "Mihrab Sertoğlu",
+        age: 32,
+        role: "Elektrik Elektronik Mühendisi",
+        description: "Kendi alanına yapay zekâyı doğru şekilde entegre ederek hem kendini hem de işini geliştirmek isteyen, öğrenmeye açık bir mühendis.",
+        imageUrl: "/images/team/mihrab-sertoglu.webp",
+      },
+      {
+        name: "Barış Saydam",
+        age: 31,
+        role: "Elektrik Elektronik Mühendisi",
+        description: "İnsanlarla etkileşimi seven, öğrenirken öğretmeyi doğal bulan; enerjisi ve motivasyonu yüksek bir ekip oyuncusu.",
+        imageUrl: "/images/team/baris-saydam.webp",
+      },
+      {
+        name: "Okyanus Aydoğan",
+        age: 25,
+        role: "Jeofizik Mühendisi • Bilgisayar Programcılığı",
+        description: "Front-end alanında kendini geliştiren, gerçek projelerde deneyim kazanmak ve takım çalışması içinde üretmek isteyen biri.",
+        imageUrl: "/images/team/okyanus-aydogan.webp",
+      },
+      {
+        name: "Latif Kılıç",
+        age: 31,
+        role: "Geomatik Mühendisi • Girişimci",
+        description: "Yazılım sektöründeki deneyimlerini ekip ile paylaşmak ve birlikte üretmek isteyen, güven veren bir girişimci.",
+        imageUrl: "/images/team/latif-kilic.webp",
+      },
+      {
+        name: "Refik Akdağ",
+        age: 35,
+        role: "Peyzaj Mimarı • Prompt Mühendisi",
+        description: "Yapay zekâ programları yazan, öğrenme isteği yüksek; benzer hayali paylaşan insanlarla aynı çatı altında olmak isteyen biri.",
+        imageUrl: "/images/team/refik-akdag.webp",
+      },
+      {
+        name: "Vadi Karal",
+        age: 40,
+        role: "Güzel Sanatlar • Grafiker",
+        description: "Tasarımı insan psikolojisiyle birlikte ele alan; yapay zekâ araçlarıyla kendini geliştirmeyi hedefleyen bir tasarımcı.",
+        imageUrl: "/images/team/vadi-karal.webp",
+      },
+      {
+        name: "Mehmet Ali Peker",
+        age: 31,
+        role: "Finansal Muhasebe",
+        description: "Yeni girişimlerde bulunmak ve yapay zekâyı aktif kullanmak isteyen; takım uyumunu benimseyen, fedakâr bir ekip üyesi.",
+        imageUrl: "/images/team/mehmet-ali-peker.webp",
+      },
+      {
+        name: "Enes Yanık",
+        age: 22,
+        role: "Üniversite Öğrencisi",
+        description: "Yapay zekâ ve yazılım alanında gelişmek isteyen; takım ruhu içinde gerçek tecrübeler kazanmayı hedefleyen bir üye.",
+        imageUrl: "/images/team/enes-yanik.webp",
+      },
+      {
+        name: "Nida Gemalmaz",
+        age: 31,
+        role: "Dış Ticaret",
+        description: "Sosyal medya ve reklam alanlarında gelişmek isteyen; yapay zekâ ile doğru çalışma noktaları oluşturmayı hedefleyen bir üye.",
+        imageUrl: "/images/team/nida-gemalmaz.webp",
+      },
+      {
+        name: "Tuna Aydemir",
+        age: 16,
+        role: "Lise Öğrencisi",
+        description: "Teknolojiye meraklı, öğrenmek ve üretmek isteyen; doğru yönlendirmeyle potansiyelini gerçek projelere taşımayı hedefleyen genç bir üye.",
+        imageUrl: "/images/team/tuna-aydemir.webp",
+      },
+    ] as TeamMember[],
     ctaTitle: 'Bizimle Yolculuğa Çık',
     ctaDescription: "Silifke'nin teknoloji geleceğini birlikte şekillendirmek için aramıza katıl!",
     ctaButton: 'Hemen Katıl'
@@ -107,7 +179,7 @@ const aboutContent = {
     ],
     achievements: [
       { number: '1', label: 'Completed Project' },
-      { number: '3', label: 'Active Members' },
+      { number: '11', label: 'Active Members' },
       { number: '3', label: 'Technology Partners' },
       { number: '2', label: 'Upcoming Events' }
     ],
@@ -120,13 +192,85 @@ const aboutContent = {
     storyImageAlt: 'Silifke Technology team collaborating',
     storyImageCaption: 'Teamwork',
     teamTitle: 'Our Team',
-    teamMembers: [],
-    placeholder: {
-      title: 'New Member',
-      subtitle: 'It Could Be You!',
-      description: "Join the club and fill this space. Let's grow together!"
-    },
-    placeholderAria: 'Open slot for a new team member',
+    teamMembers: [
+      {
+        name: "Bahadır Gemalmaz",
+        age: 31,
+        role: "Digital Consultant • Media Buyer",
+        description: "The unifying force that brings people, ideas, and production to the same table; keeping the structure together.",
+        imageUrl: "/images/team/bahadir-gemalmaz.webp",
+      },
+      {
+        name: "Mihrab Sertoğlu",
+        age: 32,
+        role: "Electrical & Electronics Engineer",
+        description: "An open-minded engineer eager to integrate AI into their field to enhance both themselves and their work.",
+        imageUrl: "/images/team/mihrab-sertoglu.webp",
+      },
+      {
+        name: "Barış Saydam",
+        age: 31,
+        role: "Electrical & Electronics Engineer",
+        description: "Someone who loves interacting with people, finding it natural to teach while learning; a team player with high energy and motivation.",
+        imageUrl: "/images/team/baris-saydam.webp",
+      },
+      {
+        name: "Okyanus Aydoğan",
+        age: 25,
+        role: "Geophysics Engineer • Computer Programming",
+        description: "Someone developing front-end skills, eager to gain experience in real projects and produce within a team environment.",
+        imageUrl: "/images/team/okyanus-aydogan.webp",
+      },
+      {
+        name: "Latif Kılıç",
+        age: 31,
+        role: "Geomatics Engineer • Entrepreneur",
+        description: "A trustworthy entrepreneur who wants to share their software industry experience with the team and create together.",
+        imageUrl: "/images/team/latif-kilic.webp",
+      },
+      {
+        name: "Refik Akdağ",
+        age: 35,
+        role: "Landscape Architect • Prompt Engineer",
+        description: "Someone who writes AI programs, with a strong desire to learn, wanting to be under the same roof with people who share similar dreams.",
+        imageUrl: "/images/team/refik-akdag.webp",
+      },
+      {
+        name: "Vadi Karal",
+        age: 40,
+        role: "Fine Arts • Graphic Designer",
+        description: "A designer who approaches design together with human psychology, aiming to develop themselves with AI tools.",
+        imageUrl: "/images/team/vadi-karal.webp",
+      },
+      {
+        name: "Mehmet Ali Peker",
+        age: 31,
+        role: "Financial Accounting",
+        description: "A dedicated team member who wants to engage in new ventures and actively use AI, embracing team harmony.",
+        imageUrl: "/images/team/mehmet-ali-peker.webp",
+      },
+      {
+        name: "Enes Yanık",
+        age: 22,
+        role: "University Student",
+        description: "A member aiming to develop in AI and software, looking to gain real experience within a team spirit.",
+        imageUrl: "/images/team/enes-yanik.webp",
+      },
+      {
+        name: "Nida Gemalmaz",
+        age: 31,
+        role: "Foreign Trade",
+        description: "A member who wants to develop in social media and advertising, aiming to create the right working points with AI.",
+        imageUrl: "/images/team/nida-gemalmaz.webp",
+      },
+      {
+        name: "Tuna Aydemir",
+        age: 16,
+        role: "High School Student",
+        description: "A young member curious about technology, eager to learn and create, aiming to turn potential into real projects with the right guidance.",
+        imageUrl: "/images/team/tuna-aydemir.webp",
+      },
+    ] as TeamMember[],
     ctaTitle: 'Start the Journey with Us',
     ctaDescription: 'Join us to shape the technology future of Silifke together!',
     ctaButton: 'Join Now'
@@ -424,79 +568,88 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack, onJoin }) => {
           >
             <motion.h2
               variants={fadeInUp}
-              className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent"
+              className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-yellow-200 to-white bg-clip-text text-transparent"
             >
               {t.teamTitle}
             </motion.h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-              {/* Mevcut ekip üyeleri */}
-              {teamMembers.map((member) => (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
+              {teamMembers.map((member, index) => (
                 <motion.div
                   key={member.name}
                   variants={fadeInUp}
-                  className="group glass-panel glass-border-accent p-6 text-center hover:-translate-y-3 hover:shadow-yellow-500/20"
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  className="group relative overflow-hidden rounded-3xl border border-yellow-400/30 
+                           bg-gradient-to-br from-black/80 via-gray-900/90 to-black/80 
+                           backdrop-blur-xl shadow-2xl
+                           hover:border-yellow-400/60 hover:shadow-yellow-500/20
+                           transition-all duration-500 hover:-translate-y-2"
                   role="article"
                   aria-labelledby={`team-member-${member.name.replace(/\s+/g, '-').toLowerCase()}`}
+                  style={{ minHeight: '280px' }}
                 >
-                  <div className="relative mb-6">
-                    <img
-                      src={member.image}
-                      alt={`${member.name} - ${member.role}`}
-                      className="w-24 h-24 rounded-full mx-auto border-4 border-yellow-400/30 object-cover
-                               group-hover:border-yellow-400/60 group-hover:scale-110
-                               transition-all duration-300"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-t from-yellow-400/20 to-transparent
-                                  group-hover:from-yellow-400/30 transition-all duration-300"></div>
-                  </div>
-                  <h3
-                    id={`team-member-${member.name.replace(/\s+/g, '-').toLowerCase()}`}
-                    className="text-xl font-bold text-white mb-2 group-hover:text-yellow-100 transition-colors duration-300"
-                  >
-                    {member.name}
-                  </h3>
-                  <p className="text-yellow-400 font-semibold mb-2 group-hover:text-yellow-300 transition-colors duration-300">
-                    {member.role}
-                  </p>
-                  <p className="text-gray-400 text-sm mb-3 group-hover:text-gray-300 transition-colors duration-300">
-                    {member.expertise}
-                  </p>
-                  <p className="text-gray-300 text-sm leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
-                    {member.description}
-                  </p>
-                </motion.div>
-              ))}
+                  {/* Background decorative elements */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-yellow-400/5 rounded-full blur-3xl 
+                                group-hover:bg-yellow-400/10 transition-all duration-500" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-yellow-500/5 rounded-full blur-2xl 
+                                group-hover:bg-yellow-500/10 transition-all duration-500" />
 
-              {/* Boş alanlar - yeni üyeler için */}
-              {Array.from({ length: 9 }).map((_, index) => (
-                <motion.div
-                  key={`slot-${index}`}
-                  variants={fadeInUp}
-                  className="group glass-panel border-2 border-dashed border-yellow-400/40 hover:border-yellow-300/60
-                           transition-all duration-300 hover:-translate-y-2 text-center
-                           min-h-[300px] flex flex-col items-center justify-center"
-                  role="article"
-                  aria-label={t.placeholderAria}
-                >
-                  <div className="relative mb-6">
-                    <div className="w-24 h-24 rounded-full mx-auto border-4 border-dashed border-yellow-400/40 
-                                 group-hover:border-yellow-400/60 transition-all duration-300
-                                 flex items-center justify-center bg-gradient-to-br from-yellow-400/10 to-yellow-500/5">
-                      <div className="text-4xl text-yellow-400/60 group-hover:text-yellow-400/80 transition-colors duration-300">
-                        +
+                  <div className="flex flex-col sm:flex-row h-full relative z-10">
+                    {/* Photo Section - Left Half */}
+                    <div className="sm:w-1/2 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/60 z-10" />
+                      <img
+                        src={member.imageUrl}
+                        alt={`${member.name} - ${member.role}`}
+                        className="w-full h-64 sm:h-full object-cover object-center
+                                 group-hover:scale-110 transition-transform duration-700 ease-out"
+                        loading="lazy"
+                      />
+                      {/* Golden corner accent */}
+                      <div className="absolute top-4 left-4 w-12 h-12 border-l-2 border-t-2 border-yellow-400/50 
+                                    group-hover:border-yellow-400 transition-colors duration-300" />
+                      <div className="absolute bottom-4 right-4 sm:hidden w-12 h-12 border-r-2 border-b-2 border-yellow-400/50 
+                                    group-hover:border-yellow-400 transition-colors duration-300" />
+                    </div>
+
+                    {/* Info Section - Right Half */}
+                    <div className="sm:w-1/2 p-6 sm:p-8 flex flex-col justify-center relative">
+                      {/* Decorative line */}
+                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-yellow-400/0 via-yellow-400/50 to-yellow-400/0 
+                                    hidden sm:block" />
+
+                      <h3
+                        id={`team-member-${member.name.replace(/\s+/g, '-').toLowerCase()}`}
+                        className="text-2xl sm:text-3xl font-black text-white mb-3 
+                                 group-hover:text-yellow-100 transition-colors duration-300
+                                 tracking-tight leading-tight"
+                      >
+                        {member.name}
+                      </h3>
+
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="w-8 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600" />
+                        <p className="text-yellow-400 font-bold text-sm sm:text-base uppercase tracking-wider
+                                    group-hover:text-yellow-300 transition-colors duration-300">
+                          {member.role}
+                        </p>
                       </div>
+
+                      <p className="text-gray-300 text-base sm:text-lg leading-relaxed font-light
+                                  group-hover:text-gray-200 transition-colors duration-300">
+                        {member.description}
+                      </p>
+
+                      {/* Bottom corner accent */}
+                      <div className="absolute bottom-4 right-4 w-12 h-12 border-r-2 border-b-2 border-yellow-400/30 
+                                    group-hover:border-yellow-400/60 transition-colors duration-300" />
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-400 mb-2 group-hover:text-gray-300 transition-colors duration-300">
-                    {t.placeholder.title}
-                  </h3>
-                  <p className="text-yellow-400/70 font-semibold mb-2 group-hover:text-yellow-400/90 transition-colors duration-300">
-                    {t.placeholder.subtitle}
-                  </p>
-                  <p className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-400 transition-colors duration-300">
-                    {t.placeholder.description}
-                  </p>
+
+                  {/* Hover shine effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent 
+                                  -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+                  </div>
                 </motion.div>
               ))}
             </div>

@@ -805,27 +805,27 @@ const SilifkeTeknoloji: React.FC = () => {
       >
         <nav className="container mx-auto px-6 py-4 sm:py-6 lg:py-8 flex justify-between items-center relative">
           {/* Sol Navigation */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="hidden md:flex items-center space-x-8 lg:space-x-12 flex-1 justify-start"
           >
-            <button 
+            <button
               onClick={() => handlePageChange('about')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               {isTR ? 'Hakkımızda' : 'About'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <button 
+            <button
               onClick={() => handlePageChange('contact')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               {isTR ? 'İletişim' : 'Contact'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <button 
+            <button
               onClick={() => handlePageChange('blog')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
@@ -835,14 +835,14 @@ const SilifkeTeknoloji: React.FC = () => {
           </motion.div>
 
           {/* Logo - Merkeze yerleştirildi */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="flex items-center justify-center flex-1 mt-4"
           >
-            <motion.button 
-              onClick={handleBackToHome} 
+            <motion.button
+              onClick={handleBackToHome}
               className="focus:outline-none group relative"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -853,9 +853,9 @@ const SilifkeTeknoloji: React.FC = () => {
                             blur-xl scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-300/10 via-yellow-400/20 to-yellow-300/10 
                             blur-lg scale-125 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              <img 
-                src="/logo-512.png" 
+
+              <img
+                src="/logo-512.webp"
                 alt={isTR ? "Silifke Teknoloji Kulübü - Ana Sayfaya Dön" : "Silifke Technology Club - Back to Home"}
                 className="relative h-16 sm:h-20 lg:h-24 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(255,215,0,0.5)] 
                          scale-[1.5] sm:scale-[1.8] lg:scale-[2.0] hover:scale-[1.6] sm:hover:scale-[1.9] lg:hover:scale-[2.1] 
@@ -866,14 +866,14 @@ const SilifkeTeknoloji: React.FC = () => {
                 height="400"
                 onError={(e) => {
                   console.error(isTR ? 'Logo yüklenemedi:' : 'Failed to load logo:', e);
-                  (e.target as HTMLImageElement).src = '/logo-256.png';
+                  (e.target as HTMLImageElement).src = '/logo-256.webp';
                 }}
               />
             </motion.button>
           </motion.div>
 
           {/* Sağ Navigation */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -886,14 +886,14 @@ const SilifkeTeknoloji: React.FC = () => {
               {isTR ? 'S.S.S' : 'FAQ'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <button 
+            <button
               onClick={() => handlePageChange('projects')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
               {isTR ? 'Projeler' : 'Projects'}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
             </button>
-            <button 
+            <button
               onClick={() => handlePageChange('events')}
               className="text-white hover:text-yellow-400 transition-all duration-300 font-semibold text-base sm:text-lg lg:text-xl xl:text-2xl tracking-wide hover:scale-110 relative group"
             >
@@ -975,21 +975,21 @@ const SilifkeTeknoloji: React.FC = () => {
               {/* Mobile Menu Content */}
               <div className="p-6">
                 {/* Logo */}
-                <motion.div 
+                <motion.div
                   className="flex justify-center mb-8"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
                 >
-                  <motion.button 
-                    onClick={handleBackToHome} 
+                  <motion.button
+                    onClick={handleBackToHome}
                     className="focus:outline-none group"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
                     <img
-                      src="/logo-128.png"
+                      src="/logo-128.webp"
                       alt={isTR ? "Silifke Teknoloji Kulübü - Ana Sayfaya Dön" : "Silifke Technology Club - Back to Home"}
                       className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]
                                group-hover:drop-shadow-[0_0_25px_rgba(255,215,0,0.7)] transition-all duration-300"
@@ -999,7 +999,7 @@ const SilifkeTeknoloji: React.FC = () => {
                       height="100"
                       onError={(e) => {
                         console.error(isTR ? 'Mobil logo yüklenemedi:' : 'Failed to load mobile logo:', e);
-                        (e.target as HTMLImageElement).src = '/logo-64.png';
+                        (e.target as HTMLImageElement).src = '/logo-64.webp';
                       }}
                     />
                   </motion.button>
@@ -1223,13 +1223,13 @@ const SilifkeTeknoloji: React.FC = () => {
                 {/* Enhanced animated background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 
                               opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 {/* Enhanced glow effect with golden halo */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-400/40 via-yellow-500/50 to-yellow-400/40 
                               blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 scale-110" />
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-yellow-300/20 via-yellow-400/30 to-yellow-300/20 
                               blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 scale-125" />
-                
+
                 {/* Content */}
                 <div className="relative flex items-center space-x-4">
                   <span className="transition-transform duration-300 group-hover:translate-x-1 tracking-wide">
@@ -1238,7 +1238,7 @@ const SilifkeTeknoloji: React.FC = () => {
                   <ChevronRight className="w-7 h-7 transition-transform duration-300 
                                          group-hover:translate-x-2 group-hover:scale-125" />
                 </div>
-                
+
                 {/* Enhanced shine effect */}
                 <div className="absolute inset-0 -top-3 -left-3 w-6 h-full bg-gradient-to-r 
                               from-transparent via-white/40 to-transparent skew-x-12 
@@ -1446,19 +1446,19 @@ const SilifkeTeknoloji: React.FC = () => {
                   BLOG
                 </span>
               </motion.button>
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 2, delay: 1.2 }}
                 className="absolute bottom-20 right-10 w-24 h-24 border border-yellow-400/30 rounded-full shadow-lg shadow-yellow-400/20 [box-shadow:_0_0_40px_rgba(255,215,0,0.18)]"
               />
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.5, delay: 1.5 }}
                 className="absolute top-1/3 left-0 w-40 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent [box-shadow:_0_0_20px_rgba(255,215,0,0.4)]"
               />
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: 100 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.5, delay: 1.7 }}
@@ -1488,7 +1488,7 @@ const SilifkeTeknoloji: React.FC = () => {
           </div>
           <div className="space-y-3">
             <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-                {isQuickVideoPlaying ? (
+              {isQuickVideoPlaying ? (
                 <iframe
                   className="h-44 w-full"
                   src={quickAccessVideoUrl}

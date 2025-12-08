@@ -1,10 +1,10 @@
 import React, { useMemo, useState, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  Calendar, 
-  MapPin, 
-  Clock, 
-  Users, 
+import {
+  Calendar,
+  MapPin,
+  Clock,
+  Users,
   Search,
   Ticket,
   Star,
@@ -95,7 +95,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
       price: 0,
       status: 'upcoming' as const,
       featured: true,
-      speakerImage: '/bahadirgemalmaz.png',
+      speakerImage: '/bahadirgemalmaz.webp',
       translations: {
         tr: {
           title: 'Silifke Teknoloji Kulübü İlk Buluşması',
@@ -350,8 +350,8 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
   const filteredEvents = events.filter(event => {
     const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
     const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         event.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      event.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      event.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
@@ -471,86 +471,86 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
               <Star className="w-8 h-8 text-yellow-400 mr-3" />
               {isTR ? 'Öne Çıkan Etkinlikler' : 'Featured Events'}
             </motion.h2>
-            
+
             <div className="flex justify-center">
               <div className="w-full max-w-2xl">
                 {featuredEvents.slice(0, 2).map((event) => (
-                <motion.div
-                  key={event.id}
-                  variants={fadeInUp}
-                  className="group glass-panel glass-border-accent overflow-hidden cursor-pointer hover:-translate-y-3"
-                  onClick={() => setSelectedEvent(event)}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img 
-                      src={event.image}
-                      alt={event.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                    
-                    {/* Featured Badge */}
-                    <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
-                      {isTR ? '⭐ Öne Çıkan' : '⭐ Featured'}
-                    </div>
-                    
-                    {/* Price Badge */}
-                    <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {event.price === 0 ? (isTR ? 'Ücretsiz' : 'Free') : `₺${event.price}`}
-                    </div>
-                  </div>
+                  <motion.div
+                    key={event.id}
+                    variants={fadeInUp}
+                    className="group glass-panel glass-border-accent overflow-hidden cursor-pointer hover:-translate-y-3"
+                    onClick={() => setSelectedEvent(event)}
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
-                  <div className="p-6">
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors duration-300">
-                      {event.title}
-                    </h3>
-                    <p className="text-gray-300 mb-4 leading-relaxed">
-                      {event.description}
-                    </p>
+                      {/* Featured Badge */}
+                      <div className="absolute top-4 left-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold">
+                        {isTR ? '⭐ Öne Çıkan' : '⭐ Featured'}
+                      </div>
 
-                    <div className="space-y-3 mb-4">
-                      <div className="flex items-center text-gray-300">
-                        <Calendar className="w-4 h-4 mr-3 text-yellow-400" />
-                        <span>{formatDate(event.date)} • {event.time}</span>
+                      {/* Price Badge */}
+                      <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {event.price === 0 ? (isTR ? 'Ücretsiz' : 'Free') : `₺${event.price}`}
                       </div>
-                      <div className="flex items-center text-gray-300">
-                        <MapPin className="w-4 h-4 mr-3 text-yellow-400" />
-                        <span>{event.location}</span>
-                      </div>
-                      <div className="flex items-center text-gray-300">
-                        <Users className="w-4 h-4 mr-3 text-yellow-400" />
-                        <span>
-                          {isTR
-                            ? `${event.registered}/${event.capacity} katılımcı`
-                            : `${event.registered}/${event.capacity} attendees`}
-                        </span>
-                        {event.registered === 0 && (
-                          <span className="ml-2 text-green-400 text-sm font-semibold">
-                            {isTR ? '(İlk katılımcı siz olun!)' : '(Be the very first attendee!)'}
-                          </span>
-                        )}
-                        {getAvailableSpots(event) <= 5 && getAvailableSpots(event) > 0 && event.registered > 0 && (
-                          <span className="ml-2 text-orange-400 text-sm font-semibold">
+                    </div>
+
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-yellow-400 transition-colors duration-300">
+                        {event.title}
+                      </h3>
+                      <p className="text-gray-300 mb-4 leading-relaxed">
+                        {event.description}
+                      </p>
+
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center text-gray-300">
+                          <Calendar className="w-4 h-4 mr-3 text-yellow-400" />
+                          <span>{formatDate(event.date)} • {event.time}</span>
+                        </div>
+                        <div className="flex items-center text-gray-300">
+                          <MapPin className="w-4 h-4 mr-3 text-yellow-400" />
+                          <span>{event.location}</span>
+                        </div>
+                        <div className="flex items-center text-gray-300">
+                          <Users className="w-4 h-4 mr-3 text-yellow-400" />
+                          <span>
                             {isTR
-                              ? `(Sadece ${getAvailableSpots(event)} yer kaldı!)`
-                              : `(Only ${getAvailableSpots(event)} spots left!)`}
+                              ? `${event.registered}/${event.capacity} katılımcı`
+                              : `${event.registered}/${event.capacity} attendees`}
                           </span>
-                        )}
+                          {event.registered === 0 && (
+                            <span className="ml-2 text-green-400 text-sm font-semibold">
+                              {isTR ? '(İlk katılımcı siz olun!)' : '(Be the very first attendee!)'}
+                            </span>
+                          )}
+                          {getAvailableSpots(event) <= 5 && getAvailableSpots(event) > 0 && event.registered > 0 && (
+                            <span className="ml-2 text-orange-400 text-sm font-semibold">
+                              {isTR
+                                ? `(Sadece ${getAvailableSpots(event)} yer kaldı!)`
+                                : `(Only ${getAvailableSpots(event)} spots left!)`}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {event.tags.map((tag, tagIndex) => (
+                          <span
+                            key={tagIndex}
+                            className="px-3 py-1 bg-yellow-400/10 text-yellow-400 text-sm font-medium rounded-full border border-yellow-400/20"
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     </div>
-
-                    <div className="flex flex-wrap gap-2">
-                      {event.tags.map((tag, tagIndex) => (
-                        <span
-                          key={tagIndex}
-                          className="px-3 py-1 bg-yellow-400/10 text-yellow-400 text-sm font-medium rounded-full border border-yellow-400/20"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -586,11 +586,10 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     key={category.id}
                     onClick={() => setSelectedCategory(category.id)}
                     className={`flex items-center space-x-2 px-4 py-2 rounded-full font-medium
-                                transition-all duration-300 border ${
-                        selectedCategory === category.id
-                          ? 'border-yellow-400/40 bg-yellow-400/15 text-yellow-200'
-                          : 'border-white/10 bg-white/5 text-gray-200 hover:border-yellow-300/40 hover:text-yellow-200'
-                    }`}
+                                transition-all duration-300 border ${selectedCategory === category.id
+                        ? 'border-yellow-400/40 bg-yellow-400/15 text-yellow-200'
+                        : 'border-white/10 bg-white/5 text-gray-200 hover:border-yellow-300/40 hover:text-yellow-200'
+                      }`}
                   >
                     {category.icon}
                     <span className="hidden sm:inline">{category.name}</span>
@@ -621,13 +620,13 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                 >
                   {/* Event Image */}
                   <div className="relative h-48 overflow-hidden">
-                    <img 
+                    <img
                       src={event.image}
                       alt={event.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    
+
                     {/* Status Badge */}
                     <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold
                                    border ${getStatusColor(event.status)}`}>
@@ -672,7 +671,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                         <span>{event.registered}/{event.capacity}</span>
                       </div>
                       <div className="w-full bg-white/10 rounded-full h-2">
-                        <div 
+                        <div
                           className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${event.registered > 0 ? (event.registered / event.capacity) * 100 : 0}%` }}
                         ></div>
@@ -743,7 +742,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
             >
               {/* Modal Header */}
               <div className="relative h-64 overflow-hidden rounded-t-3xl">
-                <img 
+                <img
                   src={selectedEvent.image}
                   alt={selectedEvent.title}
                   className="w-full h-full object-cover"
@@ -812,7 +811,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                     <div>
                       <h3 className="text-xl font-bold text-white mb-4">{isTR ? 'Konuşmacı' : 'Speaker'}</h3>
                       <div className="flex items-center space-x-4">
-                        <img 
+                        <img
                           src={selectedEvent.speakerImage}
                           alt={selectedEvent.speaker}
                           className="w-16 h-16 rounded-full border-2 border-yellow-400/30"
@@ -864,7 +863,7 @@ const EventsPage: React.FC<EventsPageProps> = ({ onBack }) => {
                       <span>{isTR ? 'Kontenjan Doldu' : 'Fully Booked'}</span>
                     </button>
                   )}
-                  
+
                   <button className="flex items-center justify-center space-x-3 bg-black/50 border border-gray-600
                                    text-white font-semibold px-8 py-4 rounded-xl hover:border-yellow-400/50 hover:text-yellow-400
                                    transition-all duration-300">
