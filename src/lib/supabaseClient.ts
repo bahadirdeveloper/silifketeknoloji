@@ -128,9 +128,9 @@ export async function submitApplication(data: ApplicationFormData): Promise<{ su
     if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
       // Development mode - simulate success
       console.log('Development mode: Simulating application submission');
-      return { 
-        success: true, 
-        applicationId: 'dev-' + Date.now().toString() 
+      return {
+        success: true,
+        applicationId: 'dev-' + Date.now().toString()
       };
     }
 
@@ -169,7 +169,7 @@ export async function submitApplication(data: ApplicationFormData): Promise<{ su
       const { error: functionError } = await supabase.functions.invoke('on_application_submitted', {
         body: { record: { ...applicationData, id: result.id } }
       });
-      
+
       if (functionError) {
         console.error('Discord notification error:', functionError);
         // Don't fail the application submission if Discord notification fails
@@ -215,22 +215,29 @@ export async function getApplicationStatus(applicationId: string): Promise<{ sta
 export interface ClubStatistics {
   totalMembers: number;
   totalApplications: number;
-  pendingApplications: number;
+  approvedApplications: number; // Changed from pendingApplications - shows approved count (= member count)
 }
 
+// Team member count - this should match the AboutPage team members list
+export const TEAM_MEMBER_COUNT = 11;
+
 // Helper function to get club statistics
-export async function getClubStatistics(): Promise<ClubStatistics> {
+// teamMemberCount parameter allows overriding the member count (e.g., from AboutPage)
+export async function getClubStatistics(teamMemberCount: number = TEAM_MEMBER_COUNT): Promise<ClubStatistics> {
   try {
     // Check if Supabase is properly configured
     if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
       // Development mode - return mock data
       console.log('Development mode: Returning mock statistics');
       return {
-        totalMembers: 3,
-        totalApplications: 3,
-        pendingApplications: 0
+        totalMembers: teamMemberCount,
+        totalApplications: 29,
+        approvedApplications: teamMemberCount // Approved = member count
       };
     }
+
+    // Get total applications count from Supabase
+    let totalApplications = 0;
 
     // Try to use the public statistics view first
     try {
@@ -240,69 +247,50 @@ export async function getClubStatistics(): Promise<ClubStatistics> {
         .single();
 
       if (!error && data) {
-        return {
-          totalMembers: data.total_members || 0,
-          totalApplications: data.total_applications || 0,
-          pendingApplications: data.pending_applications || 0
-        };
+        totalApplications = data.total_applications || 0;
       }
     } catch (viewError) {
       console.log('Statistics view not available, falling back to function:', viewError);
     }
 
-    // Fallback to function if view is not available
-    try {
-      const { data, error } = await supabase
-        .rpc('get_public_statistics');
+    // Fallback to function if view didn't work
+    if (totalApplications === 0) {
+      try {
+        const { data, error } = await supabase
+          .rpc('get_public_statistics');
 
-      if (!error && data && data.length > 0) {
-        const stats = data[0];
-        return {
-          totalMembers: stats.total_members || 0,
-          totalApplications: stats.total_applications || 0,
-          pendingApplications: stats.pending_applications || 0
-        };
+        if (!error && data && data.length > 0) {
+          totalApplications = data[0].total_applications || 0;
+        }
+      } catch (functionError) {
+        console.log('Statistics function not available, falling back to direct queries:', functionError);
       }
-    } catch (functionError) {
-      console.log('Statistics function not available, falling back to direct queries:', functionError);
     }
 
-    // Final fallback: direct queries (may not work due to RLS)
-    const { count: membersCount, error: membersError } = await supabase
-      .from('members')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'active');
+    // Final fallback: direct query for applications count
+    if (totalApplications === 0) {
+      const { count: applicationsCount, error: applicationsError } = await supabase
+        .from('applications')
+        .select('*', { count: 'exact', head: true });
 
-    const { count: applicationsCount, error: applicationsError } = await supabase
-      .from('applications')
-      .select('*', { count: 'exact', head: true });
-
-    const { count: pendingCount, error: pendingError } = await supabase
-      .from('applications')
-      .select('*', { count: 'exact', head: true })
-      .eq('status', 'pending');
-
-    if (membersError || applicationsError || pendingError) {
-      console.error('Error fetching statistics:', { membersError, applicationsError, pendingError });
-      // Return mock data if all queries fail
-      return {
-        totalMembers: 3,
-        totalApplications: 3,
-        pendingApplications: 0
-      };
+      if (!applicationsError && applicationsCount !== null) {
+        totalApplications = applicationsCount;
+      }
     }
 
+    // Member count comes from the team list, not from database
+    // Approved applications = member count (all members were approved applicants)
     return {
-      totalMembers: membersCount || 0,
-      totalApplications: applicationsCount || 0,
-      pendingApplications: pendingCount || 0
+      totalMembers: teamMemberCount,
+      totalApplications: totalApplications || 29, // Fallback to known count
+      approvedApplications: teamMemberCount // Approved = member count
     };
   } catch (error) {
     console.error('Error fetching club statistics:', error);
     return {
-      totalMembers: 0,
-      totalApplications: 0,
-      pendingApplications: 0
+      totalMembers: teamMemberCount,
+      totalApplications: 29,
+      approvedApplications: teamMemberCount // Approved = member count
     };
   }
 }
@@ -315,13 +303,13 @@ export function subscribeToStatisticsUpdates(
     // Check if Supabase is properly configured
     if (supabaseUrl === 'https://placeholder.supabase.co' || supabaseAnonKey === 'placeholder-key') {
       console.log('Development mode: Real-time updates not available');
-      return () => {}; // Return empty unsubscribe function
+      return () => { }; // Return empty unsubscribe function
     }
 
     // Subscribe to applications table changes
     const applicationsSubscription = supabase
       .channel('applications-changes')
-      .on('postgres_changes', 
+      .on('postgres_changes',
         { event: '*', schema: 'public', table: 'applications' },
         async () => {
           // Fetch updated statistics when applications change
@@ -334,7 +322,7 @@ export function subscribeToStatisticsUpdates(
     // Subscribe to members table changes
     const membersSubscription = supabase
       .channel('members-changes')
-      .on('postgres_changes', 
+      .on('postgres_changes',
         { event: '*', schema: 'public', table: 'members' },
         async () => {
           // Fetch updated statistics when members change
@@ -347,7 +335,7 @@ export function subscribeToStatisticsUpdates(
     // Subscribe to public_statistics view changes (if available)
     const statisticsSubscription = supabase
       .channel('statistics-changes')
-      .on('postgres_changes', 
+      .on('postgres_changes',
         { event: '*', schema: 'public', table: 'public_statistics' },
         async () => {
           // Fetch updated statistics when statistics view changes
@@ -365,6 +353,6 @@ export function subscribeToStatisticsUpdates(
     };
   } catch (error) {
     console.error('Error setting up statistics subscription:', error);
-    return () => {}; // Return empty unsubscribe function
+    return () => { }; // Return empty unsubscribe function
   }
 }

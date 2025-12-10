@@ -38,8 +38,8 @@ const NostalgicCounter: React.FC = () => {
           description: 'Bugüne kadar alınan toplam başvuru sayısı'
         },
         {
-          label: 'Bekleyen Başvuru Sayısı',
-          description: 'Değerlendirme aşamasındaki başvuru sayısı'
+          label: 'Onaylanan Başvuru',
+          description: 'Değerlendirme sonucu kabul edilen başvuru sayısı'
         }
       ]
     },
@@ -58,8 +58,8 @@ const NostalgicCounter: React.FC = () => {
           description: 'Total number of applications received to date'
         },
         {
-          label: 'Pending Applications',
-          description: 'Applications currently under review'
+          label: 'Approved Applications',
+          description: 'Applications accepted after review'
         }
       ]
     }
@@ -78,11 +78,11 @@ const NostalgicCounter: React.FC = () => {
   const [statistics, setStatistics] = useState<ClubStatistics>({
     totalMembers: 0,
     totalApplications: 0,
-    pendingApplications: 0
+    approvedApplications: 0
   });
 
   const [isLoading, setIsLoading] = useState(true);
-  const hasStatistics = statistics.totalMembers > 0 || statistics.totalApplications > 0 || statistics.pendingApplications > 0;
+  const hasStatistics = statistics.totalMembers > 0 || statistics.totalApplications > 0 || statistics.approvedApplications > 0;
 
   // İstatistikleri yükle ve real-time güncellemelere abone ol
   useEffect(() => {
@@ -117,7 +117,7 @@ const NostalgicCounter: React.FC = () => {
     const finalValues = [
       statistics.totalMembers,
       statistics.totalApplications,
-      statistics.pendingApplications
+      statistics.approvedApplications
     ];
 
     const animateCounters = () => {
@@ -170,7 +170,7 @@ const NostalgicCounter: React.FC = () => {
         <p className="text-white text-lg max-w-2xl mx-auto">
           {t.subtitle}
         </p>
-        
+
         {/* Loading indicator */}
         {isLoading && (
           <motion.div
@@ -205,8 +205,8 @@ const NostalgicCounter: React.FC = () => {
             key={counter.label}
             initial={{ opacity: 0, scale: 0.8, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: 1 + (index * 0.2),
               ease: [0.25, 0.46, 0.45, 0.94]
             }}
@@ -215,7 +215,7 @@ const NostalgicCounter: React.FC = () => {
             {/* Nostaljik Çerçeve */}
             <div className="glass-panel glass-border-accent p-8 text-center space-y-6 overflow-hidden">
               {/* Glow Efekti */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
                   background: `radial-gradient(circle at 50% 30%, ${counterVisuals[index].glowColor} 0%, transparent 65%)`
@@ -247,7 +247,7 @@ const NostalgicCounter: React.FC = () => {
                     >
                       {counterValues[index].toLocaleString(language === 'tr' ? 'tr-TR' : 'en-US')}
                     </motion.div>
-                    
+
                     {/* Nostaljik Işık Efektleri */}
                     <div className="absolute top-2 left-2 w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50 animate-pulse" />
                     <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white shadow-lg shadow-white/50" />
@@ -270,7 +270,7 @@ const NostalgicCounter: React.FC = () => {
                 <div className="flex justify-center">
                   <div className={`h-1 w-20 rounded-full bg-gradient-to-r ${counterVisuals[index].color} 
                                  shadow-lg group-hover:w-32 transition-all duration-500`}
-                       style={{ boxShadow: `0 0 20px ${counterVisuals[index].glowColor}` }} />
+                    style={{ boxShadow: `0 0 20px ${counterVisuals[index].glowColor}` }} />
                 </div>
               </div>
             </div>
