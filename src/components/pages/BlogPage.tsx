@@ -52,6 +52,141 @@ const blogDictionary: Record<SupportedLanguage, BlogContent> = {
     latestLabel: "Güncel Yazı",
     posts: [
       {
+        title: "🔐 Kuantum Bilgisayarlar ve Siber Güvenlik: Dijital Güvenliğin Geleceği",
+        description:
+          "Kuantum bilgisayarların siber güvenliğe etkisini keşfedin. Post-kuantum kriptografi, kuantum dirençli algoritmalar ve kuantum tehditlerine karşı alınması gereken önlemler hakkında kapsamlı rehber.",
+        metadata: {
+          author: "Silifke Teknoloji Ekibi",
+          date: "7 Ocak 2026",
+          readingTime: "15 dk okuma"
+        },
+        tags: ["Kuantum Bilgisayar", "Siber Güvenlik", "Post-Kuantum Kriptografi"],
+        sections: [
+          {
+            heading: "Giriş: Dijital Güvenliğin Kritik Dönüm Noktası",
+            paragraphs: [
+              "Dijital çağda güvenlik sistemlerimizin temelini oluşturan şifreleme yöntemleri, yeni bir tehdit karşısında kritik bir dönüm noktasına gelmiş durumda. Kuantum bilgisayarlar, klasik bilgisayarların çözemediği problemleri çözme gücüyle birlikte, mevcut siber güvenlik altyapımızı kökten değiştirecek potansiyele sahip.",
+              "Peki bu yeni teknoloji karşısında dijital varlıklarımızı nasıl koruyabiliriz? Bu yazıda, kuantum tehdidini ve ona karşı alınması gereken siber güvenlik önlemlerini detaylıca inceleyeceğiz."
+            ]
+          },
+          {
+            heading: "Kuantum Bilgisayarlar Nedir ve Neden Tehdit Oluşturuyor?",
+            paragraphs: [
+              "Kuantum bilgisayarlar, klasik bilgisayarlardan temelde farklı çalışan devrim niteliğinde sistemlerdir. Geleneksel bilgisayarlar 0 ve 1'lerden oluşan bitlerle çalışırken, kuantum bilgisayarlar süperpozisyon sayesinde aynı anda hem 0 hem de 1 olabilen kübitler kullanır.",
+              "Bu fark, belirli hesaplamalar için muazzam bir hız avantajı sağlar. Özellikle faktörizasyon ve ayrık logaritma gibi matematiksel problemlerde kuantum bilgisayarlar üstelsek bir performans gösterir. İşte tam da bu noktada güvenlik sorunu başlar.",
+              "Bugün kullandığımız RSA, ECC ve Diffie-Hellman gibi şifreleme algoritmaları, bu matematiksel problemlerin klasik bilgisayarlar için çözülmesinin pratik olarak imkansız olmasına dayanır. Ancak kuantum bilgisayarlar, Shor Algoritması gibi yöntemlerle bu problemleri kısa sürede çözebilir."
+            ]
+          },
+          {
+            heading: "Kuantum Tehdidin Boyutu",
+            paragraphs: [
+              "2019'da Google, 53 kübitlik Sycamore işlemcisiyle 'kuantum üstünlüğü' iddiasında bulundu. Süper bilgisayarların 10.000 yıl süreceği bir hesaplamayı 200 saniyede tamamladığını açıkladı. IBM daha muhafazakar rakamlar verse de, mesaj açıktır: kuantum bilgisayarlar teoriden pratiğe geçiyor.",
+              "Güvenlik uzmanları 'Q-Day' olarak adlandırdıkları kritik anı konuşuyorlar. Bu, kuantum bilgisayarların mevcut şifreleme sistemlerini kırabilecek güce ulaştığı gündür. Tahminler 2030-2040 arası bir zaman dilimini işaret ediyor, ancak kimse kesin tarihi bilmiyor.",
+              "Daha da endişe verici olan 'harvest now, decrypt later' stratejisi. Devletler ve siber suçlular, şifrelenmiş verileri bugünden topluyor ve kuantum bilgisayarlar hazır olduğunda bu verileri çözmeyi planlıyor. Yani tehdit aslında şimdiden başlamış durumda."
+            ]
+          },
+          {
+            heading: "Post-Kuantum Kriptografi: Yeni Nesil Şifreleme",
+            paragraphs: [
+              "Kuantum tehdidine karşı en önemli savunma hattı, post-kuantum kriptografi (PQC) olarak adlandırılan yeni şifreleme yöntemleridir. Bu algoritmalar, hem klasik hem de kuantum bilgisayarlara karşı dirençli olacak şekilde tasarlanıyor."
+            ]
+          },
+          {
+            heading: "NIST'in Standartlaştırma Süreci",
+            paragraphs: [
+              "Amerika Birleşik Devletleri Ulusal Standartlar ve Teknoloji Enstitüsü (NIST), 2016'dan beri post-kuantum kriptografi algoritmalarını değerlendiriyor. 2024 yılında ilk standartları yayınladı."
+            ],
+            bullets: [
+              "CRYSTALS-Kyber (ML-KEM): Genel amaçlı şifreleme ve anahtar değişimi için kafes tabanlı algoritma.",
+              "CRYSTALS-Dilithium (ML-DSA): Dijital imzalar için kafes tabanlı algoritma.",
+              "SPHINCS+ (SLH-DSA): Hash tabanlı dijital imza algoritması.",
+              "FALCON: Kompakt dijital imzalar için alternatif kafes tabanlı algoritma."
+            ]
+          },
+          {
+            heading: "Hibrit Kriptografi Yaklaşımı",
+            paragraphs: [
+              "Geçiş döneminde en güvenli yöntem, hibrit kriptografi kullanmaktır. Bu yaklaşımda hem klasik hem de post-kuantum algoritmalar birlikte çalıştırılır. Böylece kuantum öncesi ve sonrası her iki senaryoda da güvenlik sağlanır.",
+              "Örneğin, bir TLS bağlantısı hem RSA hem de CRYSTALS-Kyber ile şifrelenebilir. İki katman koruma, saldırganın her iki algoritmayı da kırması gerektiği anlamına gelir."
+            ]
+          },
+          {
+            heading: "Kuantum Dirençli Altyapı Oluşturma",
+            paragraphs: [
+              "Organizasyonların kuantum tehdidine hazırlanması için stratejik bir yaklaşım gerekiyor. İşte atılması gereken adımlar:"
+            ],
+            bullets: [
+              "Kripto-Çeviklik (Crypto-Agility): Sistemlerinizi şifreleme algoritmalarının kolayca değiştirilebilir olacağı şekilde tasarlayın.",
+              "Kripto Varlık Envanteri: Organizasyonunuzdaki tüm kriptografik uygulamaları ve varlıkları belgelleyin.",
+              "Risk Değerlendirmesi ve Önceliklendirme: Uzun ömürlü veriler ve kritik altyapı öncelikli olmalıdır.",
+              "Aşamalı Geçiş Planı: Post-kuantum kriptografiye geçiş, bir gecede gerçekleşemez. Birkaç yıl sürebilecek aşamalı bir süreçtir."
+            ]
+          },
+          {
+            heading: "Kuantum Anahtar Dağıtımı (QKD)",
+            paragraphs: [
+              "Kuantum teknolojisi sadece tehdit değil, aynı zamanda çözüm de sunuyor. Kuantum Anahtar Dağıtımı (QKD), kuantum mekaniğinin temel prensiplerini kullanarak teorik olarak kırılamaz şifreleme sağlar.",
+              "QKD, şifreleme anahtarlarını kuantum durumlarında (genellikle fotonların polarizasyonunda) kodlar. Kuantum mekaniğinin belirsizlik ilkesi gereği, bir saldırgan bu kuantum durumlarını ölçmeye çalıştığında durumu bozar ve tespit edilir."
+            ],
+            bullets: [
+              "İletişim kanalının dinlenip dinlenmediği kesin olarak bilinir.",
+              "Dinleme tespit edilirse, o anahtar atılır ve yeni bir anahtar oluşturulur.",
+              "Mesafe sınırlaması: Fiber optik kablolarda tipik menzil 100-200 km civarındadır.",
+              "Altyapı maliyeti yüksektir, şu an için çoğunlukla kritik devlet ve finans kurumlarında kullanılmaktadır."
+            ]
+          },
+          {
+            heading: "Blok Zincir ve Kripto Para Güvenliği",
+            paragraphs: [
+              "Kuantum tehdidi, blok zincir teknolojilerini özellikle etkiliyor. Bitcoin ve Ethereum gibi kripto paralar, eliptik eğri kriptografisi (ECC) kullanıyor. Kuantum bilgisayarlar bu şifrelemeyi kırabilir ve dijital cüzdanları tehlikeye atabilir.",
+              "Kripto para projeleri, kuantum dirençli imza şemalarına geçiş planlaması yapıyor. Bazı yeni nesil blok zincirler (örneğin QRL - Quantum Resistant Ledger), baştan itibaren kuantum dirençli algoritmalar kullanıyor."
+            ]
+          },
+          {
+            heading: "Ulusal ve Küresel İşbirliği",
+            paragraphs: [
+              "Kuantum tehdidi, tek bir organizasyonun veya ülkenin çözebileceği bir sorun değil. Uluslararası işbirliği ve standartlaşma kritik öneme sahip.",
+              "NIST'in yanı sıra, ETSI (Avrupa Telekomünikasyon Standartları Enstitüsü), ISO ve diğer standart kuruluşları da post-kuantum standartları üzerinde çalışıyor.",
+              "Türkiye'nin de bu süreçte aktif rol alması gerekiyor. TÜBİTAK ve ilgili kurumlar, ulusal kriptografi standartlarını kuantum çağına hazırlama çalışmaları yürütüyor."
+            ]
+          },
+          {
+            heading: "Pratik Adımlar: Bugünden Neler Yapılabilir?",
+            paragraphs: [
+              "Kuantum tehdidi henüz acil görünmese de, hazırlık süreci şimdiden başlamalı. İşte bugünden atabileceğiniz adımlar:"
+            ],
+            bullets: [
+              "Farkındalık ve Eğitim: Siber güvenlik ekiplerinizi kuantum tehdidi konusunda bilgilendirin.",
+              "Kriptografik Envanter Oluşturun: Sistemlerinizdeki tüm şifreleme kullanımlarını dokümante edin.",
+              "Kripto-Çeviklik Planlayın: Yeni sistemleri kripto-çevik prensiplere göre tasarlayın.",
+              "Hibrit Çözümleri Test Edin: Bazı sistemlerde hibrit kriptografi uygulamalarını test edin.",
+              "Uzun Ömürlü Verileri Önceliklendirin: Kritik ve uzun süreli saklanacak verilerin şifrelemesini ilk güncellenecekler listesine alın.",
+              "Kuantum Dirençli Çözümleri İzleyin: NIST standartlarını ve post-kuantum kriptografi alanındaki gelişmeleri takip edin.",
+              "Düzenli Risk Değerlendirmesi: Kuantum bilgisayar gelişmelerini izleyin ve risk değerlendirmelerinizi güncelleyin."
+            ]
+          },
+          {
+            heading: "Geleceğe Bakış",
+            paragraphs: [
+              "Kuantum bilgisayarlar ve onların siber güvenliğe etkisi, teknoloji tarihinin en önemli geçişlerinden biri olacak. 1990'larda internetin yaygınlaşması nasıl toplumu dönüştürdüyse, kuantum devrimi de benzer bir dönüşüm yaratacak.",
+              "Ancak korkuya değil, hazırlıklı olmaya ihtiyaç var. Post-kuantum kriptografi standartları hazır. Teknoloji gelişiyor. Topluluk mobilize oluyor. Zamanında hareket eden organizasyonlar, bu geçişi güvenli ve sorunsuz gerçekleştirebilir.",
+              "Dijital altyapımızın geleceği, bugün attığımız adımlara bağlı. Kuantum çağına hazırlıklı girmek için şimdiden harekete geçelim."
+            ]
+          },
+          {
+            heading: "Sonuç",
+            paragraphs: [
+              "Kuantum bilgisayarlar siber güvenlik için hem tehdit hem de fırsat sunuyor. Mevcut şifreleme sistemlerimiz risk altında olsa da, post-kuantum kriptografi ve kuantum güvenli teknolojiler sayesinde bu tehdidin önüne geçebiliriz.",
+              "Kritik olan, hazırlığa şimdiden başlamak ve stratejik bir yaklaşımla ilerlemektir."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Siber Güvenlik Yolculuğuna Katıl",
+          href: "/katil"
+        }
+      },
+      {
         title: "WE IS US: Birlikte Üreten Zihinlerin Yolculuğu",
         description:
           "Silifke Teknoloji Kulübü, yalnızca bir topluluk değil; aynı hedefe bakan insanların oluşturduğu kolektif bir akıl.",
@@ -326,6 +461,141 @@ const blogDictionary: Record<SupportedLanguage, BlogContent> = {
     languageLabel: "Language",
     latestLabel: "Latest Post",
     posts: [
+      {
+        title: "🔐 Quantum Computers and Cybersecurity: The Future of Digital Security",
+        description:
+          "Discover the impact of quantum computers on cybersecurity. A comprehensive guide on post-quantum cryptography, quantum-resistant algorithms, and measures to counter quantum threats.",
+        metadata: {
+          author: "Silifke Technology Team",
+          date: "January 7, 2026",
+          readingTime: "15 min read"
+        },
+        tags: ["Quantum Computing", "Cybersecurity", "Post-Quantum Cryptography"],
+        sections: [
+          {
+            heading: "Introduction: A Critical Turning Point for Digital Security",
+            paragraphs: [
+              "The encryption methods that form the foundation of our security systems in the digital age have reached a critical turning point against a new threat. Quantum computers, with their power to solve problems that classical computers cannot, have the potential to fundamentally change our current cybersecurity infrastructure.",
+              "So how can we protect our digital assets against this new technology? In this article, we will examine the quantum threat and the cybersecurity measures that need to be taken in detail."
+            ]
+          },
+          {
+            heading: "What Are Quantum Computers and Why Do They Pose a Threat?",
+            paragraphs: [
+              "Quantum computers are revolutionary systems that operate fundamentally differently from classical computers. While traditional computers work with bits consisting of 0s and 1s, quantum computers use qubits that can be both 0 and 1 simultaneously thanks to superposition.",
+              "This difference provides a tremendous speed advantage for certain calculations. Quantum computers show exponential performance especially in mathematical problems like factorization and discrete logarithm. This is exactly where the security problem begins.",
+              "Encryption algorithms we use today such as RSA, ECC, and Diffie-Hellman rely on the fact that solving these mathematical problems is practically impossible for classical computers. However, quantum computers can solve these problems in a short time with methods like Shor's Algorithm."
+            ]
+          },
+          {
+            heading: "The Scale of the Quantum Threat",
+            paragraphs: [
+              "In 2019, Google claimed 'quantum supremacy' with its 53-qubit Sycamore processor. It announced that it completed a calculation that would take supercomputers 10,000 years in just 200 seconds. Although IBM gave more conservative figures, the message is clear: quantum computers are moving from theory to practice.",
+              "Security experts are discussing the critical moment they call 'Q-Day'. This is the day when quantum computers reach the power to break current encryption systems. Estimates point to a time frame between 2030-2040, but no one knows the exact date.",
+              "Even more concerning is the 'harvest now, decrypt later' strategy. States and cybercriminals are collecting encrypted data today and plan to decrypt this data when quantum computers are ready. So the threat has actually already begun."
+            ]
+          },
+          {
+            heading: "Post-Quantum Cryptography: Next Generation Encryption",
+            paragraphs: [
+              "The most important line of defense against the quantum threat is new encryption methods called post-quantum cryptography (PQC). These algorithms are designed to be resistant to both classical and quantum computers."
+            ]
+          },
+          {
+            heading: "NIST Standardization Process",
+            paragraphs: [
+              "The National Institute of Standards and Technology (NIST) has been evaluating post-quantum cryptography algorithms since 2016. It published its first standards in 2024."
+            ],
+            bullets: [
+              "CRYSTALS-Kyber (ML-KEM): Lattice-based algorithm for general-purpose encryption and key exchange.",
+              "CRYSTALS-Dilithium (ML-DSA): Lattice-based algorithm for digital signatures.",
+              "SPHINCS+ (SLH-DSA): Hash-based digital signature algorithm.",
+              "FALCON: Alternative lattice-based algorithm for compact digital signatures."
+            ]
+          },
+          {
+            heading: "Hybrid Cryptography Approach",
+            paragraphs: [
+              "The safest method during the transition period is to use hybrid cryptography. In this approach, both classical and post-quantum algorithms work together. This ensures security in both pre-quantum and post-quantum scenarios.",
+              "For example, a TLS connection can be encrypted with both RSA and CRYSTALS-Kyber. Two layers of protection means the attacker needs to break both algorithms."
+            ]
+          },
+          {
+            heading: "Building Quantum-Resistant Infrastructure",
+            paragraphs: [
+              "Organizations need a strategic approach to prepare for the quantum threat. Here are the steps that need to be taken:"
+            ],
+            bullets: [
+              "Crypto-Agility: Design your systems so that encryption algorithms can be easily changed.",
+              "Crypto Asset Inventory: Document all cryptographic applications and assets in your organization.",
+              "Risk Assessment and Prioritization: Long-lived data and critical infrastructure should be prioritized.",
+              "Phased Transition Plan: Transition to post-quantum cryptography cannot happen overnight. It is a phased process that can take several years."
+            ]
+          },
+          {
+            heading: "Quantum Key Distribution (QKD)",
+            paragraphs: [
+              "Quantum technology offers not only threats but also solutions. Quantum Key Distribution (QKD) provides theoretically unbreakable encryption using the fundamental principles of quantum mechanics.",
+              "QKD encodes encryption keys in quantum states (usually in the polarization of photons). Due to the uncertainty principle of quantum mechanics, when an attacker tries to measure these quantum states, they disturb the state and are detected."
+            ],
+            bullets: [
+              "It is known for certain whether the communication channel is being listened to.",
+              "If eavesdropping is detected, that key is discarded and a new key is created.",
+              "Distance limitation: Typical range in fiber optic cables is around 100-200 km.",
+              "Infrastructure cost is high, currently used mostly in critical government and financial institutions."
+            ]
+          },
+          {
+            heading: "Blockchain and Cryptocurrency Security",
+            paragraphs: [
+              "The quantum threat particularly affects blockchain technologies. Cryptocurrencies like Bitcoin and Ethereum use elliptic curve cryptography (ECC). Quantum computers can break this encryption and jeopardize digital wallets.",
+              "Cryptocurrency projects are planning to transition to quantum-resistant signature schemes. Some next-generation blockchains (such as QRL - Quantum Resistant Ledger) use quantum-resistant algorithms from the start."
+            ]
+          },
+          {
+            heading: "National and Global Cooperation",
+            paragraphs: [
+              "The quantum threat is not a problem that a single organization or country can solve. International cooperation and standardization are of critical importance.",
+              "In addition to NIST, ETSI (European Telecommunications Standards Institute), ISO, and other standards organizations are also working on post-quantum standards.",
+              "Turkey also needs to take an active role in this process. TÜBİTAK and related institutions are carrying out studies to prepare national cryptography standards for the quantum age."
+            ]
+          },
+          {
+            heading: "Practical Steps: What Can Be Done Today?",
+            paragraphs: [
+              "Although the quantum threat may not seem urgent yet, the preparation process should start now. Here are the steps you can take today:"
+            ],
+            bullets: [
+              "Awareness and Training: Inform your cybersecurity teams about the quantum threat.",
+              "Create a Cryptographic Inventory: Document all encryption uses in your systems.",
+              "Plan for Crypto-Agility: Design new systems according to crypto-agile principles.",
+              "Test Hybrid Solutions: Test hybrid cryptography implementations in some systems.",
+              "Prioritize Long-Lived Data: Put the encryption of critical and long-term stored data on the list of first to be updated.",
+              "Monitor Quantum-Resistant Solutions: Follow NIST standards and developments in post-quantum cryptography.",
+              "Regular Risk Assessment: Monitor quantum computer developments and update your risk assessments."
+            ]
+          },
+          {
+            heading: "Looking to the Future",
+            paragraphs: [
+              "Quantum computers and their impact on cybersecurity will be one of the most important transitions in technology history. Just as the spread of the internet in the 1990s transformed society, the quantum revolution will create a similar transformation.",
+              "However, there is a need for preparedness, not fear. Post-quantum cryptography standards are ready. Technology is developing. The community is mobilizing. Organizations that act in time can make this transition safely and smoothly.",
+              "The future of our digital infrastructure depends on the steps we take today. Let's take action now to enter the quantum age prepared."
+            ]
+          },
+          {
+            heading: "Conclusion",
+            paragraphs: [
+              "Quantum computers offer both threats and opportunities for cybersecurity. Although our current encryption systems are at risk, we can prevent this threat thanks to post-quantum cryptography and quantum-safe technologies.",
+              "The critical thing is to start preparing now and proceed with a strategic approach."
+            ]
+          }
+        ],
+        callToAction: {
+          label: "Join the Cybersecurity Journey",
+          href: "/katil"
+        }
+      },
       {
         title: "WE IS US: The Journey of Minds Producing Together",
         description:
